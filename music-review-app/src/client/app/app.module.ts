@@ -5,7 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './nav-bar/nav-bar.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-
+import {SongsModule} from './songs/songs.module';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -13,9 +14,13 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     NavbarComponent
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
-    NgbModule
+ 
+BrowserModule,
+  AppRoutingModule,
+  NgbModule,
+  SongsModule,
+  MatButtonModule
+  
   ],
   providers: [],
   bootstrap: [AppComponent]
