@@ -8,6 +8,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {SongsModule} from './songs/songs.module';
 import {MatButtonModule} from '@angular/material/button';
 import { PlaylistsModule } from './playlists/playlists.module';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -21,8 +23,8 @@ import { PlaylistsModule } from './playlists/playlists.module';
   NgbModule,
   SongsModule,
   MatButtonModule,
-  PlaylistsModule
-  
+  PlaylistsModule, 
+  BrowserAnimationsModule 
   ],
   providers: [],
   bootstrap: [AppComponent]
