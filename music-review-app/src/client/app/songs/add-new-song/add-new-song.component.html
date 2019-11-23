@@ -1,3 +1,41 @@
-<pre *ngIf="auth.userProfile$ | async as profile">
+<!-- <pre *ngIf="auth.userProfile$ | async as profile"> -->
+    <pre>
     <!-- <code>{{ profile | json }}</code> -->
+    <form #uploadNewSongForm ="ngForm" (ngSubmit)="uploadNewSong(uploadNewSongForm.value)">
+    <div class="example-container container">
+        <div class="example-container">
+            <mat-form-field [floatLabel]="options.value.floatLabel">
+                <mat-label>Title</mat-label>
+                <input [(ngModel)]="titleOfSong" matInput name = "titleOfSong" placeholder="Title of the Music to be added" required>
+            </mat-form-field>
+            <mat-form-field [floatLabel]="options.value.floatLabel">
+                <mat-label>Artist</mat-label>
+                <input [(ngModel)]="artistOfSong" matInput name = "artistOfSong" placeholder="Artist Name" required> 
+            </mat-form-field>
+            <mat-form-field [floatLabel]="options.value.floatLabel">
+                <mat-label>Album</mat-label>
+                <input [(ngModel)]="artistOfSong" matInput name = "artistOfSong" placeholder="Album Name">
+            </mat-form-field>
+            <mat-form-field [floatLabel]="options.value.floatLabel">
+                <mat-label>Genre</mat-label>
+                <input [(ngModel)]="genreOfSong" name = "genreOfSong" matInput placeholder="Type of music">
+            </mat-form-field>
+            <mat-form-field [floatLabel]="options.value.floatLabel">
+                <mat-label>Year</mat-label>
+                <input [(ngModel)]="releaseYearOfSong" name = "releaseYearOfSong" matInput placeholder="Year released">
+            </mat-form-field>
+            
+            <mat-form-field [floatLabel]="options.value.floatLabel">
+                <mat-label>Reviews</mat-label>
+                <input [(ngModel)]="reviews" name = "reviews" matInput placeholder="Personal opinion about this music">
+            </mat-form-field>
+  
+        </div>
+        
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary">Upload new Song</button>        
+    </div>
+    
+    </form>
 </pre>
