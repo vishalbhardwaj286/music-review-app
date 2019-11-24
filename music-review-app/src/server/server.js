@@ -1,6 +1,9 @@
 const express = require("express");
 const jwt = require("express-jwt");
 const jwksRsa = require("jwks-rsa");
+const bodyParser = require("body-parser");
+
+const routes = require('./musicReviewsAppRoutes/routes/musicReviewAppRoutes');
 
 // Create a new Express app
 const app = express();
@@ -8,7 +11,7 @@ const app = express();
 // Set up Auth0 configuration
 const authConfig = {
   domain: "vishalbhardwaj.auth0.com",
-  audience: "https://myFirstAuth0API.com"
+  audience: "http://localhost:3000"
 };
 
 // Define middleware that validates incoming bearer tokens
@@ -27,11 +30,18 @@ const checkJwt = jwt({
 });
 
 // Define an endpoint that must be called with an access token
-app.get("/api/external", checkJwt, (req, res) => {
+app.get("/secure/uploadNewSong", checkJwt, (req, res) => {
   res.send({
     msg: "Your Access Token was successfully validated!"
   });
 });
 
+
+// Set the routes
+app.use(bodyParser.urlencoded({ extended:true}));
+app.use(bodyParser.json());
+routes(app);
+
+const PORT = 3000;
 // Start the app
-app.listen(3001, () => console.log('API listening on 3001'));
+app.listen(PORT, () => console.log(`Server is listening at PORT ${PORT}`));
