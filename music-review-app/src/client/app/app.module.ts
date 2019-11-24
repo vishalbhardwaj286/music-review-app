@@ -9,6 +9,7 @@ import {SongsModule} from './songs/songs.module';
 import {MatButtonModule} from '@angular/material/button';
 import { PlaylistsModule } from './playlists/playlists.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http'; 
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
   SongsModule,
   MatButtonModule,
   PlaylistsModule, 
-  BrowserAnimationsModule 
+  BrowserAnimationsModule,
+  HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
