@@ -28,12 +28,15 @@ const checkJwt = jwt({
     jwksUri: `https://${authConfig.domain}/.well-known/jwks.json`
   }),
 
+  
   audience: authConfig.audience,
   issuer: `https://${authConfig.domain}/`,
   algorithm: [serverUtils.AUTHORIZATION_ALGORITHM_USED]
 });
 
 // Define an endpoint that must be called with an access token
+
+app.use('/secure/uploadNewSong',checkJwt);
 app.get("/secure/uploadNewSong", checkJwt, (req, res) => {
   res.send({
     msg: serverUtils.TOKEN_SUCCESSFULLY_VALIDATED
@@ -45,12 +48,14 @@ app.get("/secure/uploadNewSong", checkJwt, (req, res) => {
 app.use(bodyParser.urlencoded({ extended:true}));
 app.use(bodyParser.json());
 
-var mongoDB = `mongodb+srv://${serverUtils.ATLAS_USERNAME}:${serverUtils.ATLAS_PASSWORD}@cluster0-vtgno.mongodb.net/test?retryWrites=true&w=majority`;
+var mongoDB = `mongodb+srv://${serverUtils.ATLAS_USERNAME}:${serverUtils.ATLAS_PASSWORD}@cluster0-vtgno.mongodb.net/${serverUtils.DATABASE_NAME}?retryWrites=true&w=majority`;
 mongoose.connect(mongoDB, { useNewUrlParser: true });
 var db = mongoose.connection;
 
 db.on('error',console.error.bind(console,'Error while connecting to Mongo DB. Please check your connection once !!!'));
-
+db.once('open', function() {
+  console.log('Connected to mongoose database successfully !');
+});
 routes(app);
 
 // Start the app
