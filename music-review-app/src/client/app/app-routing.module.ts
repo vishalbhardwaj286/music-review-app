@@ -4,6 +4,7 @@ import { AddNewSongComponent } from './songs/add-new-song/add-new-song.component
 import { CreateNewPlaylistComponent } from './playlists/create-new-playlist/create-new-playlist.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InterceptorService } from './interceptor.service';
+import { AuthGuard } from './auth.guard';
 
 
 const routes: Routes = [
