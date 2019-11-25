@@ -5,8 +5,8 @@ const serverUtils = {
     AUTH_CONFIG_AUDIENCE : "http://localhost:3000",
     AUTHORIZATION_ALGORITHM_USED : "RS256",
     SERVER_PORT_NUMBER : 3000,
-    TOKEN_SUCCESSFULLY_VALIDATED:"Your Access Token was successfully validated!"
-
+    TOKEN_SUCCESSFULLY_VALIDATED:"Your Access Token was successfully validated!",
+    DATABASE_NAME: 'music-review-app'
 }
 module.exports = serverUtils;
 // export  const ATLAS_USERNAME = 'admin';
