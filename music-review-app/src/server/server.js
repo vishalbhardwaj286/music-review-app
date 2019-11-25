@@ -2,6 +2,10 @@ const express = require("express");
 const jwt = require("express-jwt");
 const jwksRsa = require("jwks-rsa");
 const bodyParser = require("body-parser");
+const serverUtils = require('./serverUtils.js');
+const mongoose = require('mongoose');
+
+//import mongoose from 'mongoose';
 
 const routes = require('./musicReviewsAppRoutes/routes/musicReviewAppRoutes');
 
@@ -10,8 +14,8 @@ const app = express();
 
 // Set up Auth0 configuration
 const authConfig = {
-  domain: "vishalbhardwaj.auth0.com",
-  audience: "http://localhost:3000"
+  domain: serverUtils.AUTH_CONFIG_DOMAIN,
+  audience: serverUtils.AUTH_CONFIG_AUDIENCE
 };
 
 // Define middleware that validates incoming bearer tokens
@@ -26,13 +30,13 @@ const checkJwt = jwt({
 
   audience: authConfig.audience,
   issuer: `https://${authConfig.domain}/`,
-  algorithm: ["RS256"]
+  algorithm: [serverUtils.AUTHORIZATION_ALGORITHM_USED]
 });
 
 // Define an endpoint that must be called with an access token
 app.get("/secure/uploadNewSong", checkJwt, (req, res) => {
   res.send({
-    msg: "Your Access Token was successfully validated!"
+    msg: serverUtils.TOKEN_SUCCESSFULLY_VALIDATED
   });
 });
 
@@ -40,8 +44,14 @@ app.get("/secure/uploadNewSong", checkJwt, (req, res) => {
 // Set the routes
 app.use(bodyParser.urlencoded({ extended:true}));
 app.use(bodyParser.json());
+
+var mongoDB = `mongodb+srv://${serverUtils.ATLAS_USERNAME}:${serverUtils.ATLAS_PASSWORD}@cluster0-vtgno.mongodb.net/test?retryWrites=true&w=majority`;
+mongoose.connect(mongoDB, { useNewUrlParser: true });
+var db = mongoose.connection;
+
+db.on('error',console.error.bind(console,'Error while connecting to Mongo DB. Please check your connection once !!!'));
+
 routes(app);
 
-const PORT = 3000;
 // Start the app
-app.listen(PORT, () => console.log(`Server is listening at PORT ${PORT}`));
+app.listen(serverUtils.SERVER_PORT_NUMBER, () => console.log(`Server is listening at PORT ${serverUtils.SERVER_PORT_NUMBER}`));
