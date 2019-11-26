@@ -197,5 +197,40 @@ const saveUserReviewsForGivenSong = (req,res) => {
     
 };
 
+const fetchAllReviewforParticularSong = (req,res) => {
 
-module.exports = {addNewSong,createNewPlaylist,fetchAllPublicPlaylists,saveUserReviewsForGivenSong};
+    console.log(`Fetching all Reviews for song ${req.params.SongID}`);
+    
+    SongsReviewsSchema.
+    findOne({'reviewedSongID':req.params.SongID}).
+    lean().
+    populate('reviewedSongID')
+    
+    
+    //.select('id playlistTitle playlistDescription songsInPlaylist createdByUser created_date')
+    //.populate('songsInPlaylist.songs')
+    
+    .then(reviews=>{
+        if(reviews==null){
+            res.status(200).send({"message":`There aren't any reviews to show currently`});
+        }
+        else {
+            console.log('Reviews fetched successully');
+            res.status(200).json({
+                count:reviews.length,
+                reviews:reviews
+
+            });
+            
+        }
+    })
+    .catch(error=>{
+        console.log(`Got error ${error} while Fetching reviews for song ${req.params.songID}`);
+        res.status(500).send({"message":`Technical Error Occured! Please contact the system administrator !`});
+    })
+
+    
+};
+
+
+module.exports = {addNewSong,createNewPlaylist,fetchAllPublicPlaylists,saveUserReviewsForGivenSong,fetchAllReviewforParticularSong};
