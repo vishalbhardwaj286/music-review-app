@@ -1,3 +1,4 @@
+const {addNewSong} = require('./../controllers/musicReviewAppController');
 
 const routes = (app) => {
     console.log(`Here`);    
@@ -9,7 +10,7 @@ const routes = (app) => {
         //console.log(req);
         console.log(`Request from :${req.originalUrl}`);
         console.log(`Request type :${req.method}`);
-        
+        addNewSong(req,res);        
         next();
     },(req,res) => {
         let val= null;

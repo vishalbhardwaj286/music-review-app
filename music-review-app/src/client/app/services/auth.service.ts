@@ -33,7 +33,7 @@ export class AuthService {
     concatMap((client: Auth0Client) => from(client.handleRedirectCallback()))
   );
   // Create subject and public observable of user profile data
-  private userProfileSubject$ = new BehaviorSubject<any>(null);
+  public userProfileSubject$ = new BehaviorSubject<any>(null);
   userProfile$ = this.userProfileSubject$.asObservable();
   // Create a local property for login status
   loggedIn: boolean = null;

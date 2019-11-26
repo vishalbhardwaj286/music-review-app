@@ -10,19 +10,18 @@ import { SongsModel } from './../songsModel';
   selector: 'app-add-new-song',
   templateUrl: './add-new-song.component.html',
   styleUrls: ['./add-new-song.component.css'],
-  providers:[SongsService]
+  providers:[SongsService],
+  
 })
 export class AddNewSongComponent implements OnInit {
   uploadNewSongForm: FormGroup;
   songUploaded = false;
-  // titleOfSong:string="";
-  // artistOfSong:string="";
-  // songAlbum:string="";
-  // genreOfSong:string="";
-  // releaseYearOfSong:string="";
-  // reviews:string="";
+
   songsData:Observable<SongsModel>[];
+  profile:string;
+
   constructor(public auth: AuthService,private formBuilder: FormBuilder,private _songsService:SongsService) { 
+    console.log(`logged in User Details are ${auth.userProfileSubject$.value.email}`);
     
   }
 
@@ -35,7 +34,8 @@ export class AddNewSongComponent implements OnInit {
       songAlbum:[],
       genreOfSong:[],
       releaseYearOfSong:[],
-      reviews:[]
+      reviews:[],
+      userEmail:[]
     });
 
   }
@@ -47,8 +47,8 @@ export class AddNewSongComponent implements OnInit {
       album:form.songAlbum,
       genre:form.genreOfSong,
       year:form.releaseYearOfSong,
-      reviews:form.reviews
-      
+      reviews:form.reviews,
+      addedByUser:this.auth.userProfileSubject$.value.email
     };
     this.callServiceForUploadingNewSong(ItemToAdd);
     this.uploadNewSongForm.reset();
