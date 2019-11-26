@@ -233,15 +233,27 @@ const fetchAllReviewforParticularSong = (req,res) => {
 };
 
 const updatePlaylistAttributes = (req,res)=>{
-    console.log(`Updating Playlist attributes of playlist ${req.params.playlistTitle}`);
-    Playlist.findOneAndUpdate({ "playlistTitle" : req.params.playlistTitle },
+    let playlistTitle = req.params.playlistTitle;
+    let userRequestingUpdate = req.body.userEmail;
+
+    console.log(`Updating Playlist attributes of playlist ${playlistTitle}`);
+    Playlist.findOneAndUpdate({ "playlistTitle" : playlistTitle },
     req.body)
     .then(results=>{
         if(results != null) {
-            console.log(`results got after updating record ${results}`);
-            res.status(200).send({
-                count:results.length,
-            });
+            if(results.createdByUser === userRequestingUpdate) {
+                console.log(`results got after updating record ${results}`);
+                res.status(200).send({
+                    count:results.length
+                });
+            }
+            else {
+                console.log(`Unauthorized access`);
+                res.status(403).send({
+                    'message':'Access Denied'    
+                });
+            }
+            
         }
         else {
             res.status(500).send({
