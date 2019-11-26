@@ -103,4 +103,34 @@ const createNewPlaylist = (req,res) => {
     
 };
 
-module.exports = {addNewSong,createNewPlaylist};
+const fetchAllPublicPlaylists = (req,res) => {
+
+    console.log(`Fetching all public playlists`);
+    Playlist.find()
+    .lean()
+    .select('id playlistTitle playlistDescription songsInPlaylist createdByUser created_date')
+    .populate('songsInPlaylist.songs')
+    
+    .then(playlists=>{
+        if(playlists==null){
+            res.status(200).send({"message":`There isn't any playlist to show currently`});
+        }
+        else {
+            console.log('Playlists fetched successully');
+            res.status(200).json({
+                count:playlists.length,
+                playlists:playlists,
+
+            });
+            
+        }
+    })
+    .catch(error=>{
+        console.log(`Got an error while Fetching all public playlists ${error}`)
+        res.status(500).send({"message":`Technical Error Occured! Please contact the system administrator !`});
+    })
+
+    
+};
+
+module.exports = {addNewSong,createNewPlaylist,fetchAllPublicPlaylists};

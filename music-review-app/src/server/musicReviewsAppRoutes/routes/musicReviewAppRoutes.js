@@ -1,4 +1,4 @@
-const {addNewSong,createNewPlaylist} = require('./../controllers/musicReviewAppController');
+const {addNewSong,createNewPlaylist,fetchAllPublicPlaylists} = require('./../controllers/musicReviewAppController');
 
 const routes = (app) => {
     console.log(`Here`);    
@@ -36,7 +36,15 @@ const routes = (app) => {
         // addNewItem(req,res);
         return;
         
-    })
+    });
+
+    app.route('/secure/fetchPublicPlaylists')
+    .get((req,res,next)=>{
+        console.log(`Fetching all public playlists`);
+        next();
+    },(req,res)=> {
+        fetchAllPublicPlaylists(req,res);
+    });
     
 }
 module.exports = routes;

@@ -14,14 +14,16 @@ const PlaylistSchema = mongoose.Schema({
    playlistDescription :{
         type : String
    },
-   songsInPlaylist: {
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Songs',
-        required: 'Dummy Playlist creation not allowed !'
-    },
+   songsInPlaylist: [{
+        songs:{
+          type: mongoose.Schema.Types.ObjectId, 
+          ref: 'Songs',
+          required: 'Dummy Playlist creation not allowed !'
+        }
+     }],
     playListVisibilityScope: {
         type:String,
-        default:Public
+        default:'Public'
     },
    createdByUser : {
         type: String,
