@@ -1,4 +1,4 @@
-const {addNewSong,createNewPlaylist,fetchAllPublicPlaylists} = require('./../controllers/musicReviewAppController');
+const {addNewSong,createNewPlaylist,fetchAllPublicPlaylists,saveUserReviewsForGivenSong} = require('./../controllers/musicReviewAppController');
 
 const routes = (app) => {
     console.log(`Here`);    
@@ -46,5 +46,10 @@ const routes = (app) => {
         fetchAllPublicPlaylists(req,res);
     });
     
+    app.route('/secure/addReview/:SongId')
+    .post((req,res)=> {
+        console.log(`Request Reached for adding reviews to a song`);
+        saveUserReviewsForGivenSong(req,res);        
+    });
 }
 module.exports = routes;

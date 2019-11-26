@@ -1,5 +1,6 @@
 const Songs = require('./../models/SongsSchema');
 const Playlist = require('./../models/PlaylistSchema');
+const SongsReviewsSchema = require('../models/SongReviewSchema');
 
 const addNewSong = (req,res) => {
 
@@ -133,4 +134,68 @@ const fetchAllPublicPlaylists = (req,res) => {
     
 };
 
-module.exports = {addNewSong,createNewPlaylist,fetchAllPublicPlaylists};
+const saveUserReviewsForGivenSong = (req,res) => {
+
+    console.log(`Saving user reviews for song ${req.body.reviewedSongID}`);
+    
+    let review = new SongsReviewsSchema({
+        
+        reviewedSongID: req.body.reviewedSongID,
+        ratingsGivenByUser:req.body.ratingsGivenByUser
+    });
+    console.log(`Checking if the song ${req.body.reviewedSongID} is reviewed earlier by any user`);
+    SongsReviewsSchema.findOne({"reviewedSongID":req.body.reviewedSongID})
+    .then(result=>{
+        console.log(`Result is ${result}`);
+        if(result==null) {
+            console.log("Saving Initial review of the song");
+            review.save().then(result=> {
+                console.log(result);
+                res.status(200).json({'reviews':result});
+            })
+            .catch(error=>{
+                console.log(`Error while saving review for a given song ${req.params.reviewedSongID}`);
+                res.status(500).json({'message':error});
+            })
+        }
+        else {
+            let review_song_id = result.reviewedSongID;
+            console.log(`Updating reviews having of song ${review_song_id}`);
+            SongsReviewsSchema.update(
+                { _id: result._id }, 
+                { $push: { ratingsGivenByUser: 
+                    req.body.ratingsGivenByUser
+                 } }
+                
+            )
+            // SongsReviewsSchema.update(
+            //     {reviewedSongTitle: review_id}, 
+            //     {$push: {
+            //         reviewedSongID: req.body.reviewedSongID,
+            //         ratingsGivenByUser:req.body.ratingsGivenByUser,
+            //         commentsGivenByUser:req.body.commentsGivenByUser,
+            //         ratedByUser:req.body.ratedByUser
+            //         }
+                    
+            //     })
+            
+            .then(result=>{
+                res.status(200).json({'message':'Another review added','reviews':result});
+            })
+            .catch(error=>{
+                res.status(500).json({"message":`Encountered error while adding another review ${review_id}`});
+            })
+            
+        }
+        
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).json({
+            "message":`Unable to fetch review_id ${review_id}`
+        });
+    });
+    
+};
+
+
+module.exports = {addNewSong,createNewPlaylist,fetchAllPublicPlaylists,saveUserReviewsForGivenSong};
