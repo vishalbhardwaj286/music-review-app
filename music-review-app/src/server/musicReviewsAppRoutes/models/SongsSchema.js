@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
 const mongooseUniqueValidator = require('mongoose-unique-validator');
-const Schema = mongoose.Schema;
 
-
-const SongsSchema = new Schema({
+const SongsSchema = mongoose.Schema({
    title : {
         type: String,
         required: 'Song title required',
@@ -28,7 +26,7 @@ const SongsSchema = new Schema({
         default:Date.now
    },
    reviews: {
-        type:Schema.Types.Mixed,
+        type:mongoose.Schema.Types.Mixed,
         default: 'Not Reviewed yet !',
         lowercase:true,
    },
@@ -44,4 +42,4 @@ const SongsSchema = new Schema({
 });
 SongsSchema.plugin(mongooseUniqueValidator);
 
-module.exports = {SongsSchema};
+module.exports = mongoose.model('Songs',SongsSchema,'Songs');
