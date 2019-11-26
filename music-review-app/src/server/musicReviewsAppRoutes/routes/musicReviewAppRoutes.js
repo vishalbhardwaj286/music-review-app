@@ -2,7 +2,7 @@ const {addNewSong,createNewPlaylist,fetchAllPublicPlaylists,saveUserReviewsForGi
 
 const routes = (app) => {
     console.log(`Here`);    
-    app.route('/secure/uploadNewSong/:title')
+    app.route('/secure/song/:title')
     
     .put((req,res,next)=> {
         //middlerware
@@ -20,7 +20,7 @@ const routes = (app) => {
         
     });
 
-    app.route('/secure/createNewPlaylist/:playlistTitle')
+    app.route('/secure/playlist/:playlistTitle')
     
     .put((req,res,next)=> {
         //middlerware
@@ -46,10 +46,12 @@ const routes = (app) => {
         fetchAllPublicPlaylists(req,res);
     });
     
-    app.route('/secure/addReview/:SongId')
+    app.route('/secure/reviews/:SongId')
     .post((req,res)=> {
         console.log(`Request Reached for adding reviews to a song`);
         saveUserReviewsForGivenSong(req,res);        
     });
+
+    
 }
 module.exports = routes;
