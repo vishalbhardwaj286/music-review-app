@@ -23,7 +23,7 @@ const PlaylistSchema = mongoose.Schema({
      }],
     playListVisibilityScope: {
         type:String,
-        default:'Public'
+        default:'Private'
     },
    createdByUser : {
         type: String,

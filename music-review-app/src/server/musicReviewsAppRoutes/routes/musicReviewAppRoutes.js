@@ -1,7 +1,8 @@
 const {
     addNewSong,createNewPlaylist,fetchAllPublicPlaylists,
     saveUserReviewsForGivenSong,
-    fetchAllReviewforParticularSong
+    fetchAllReviewforParticularSong,
+    updatePlaylistAttributes
 } = require('./../controllers/musicReviewAppController');
 
 const routes = (app) => {
@@ -40,9 +41,17 @@ const routes = (app) => {
         // addNewItem(req,res);
         return;
         
+    })
+
+    .post((req,res,next)=>{
+        console.log(`Updating Playlist ${req.params.playlistTitle}`);
+        //Parsing request body to find the to-update-element.
+        next();
+    },(req,res) =>{
+        updatePlaylistAttributes(req,res);
     });
 
-    app.route('/secure/fetchPublicPlaylists')
+    app.route('/secure/fetchAllPublicPlaylists')
     .get((req,res,next)=>{
         console.log(`Fetching all public playlists`);
         next();
@@ -62,6 +71,7 @@ const routes = (app) => {
         saveUserReviewsForGivenSong(req,res);        
     });
 
+    app.route('secure/playlist/updateVisibilityScope')
     
     
 }

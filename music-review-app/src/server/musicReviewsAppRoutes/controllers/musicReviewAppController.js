@@ -107,7 +107,7 @@ const createNewPlaylist = (req,res) => {
 const fetchAllPublicPlaylists = (req,res) => {
 
     console.log(`Fetching all public playlists`);
-    Playlist.find()
+    Playlist.find({'playListVisibilityScope':'Public'})
     .lean()
     .select('id playlistTitle playlistDescription songsInPlaylist createdByUser created_date')
     .populate('songsInPlaylist.songs')
@@ -232,5 +232,33 @@ const fetchAllReviewforParticularSong = (req,res) => {
     
 };
 
+const updatePlaylistAttributes = (req,res)=>{
+    console.log(`Updating Playlist attributes of playlist ${req.params.playlistTitle}`);
+    Playlist.findOneAndUpdate({ "playlistTitle" : req.params.playlistTitle },
+    req.body)
+    .then(results=>{
+        if(results != null) {
+            console.log(`results got after updating record ${results}`);
+            res.status(200).send({
+                count:results.length,
+            });
+        }
+        else {
+            res.status(500).send({
+                'message':'No such playlist found'
+            });
+        }
+        
+    })
+    .catch(error=>{
+        console.log(`Got an error while updating the record in the database ${error}`);
+        res.status(500).send({"message":`Technical Error Occured! Please contact the system administrator !`});
+    });
+};
 
-module.exports = {addNewSong,createNewPlaylist,fetchAllPublicPlaylists,saveUserReviewsForGivenSong,fetchAllReviewforParticularSong};
+module.exports = {
+    addNewSong,createNewPlaylist,fetchAllPublicPlaylists,saveUserReviewsForGivenSong,
+    fetchAllReviewforParticularSong,
+    updatePlaylistAttributes
+
+};
