@@ -268,9 +268,62 @@ const updatePlaylistAttributes = (req,res)=>{
     });
 };
 
+
+const fetchTopTenSongsByGivenFilter = (req,res) => {
+    
+    let filterBy = req.query?req.query.id:null
+    console.log(`Fetching top 10 songs by ${filterBy}`);
+    
+    SongsReviewsSchema.aggregate([
+        {
+            $project: {
+                item: 1,
+                reviewedSongID:"$reviewedSongID",
+                numberOfReviews: { $cond: { if: { $isArray: "$ratingsGivenByUser" }, then: { $size: "$ratingsGivenByUser" }, else: "NA"} },
+                
+            }
+            
+        },
+        {
+            $sort: {
+                numberOfReviews : -1
+            }  
+        },
+        {
+            $limit: 10
+        }
+        
+    ])
+    
+    .then(reviews=>{
+        console.log(``);
+        if(reviews==null){
+            res.status(200).send({"message":`There aren't any music to show currently`});
+        }
+        else {
+            console.log('Top 10 most reviewed songs fetched successully');
+            
+           
+            console.log(reviews);
+            res.status(200).json({
+                reviews
+            });
+            
+        }
+    })
+    .catch(error=>{
+        console.log(`Got error ${error} while Fetching reviews for song ${req.params.songID}`);
+        res.status(500).send({"message":`Technical Error Occured! Please contact the system administrator !`});
+    })
+
+    
+};
+
+
 module.exports = {
     addNewSong,createNewPlaylist,fetchAllPublicPlaylists,saveUserReviewsForGivenSong,
     fetchAllReviewforParticularSong,
-    updatePlaylistAttributes
+    updatePlaylistAttributes,
+    fetchTopTenSongsByGivenFilter
 
 };

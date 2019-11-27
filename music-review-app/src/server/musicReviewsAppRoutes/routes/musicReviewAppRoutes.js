@@ -2,7 +2,8 @@ const {
     addNewSong,createNewPlaylist,fetchAllPublicPlaylists,
     saveUserReviewsForGivenSong,
     fetchAllReviewforParticularSong,
-    updatePlaylistAttributes
+    updatePlaylistAttributes,
+    fetchTopTenSongsByGivenFilter
 } = require('./../controllers/musicReviewAppController');
 
 const routes = (app) => {
@@ -71,7 +72,12 @@ const routes = (app) => {
         saveUserReviewsForGivenSong(req,res);        
     });
 
-    app.route('secure/playlist/updateVisibilityScope')
+    app.route('/secure/fetchSongs')
+
+    .get((req,res)=>{
+        
+        fetchTopTenSongsByGivenFilter(req,res);
+    });
     
     
 }
