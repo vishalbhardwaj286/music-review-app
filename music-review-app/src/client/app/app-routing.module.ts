@@ -5,7 +5,8 @@ import { CreateNewPlaylistComponent } from './playlists/create-new-playlist/crea
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InterceptorService } from './interceptor.service';
 import { AuthGuard } from './auth.guard';
-
+import {HomeComponent} from '../app/home/home.component';
+import { AboutUsComponent } from './about-us/about-us.component';
 
 const routes: Routes = [
   // {
@@ -13,10 +14,10 @@ const routes: Routes = [
   //   redirectTo: 'home',
   //   pathMatch: 'full'
   // },
-  // {
-  //   path: 'home',
-  //   component: HomeComponent
-  // }
+  {
+    path: 'home',
+    component: HomeComponent
+  },
   {
     path:'addNewSong',
     component:AddNewSongComponent,
@@ -25,12 +26,17 @@ const routes: Routes = [
   {
     path:'createPlaylist',
     component:CreateNewPlaylistComponent
+  },
+  {
+    path:'aboutUs',
+    component:AboutUsComponent
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  
+exports: [RouterModule],
   providers:[
     {
       provide: HTTP_INTERCEPTORS,
