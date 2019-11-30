@@ -22,7 +22,7 @@ export class SongsService {
   fetchTop10Songs():Observable<any>{
     console.log(`Calling service inside service`);
     let httpHeaders = new HttpHeaders().set('Content-Type','application/Json');
-    let fetchtop10SongsURL = `/public/fetchSongs/`;
+    let fetchtop10SongsURL = `/public/fetchTopTenSongs/`;
     let options = {
       headers:httpHeaders
     };
