@@ -72,10 +72,10 @@ const routes = (app) => {
         saveUserReviewsForGivenSong(req,res);        
     });
 
-    app.route('/secure/fetchSongs')
+    app.route('/public/fetchSongs')
 
     .get((req,res)=>{
-        
+        console.log(`Request got ${req}`)
         fetchTopTenSongsByGivenFilter(req,res);
     });
     

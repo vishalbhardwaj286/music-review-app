@@ -274,11 +274,13 @@ const fetchTopTenSongsByGivenFilter = (req,res) => {
     let filterBy = req.query?req.query.id:null
     console.log(`Fetching top 10 songs by ${filterBy}`);
     
-    SongsReviewsSchema.aggregate([
+    SongsReviewsSchema
+    .aggregate([
         {
             $project: {
                 item: 1,
                 reviewedSongID:"$reviewedSongID",
+                ratingsGivenByUser:"$ratingsGivenByUser",
                 numberOfReviews: { $cond: { if: { $isArray: "$ratingsGivenByUser" }, then: { $size: "$ratingsGivenByUser" }, else: "NA"} },
                 
             }
@@ -291,10 +293,20 @@ const fetchTopTenSongsByGivenFilter = (req,res) => {
         },
         {
             $limit: 10
-        }
+        },
+        {
+            $lookup :{
+                from :"Songs",
+                localField:"reviewedSongID",
+                foreignField:"_id",
+                as:"songDetails"
+            }
+        },
+        { 
+            "$unwind": "$songDetails" 
+        },
         
     ])
-    
     .then(reviews=>{
         console.log(``);
         if(reviews==null){
