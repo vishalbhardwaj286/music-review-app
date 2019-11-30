@@ -21,14 +21,26 @@ export class InterceptorService implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    return this.auth.getTokenSilently$().pipe(
-      mergeMap(token => {
-        const tokenReq = req.clone({
-          setHeaders: { Authorization: `Bearer ${token}` }
-        });
-        return next.handle(tokenReq);
-      }),
-      catchError(err => throwError(err))
-    );
+    if(!req.url.match('/public')) {
+      return this.auth.getTokenSilently$().pipe(
+        mergeMap(token => {
+          if(!req.url.match('/public'))
+          {
+            const tokenReq = req.clone({
+              setHeaders: { Authorization: `Bearer ${token}` }
+            });
+            return next.handle(tokenReq);
+          }
+          // console.log(`Intercepting all public requests ${req.url}`);
+          return next.handle(null);
+        }),
+        catchError(err => throwError(err))
+    )}
+    else{
+      const tokenReq = req.clone({
+        setHeaders: {}
+      });
+      return next.handle(tokenReq);
+    }
   }
 }
