@@ -34,13 +34,14 @@ const checkJwt = jwt({
   algorithm: [serverUtils.AUTHORIZATION_ALGORITHM_USED]
 });
 
-// Define an endpoint that must be called with an access token
+//Define an endpoint that must be called with an access token
 
-app.use('/secure/uploadNewSong',checkJwt);
-app.get("/secure/uploadNewSong", checkJwt, (req, res) => {
+app.use('/secure/',checkJwt);
+app.get("/secure/", checkJwt, (req, res) => {
   res.send({
     msg: serverUtils.TOKEN_SUCCESSFULLY_VALIDATED
   });
+  console.log(`Calling jwt token check`);
 });
 
 
