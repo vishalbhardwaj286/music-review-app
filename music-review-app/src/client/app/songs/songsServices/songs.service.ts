@@ -12,10 +12,22 @@ export class SongsService {
 
   uploadNewSong(newSong:SongsModel):Observable<SongsModel>{
     let httpHeaders = new HttpHeaders().set('Content-Type','application/Json');
-    let uploadNewSongURL = `/secure/uploadNewSong/${newSong.title}`;
+    let uploadNewSongURL = `/secure/song/${newSong.title}`;
     let options = {
       headers:httpHeaders
     };
     return this.http.put<SongsModel>(uploadNewSongURL,newSong,options);
-  }
+  };
+
+  fetchTop10Songs():Observable<any>{
+    console.log(`Calling service inside service`);
+    let httpHeaders = new HttpHeaders().set('Content-Type','application/Json');
+    let fetchtop10SongsURL = `/public/fetchSongs/`;
+    let options = {
+      headers:httpHeaders
+    };
+
+    return this.http.get<any>(fetchtop10SongsURL);
+  };
+
 }
