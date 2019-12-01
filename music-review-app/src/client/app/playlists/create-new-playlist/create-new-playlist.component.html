@@ -1,1 +1,37 @@
-<p>create-new-playlist works!</p>
+<!-- <pre *ngIf="auth.userProfile$ | async as profile"> -->
+
+    <!-- <code>{{ profile | json }}</code> -->
+    <div class="container">
+    <form #createNewPlaylistForm ="ngForm" (ngSubmit)="onFormSubmit(createNewPlaylistForm.value)">
+    <div class="example-container container">
+        <div class="example-container">
+            <mat-form-field [floatLabel]="createNewPlaylistForm.value.floatLabel">
+                <mat-label>Playlist Title</mat-label>
+                <input [(ngModel)]="playlistTitle" matInput name = "playlistTitle" placeholder="Title of the Playlist" required>
+            </mat-form-field>
+            <mat-form-field [floatLabel]="createNewPlaylistForm.value.floatLabel">
+                <mat-label>Playlist Description</mat-label>
+                <input [(ngModel)]="playlistDescription" matInput name = "playlistDescription" placeholder="Please provide breif description about playlist" required> 
+            </mat-form-field>
+
+            <mat-select placeholder="Select Songs" [formControl]="songs" multiple [(ngModel)]="selectedSongs">
+                <!-- <mat-select-trigger>
+                  {{songsList}}
+                  <span *ngIf="songsList.length > 1" class="example-additional-selection">
+                    (+{{songsList.length - 1}} {{songsList.length === 2 ? 'other' : 'others'}})
+                  </span>
+                </mat-select-trigger> -->
+                <mat-option *ngFor="let song of songsList" [value]="song._id">{{song.title}}</mat-option>
+              </mat-select>
+        </div>
+        
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary">Create New Playlist</button>        
+    </div>
+
+    
+    
+    </form>
+    </div>
+<!-- </pre> -->
