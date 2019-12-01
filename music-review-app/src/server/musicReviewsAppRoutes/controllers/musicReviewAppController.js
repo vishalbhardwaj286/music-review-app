@@ -331,11 +331,37 @@ const fetchTopTenSongsByGivenFilter = (req,res) => {
     
 };
 
+const fetchAllSongs = (req,res) => {
+    
+    console.log(`Fetching all songs`);
+    
+    Songs.find()
+    .then(result=>{
+        console.log(result);
+        if(result!==null) {
+            console.log("All songs fetched successfully");
+            res.status(200).json({'songs':result});
+        }
+        else {
+            console.log(`Need to update the song with id ${song_id}`);
+            res.status(200).json({'message':'No songs found in the database'});
+        }
+        
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).json({
+            "message":`Unable to fetch songs`
+        });
+    });
+    
+};
+
 
 module.exports = {
     addNewSong,createNewPlaylist,fetchAllPublicPlaylists,saveUserReviewsForGivenSong,
     fetchAllReviewforParticularSong,
     updatePlaylistAttributes,
-    fetchTopTenSongsByGivenFilter
+    fetchTopTenSongsByGivenFilter,
+    fetchAllSongs
 
 };

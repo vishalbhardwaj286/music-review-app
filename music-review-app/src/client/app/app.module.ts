@@ -9,17 +9,22 @@ import {SongsModule} from './songs/songs.module';
 import {MatButtonModule} from '@angular/material/button';
 import { PlaylistsModule } from './playlists/playlists.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http'; 
-
+import { HttpClientModule } from '@angular/common/http';
+import { HomeComponent } from './home/home.component'; 
+import { SongsService } from './songs/songsServices/songs.service';
+import { AboutUsComponent } from './about-us/about-us.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent
+    NavbarComponent,
+    HomeComponent,
+    AboutUsComponent
     
   ],
   imports: [
-  BrowserModule,
+  
+BrowserModule,
   AppRoutingModule,
   NgbModule,
   SongsModule,
@@ -28,7 +33,7 @@ import { HttpClientModule } from '@angular/common/http';
   BrowserAnimationsModule,
   HttpClientModule
   ],
-  providers: [],
+  providers: [SongsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

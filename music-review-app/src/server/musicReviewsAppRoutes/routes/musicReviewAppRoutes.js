@@ -3,25 +3,26 @@ const {
     saveUserReviewsForGivenSong,
     fetchAllReviewforParticularSong,
     updatePlaylistAttributes,
-    fetchTopTenSongsByGivenFilter
+    fetchTopTenSongsByGivenFilter,fetchAllSongs
+
 } = require('./../controllers/musicReviewAppController');
 
 const routes = (app) => {
     console.log(`Here`);    
     app.route('/secure/song/:title')
-    
+
     .put((req,res,next)=> {
         //middlerware
         console.log(`Request parameter got in the PUT request is ${req.params.title}`);
         //console.log(req);
         console.log(`Request from :${req.originalUrl}`);
         console.log(`Request type :${req.method}`);
-        addNewSong(req,res);        
+                
         next();
     },(req,res) => {
-        let val= null;
         console.log('Saving the items');
-        // addNewItem(req,res);
+        addNewSong(req,res);
+        console.log('Song saved successfully');
         return;
         
     });
@@ -72,13 +73,18 @@ const routes = (app) => {
         saveUserReviewsForGivenSong(req,res);        
     });
 
-    app.route('/public/fetchSongs')
+    app.route('/public/fetchTopTenSongs')
 
     .get((req,res)=>{
         console.log(`Request got ${req}`)
         fetchTopTenSongsByGivenFilter(req,res);
     });
     
-    
+    app.route('/public/songs')
+
+    .get((req,res)=>{
+        console.log(`Handling Request to fetch all songs`);
+        fetchAllSongs(req,res);
+    })
 }
 module.exports = routes;

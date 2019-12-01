@@ -7,6 +7,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatSelectModule} from '@angular/material/select';
 import { ReactiveFormsModule,FormsModule  } from '@angular/forms';
 import {MatInputModule} from '@angular/material';
+import {MatListModule} from '@angular/material/list';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import {MatInputModule} from '@angular/material';
     MatSelectModule,
     ReactiveFormsModule,
     FormsModule,
-    MatInputModule
+    MatInputModule,
+    MatListModule
   ],
   exports: [
     MatCheckboxModule,
@@ -30,7 +32,8 @@ import {MatInputModule} from '@angular/material';
     MatSelectModule,
     ReactiveFormsModule,
     FormsModule,
-    MatInputModule
+    MatInputModule,
+    MatListModule
   ]
 })
 export class CommonUtilsModule { }
