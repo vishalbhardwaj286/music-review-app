@@ -10,8 +10,7 @@ import { SongsModel } from './../songsModel';
   selector: 'app-add-new-song',
   templateUrl: './add-new-song.component.html',
   styleUrls: ['./add-new-song.component.css'],
-  providers:[SongsService],
-  
+  providers:[SongsService]
 })
 export class AddNewSongComponent implements OnInit {
   uploadNewSongForm: FormGroup;

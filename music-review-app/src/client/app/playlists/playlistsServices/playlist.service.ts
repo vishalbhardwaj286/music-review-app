@@ -16,6 +16,6 @@ export class PlaylistService {
     let options = {
       headers:httpHeaders
     };
-    return this.http.put<PlaylistModel>(uploadNewPlaylistURL,JSON.stringify(newPlaylist),options);
+    return this.http.put<PlaylistModel>(uploadNewPlaylistURL,newPlaylist,options);
   };
 }

@@ -15,10 +15,13 @@ import { AuthService } from './../../services/auth.service';
 export class CreateNewPlaylistComponent implements OnInit {
   createNewPlaylistForm: FormGroup;
   songs = new FormControl();
+  visibilitySelected = new FormControl();
   playlistCreated = false;
   songsData:Observable<any>[];
-  selectedSongs:string[];
+  selectedSongs:object[];
+  selectedVisibility:string = 'Private';
   songsList: string;
+  
   constructor(public auth: AuthService,private _playlistService:PlaylistService, private _songsService:SongsService) {
 
    }
@@ -38,18 +41,20 @@ export class CreateNewPlaylistComponent implements OnInit {
   }
 
   onFormSubmit(form:any){
-    console.log(`On Form Submit called ${form.selectedSongs}`);
-    
-    for(let i=0;i<this.selectedSongs.length ;i++){  //How to properly iterate here!!
-      this.selectedSongs = JSON.stringify(this.selectedSongs);
-      
+    let selectedSongsJson = [];
+    console.log(`On Form Submit called ${this.selectedVisibility}`);
+    for(let i=0;i<this.selectedSongs.length;i++) {
+      selectedSongsJson.push({'songs':this.selectedSongs[i]});
     }
+    
+
     let PlaylistToAdd : PlaylistModel  = {
       playlistTitle:form.playlistTitle,
       playlistDescription:form.playlistDescription,
-      songsInPlaylist:this.selectedSongs,
-      // createdByUser:this.auth.userProfileSubject$.value.email
-      createdByUser:'vishal B.'
+      songsInPlaylist:selectedSongsJson,
+      playListVisibilityScope:this.selectedVisibility,
+      createdByUser:this.auth.userProfileSubject$.value.email
+     
     };
     this.callServiceForCreatingNewPlaylist(PlaylistToAdd);
     this.createNewPlaylistForm.reset();

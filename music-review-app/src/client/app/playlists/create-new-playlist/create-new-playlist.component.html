@@ -14,15 +14,19 @@
                 <input [(ngModel)]="playlistDescription" matInput name = "playlistDescription" placeholder="Please provide breif description about playlist" required> 
             </mat-form-field>
 
-            <mat-select placeholder="Select Songs" [formControl]="songs" multiple [(ngModel)]="selectedSongs">
-                <!-- <mat-select-trigger>
-                  {{songsList}}
-                  <span *ngIf="songsList.length > 1" class="example-additional-selection">
-                    (+{{songsList.length - 1}} {{songsList.length === 2 ? 'other' : 'others'}})
-                  </span>
-                </mat-select-trigger> -->
+            <mat-form-field [floatLabel]="createNewPlaylistForm.value.floatLabel" required>
+                <mat-label>Select Songs</mat-label>
+                <mat-select placeholder="Select Songs" [formControl]="songs" multiple [(ngModel)]="selectedSongs">
                 <mat-option *ngFor="let song of songsList" [value]="song._id">{{song.title}}</mat-option>
-              </mat-select>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field [floatLabel]="createNewPlaylistForm.value.floatLabel">
+                <mat-label>Select Visibility</mat-label>
+                <mat-select placeholder="Set Visibility" [formControl]="visibilitySelected" [(ngModel)]="selectedVisibility">
+                <mat-option value="Private">Private</mat-option>
+                <mat-option value="Public">Public</mat-option>
+                </mat-select>
+            </mat-form-field>
         </div>
         
     </div>

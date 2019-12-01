@@ -2,6 +2,7 @@ export interface PlaylistModel{
     playlistTitle:string,
     playlistDescription:string,
     songsInPlaylist:any,
-    createdByUser:string
+    createdByUser:string,
+    playListVisibilityScope:string
     created_date?: Date;
 }
