@@ -30,4 +30,16 @@ export class SongsService {
     return this.http.get<any>(fetchtop10SongsURL);
   };
 
+  fetchAllSongs():Observable<any>{
+    console.log(`Executing service to fetch all songs`);
+    let httpHeaders = new HttpHeaders().set('Content-Type','application/Json');
+    let fetchAllSongsURI = `/public/songs`;
+    let options = {
+      headers:httpHeaders
+    };
+
+    return this.http.get<any>(fetchAllSongsURI,options);
+  }
+
 }
+
