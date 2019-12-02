@@ -9,7 +9,7 @@ import { SongsService } from './../songs/songsServices/songs.service';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(public auth: AuthService, public songs:SongsService) { }
+  constructor(public auth: AuthService) { }
 
   ngOnInit() {
   }
