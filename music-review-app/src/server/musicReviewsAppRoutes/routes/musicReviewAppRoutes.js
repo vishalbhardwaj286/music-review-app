@@ -3,7 +3,7 @@ const {
     saveUserReviewsForGivenSong,
     fetchAllReviewforParticularSong,
     updatePlaylistAttributes,
-    fetchTopTenSongsByGivenFilter,fetchAllSongs
+    fetchTopTenSongsByGivenFilter,fetchAllSongs,fetchPlaylistsOfUser
 
 } = require('./../controllers/musicReviewAppController');
 
@@ -86,5 +86,14 @@ const routes = (app) => {
         console.log(`Handling Request to fetch all songs`);
         fetchAllSongs(req,res);
     })
+
+    app.route('/secure/playlists/:userEmail')
+
+    .get((req,res,next)=>{
+        console.log(`Handling Request to fetch all playlists of user ${req.params.userEmail}`);
+        next()
+    },(req,res)=>{
+        fetchPlaylistsOfUser(req,res);
+    });
 }
 module.exports = routes;

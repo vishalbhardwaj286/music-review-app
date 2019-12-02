@@ -356,12 +356,35 @@ const fetchAllSongs = (req,res) => {
     
 };
 
+const fetchPlaylistsOfUser = (req,res)=>{
+    console.log(`Executing Controller to fetch user specific playlists`);
+
+    Playlist.find({ createdByUser: req.params.userEmail })
+    .then(result=>{
+        console.log(result);
+        if(result!==null) {
+            console.log("All users playlists fetched successfully");
+            res.status(200).json({'playlists':result});
+        }
+        else {
+            console.log(`Need to update the song with id ${song_id}`);
+            res.status(200).json({'message':`No playlist found in the database for user ${req.body.userEmail}`});
+        }
+        
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).json({
+            "message":`Unable to fetch playlists`
+        });
+    });
+    
+};
 
 module.exports = {
     addNewSong,createNewPlaylist,fetchAllPublicPlaylists,saveUserReviewsForGivenSong,
     fetchAllReviewforParticularSong,
     updatePlaylistAttributes,
     fetchTopTenSongsByGivenFilter,
-    fetchAllSongs
+    fetchAllSongs,fetchPlaylistsOfUser
 
 };
