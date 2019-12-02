@@ -18,4 +18,16 @@ export class PlaylistService {
     };
     return this.http.put<PlaylistModel>(uploadNewPlaylistURL,newPlaylist,options);
   };
+
+  fetchExistingPlaylist(loggedInUser:String):Observable<any>{
+    console.log(`Executing service for fetching existing playlists of user`);
+    let httpHeaders = new HttpHeaders().set('Content-Type','application/Json');
+    let fetchExistingPlaylistURI = `/secure/playlists/${loggedInUser}`;
+    let options = {
+      headers:httpHeaders
+    };
+
+    return this.http.get<any>(fetchExistingPlaylistURI);
+  };
+
 }
