@@ -7,6 +7,7 @@ import { InterceptorService } from './interceptor.service';
 import { AuthGuard } from './auth.guard';
 import {HomeComponent} from '../app/home/home.component';
 import { AboutUsComponent } from './about-us/about-us.component';
+import { EditPlaylistComponent } from './playlists/edit-playlist/edit-playlist.component';
 
 const routes: Routes = [
   // {
@@ -30,6 +31,10 @@ const routes: Routes = [
   {
     path:'aboutUs',
     component:AboutUsComponent
+  },
+  {
+    path:'editPlaylist',
+    component:EditPlaylistComponent
   }
 ];
 
