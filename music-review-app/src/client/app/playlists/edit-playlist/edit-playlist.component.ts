@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { PlaylistService } from '../playlistsServices/playlist.service';
 import { AuthService } from '../../services/auth.service';
+import { PlaylistModel } from './../playlistModel';
+
 
 @Component({
   selector: 'app-edit-playlist',
@@ -8,7 +10,8 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./edit-playlist.component.css']
 })
 export class EditPlaylistComponent implements OnInit {
-  playlistsData:object[];
+  playlistsData:PlaylistModel[];
+  playlistEdited:boolean;
   constructor(public auth: AuthService,private _playlistService:PlaylistService) { }
 
   ngOnInit() {
@@ -17,13 +20,33 @@ export class EditPlaylistComponent implements OnInit {
   
   getAllPlaylists(){
     let userEmail = this.auth.userProfileSubject$.value.email;
+
     this._playlistService.fetchExistingPlaylist(userEmail).subscribe(
-      playlists=>{
-        this.playlistsData = playlists.results;
-        // console.log(`Songs Data is ${this.songsData}`);
-        // this.songsList = songs.songs;
+      results=>{
+        this.playlistsData = results.playlists;
       }
     )
   }
 
+  deleteSongFromPlaylist(songID:string,playlistID:string){
+    console.log(`Deleting song ${songID} from Playlist ${playlistID}`);
+    
+    let SongToDeleteInPlaylist : PlaylistModel  = {
+      
+      playlistID:playlistID,
+      songsInPlaylist:songID,
+      // createdByUser:this.auth.userProfileSubject$.value.email
+      createdByUser:'vishal b.'
+    };
+    this.callPlaylistServiceForDeletingSongFromPlaylist(SongToDeleteInPlaylist);
+  }
+  
+  callPlaylistServiceForDeletingSongFromPlaylist(SongToDeleteInPlaylist){
+    this._playlistService.removeSongFromPlaylist(SongToDeleteInPlaylist).subscribe(
+      result=>{
+        this.playlistEdited = true;
+      }
+    )
+  }
+  
 }

@@ -34,8 +34,8 @@
                                     <tr  *ngFor="let item of playlist.songsInPlaylist"> 
                                         <th scope="row">{{item.songs.title}}</th>
                                         <td>
-                                            <button type="button" class="btn btn-primary btn-circle" data-toggle="tooltip" data-placement="top" title="Remove Song from Playlist">
-                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                            <button type="button" class="btn btn-primary btn-circle" data-toggle="tooltip" data-placement="top" title="Remove Song from Playlist" (click)="deleteSongFromPlaylist(item.songs._id,playlist._id)">
+                                                    <i class="fa fa-trash" aria-hidden="true" ></i>
                                             </button>
                                         </td>
                                     </tr>
