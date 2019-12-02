@@ -382,11 +382,55 @@ const fetchPlaylistsOfUser = (req,res)=>{
     
 };
 
+const deleteExistingSongFromUserPlaylist = (req,res)=>{
+    console.log(`Executing controller to delete songs from Playlist`);
+    let playlist_id = req.body.playlistID;
+    let song_id = req.body.songsInPlaylist;
+
+    console.log(`Removing ${song_id} from ${playlist_id}`);
+    Playlist.update(
+        {
+             _id: playlist_id 
+        },
+        { 
+            $pull: 
+            { songsInPlaylist: 
+                { 
+                    songs: song_id
+                }
+            } 
+        }
+    )
+    .then(result=>{
+        console.log(result);
+        if(result!==null) {
+            console.log("Id found in the Database");
+            res.status(200).json({
+                "result":result
+            });
+        }
+        else {
+            console.log(`No such id exists in the database. Please enter correct ID`);
+            res.status(200).json({
+                "message":"No such id ${playlist_id} exists in the database. Please enter correct ID"
+            });
+            
+        }
+        
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).json({
+            "message":`Unable to modify playlist_id ${playlist_id}`
+        });
+    });
+    
+};
 module.exports = {
     addNewSong,createNewPlaylist,fetchAllPublicPlaylists,saveUserReviewsForGivenSong,
     fetchAllReviewforParticularSong,
     updatePlaylistAttributes,
     fetchTopTenSongsByGivenFilter,
-    fetchAllSongs,fetchPlaylistsOfUser
+    fetchAllSongs,fetchPlaylistsOfUser,
+    deleteExistingSongFromUserPlaylist
 
 };

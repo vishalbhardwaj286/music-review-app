@@ -3,7 +3,8 @@ const {
     saveUserReviewsForGivenSong,
     fetchAllReviewforParticularSong,
     updatePlaylistAttributes,
-    fetchTopTenSongsByGivenFilter,fetchAllSongs,fetchPlaylistsOfUser
+    fetchTopTenSongsByGivenFilter,fetchAllSongs,fetchPlaylistsOfUser,
+    deleteExistingSongFromUserPlaylist
 
 } = require('./../controllers/musicReviewAppController');
 
@@ -44,7 +45,7 @@ const routes = (app) => {
         return;
         
     })
-
+    
     .post((req,res,next)=>{
         console.log(`Updating Playlist ${req.params.playlistTitle}`);
         //Parsing request body to find the to-update-element.
@@ -95,5 +96,12 @@ const routes = (app) => {
     },(req,res)=>{
         fetchPlaylistsOfUser(req,res);
     });
+
+    app.route('/secure/playlist/songs/:playlistID')
+    
+    .post((req,res) =>{
+        deleteExistingSongFromUserPlaylist(req,res);
+    });
 }
+
 module.exports = routes;
