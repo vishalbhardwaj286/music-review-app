@@ -358,8 +358,10 @@ const fetchAllSongs = (req,res) => {
 
 const fetchPlaylistsOfUser = (req,res)=>{
     console.log(`Executing Controller to fetch user specific playlists`);
-
+    
     Playlist.find({ createdByUser: req.params.userEmail })
+    .lean()
+    .populate('songsInPlaylist.songs')
     .then(result=>{
         console.log(result);
         if(result!==null) {
