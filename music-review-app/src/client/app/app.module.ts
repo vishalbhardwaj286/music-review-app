@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './home/home.component'; 
 import { SongsService } from './songs/songsServices/songs.service';
 import { AboutUsComponent } from './about-us/about-us.component';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,6 @@ import { AboutUsComponent } from './about-us/about-us.component';
     NavbarComponent,
     HomeComponent,
     AboutUsComponent
-    
   ],
   imports: [
   
@@ -31,7 +31,8 @@ BrowserModule,
   MatButtonModule,
   PlaylistsModule, 
   BrowserAnimationsModule,
-  HttpClientModule
+  HttpClientModule,
+  MatExpansionModule
   ],
   providers: [SongsService],
   bootstrap: [AppComponent]
