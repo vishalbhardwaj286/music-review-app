@@ -10,11 +10,13 @@ import {MatInputModule} from '@angular/material';
 import {MatListModule} from '@angular/material/list';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { StarRatingComponent } from 'ng-starrating';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 
 
 @NgModule({
-  declarations: [],
+  declarations: [StarRatingComponent],
   imports: [
     CommonModule,
     MatCheckboxModule,
@@ -27,7 +29,8 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     MatInputModule,
     MatListModule,
     MatExpansionModule,
-    NgxMatSelectSearchModule    
+    NgxMatSelectSearchModule ,
+    Ng2SearchPipeModule   
 
   ],
   exports: [
@@ -41,7 +44,9 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     MatInputModule,
     MatListModule,
     MatExpansionModule,
-    NgxMatSelectSearchModule
+    NgxMatSelectSearchModule,
+    Ng2SearchPipeModule,
+    StarRatingComponent
   ]
 })
 export class CommonUtilsModule { }
