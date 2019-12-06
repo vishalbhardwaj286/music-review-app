@@ -5,12 +5,9 @@
                 <div class="card" style="width: 30rem;">
                     <div class="visible">
                     <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
-                    <p class = "card-img-top">
-                        Average Rating: 
-                        <span >
-                        <i class="fa fa-star checked" aria-hidden="true"></i>
-                        </span>
-                    </p>
+                    
+                        Average User Rating: {{song.ratingAvg}}
+                        <star-rating value={{song.ratingAvg}} checkedcolor="red"></star-rating>
                     <div class="card-body">
                     <h5 class="card-title">{{song.songDetails.title}}</h5>
                     <p class="card-text">Genre: {{song.songDetails.genre}}</p>
@@ -36,6 +33,7 @@
                                     alt="Avatar">
                                 <div class="media-body">
                                     <h5 class="mt-0 font-weight-bold blue-text">{{song_rating.ratedByUser}}</h5>
+                                    <star-rating value={{song_rating.rating}} checkedcolor="red"></star-rating>
                                     {{song_rating.comments}}
                                 
                                     <!-- <div class="media mt-3 shadow-textarea" *ngIf="i%2==0">
