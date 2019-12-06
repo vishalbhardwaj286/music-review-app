@@ -14,6 +14,7 @@ import { HomeComponent } from './home/home.component';
 import { SongsService } from './songs/songsServices/songs.service';
 import { AboutUsComponent } from './about-us/about-us.component';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { CommonUtilsModule } from './common-utils/common-utils.module';
 
 @NgModule({
   declarations: [
@@ -23,8 +24,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
     AboutUsComponent
   ],
   imports: [
-  
-BrowserModule,
+  BrowserModule,
   AppRoutingModule,
   NgbModule,
   SongsModule,
@@ -32,7 +32,11 @@ BrowserModule,
   PlaylistsModule, 
   BrowserAnimationsModule,
   HttpClientModule,
-  MatExpansionModule
+  MatExpansionModule,
+  CommonUtilsModule
+  ],
+  exports:[
+    CommonUtilsModule
   ],
   providers: [SongsService],
   bootstrap: [AppComponent]
