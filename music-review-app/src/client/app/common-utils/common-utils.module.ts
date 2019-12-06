@@ -8,6 +8,9 @@ import {MatSelectModule} from '@angular/material/select';
 import { ReactiveFormsModule,FormsModule  } from '@angular/forms';
 import {MatInputModule} from '@angular/material';
 import {MatListModule} from '@angular/material/list';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+
 
 
 @NgModule({
@@ -22,7 +25,10 @@ import {MatListModule} from '@angular/material/list';
     ReactiveFormsModule,
     FormsModule,
     MatInputModule,
-    MatListModule
+    MatListModule,
+    MatExpansionModule,
+    NgxMatSelectSearchModule    
+
   ],
   exports: [
     MatCheckboxModule,
@@ -33,7 +39,9 @@ import {MatListModule} from '@angular/material/list';
     ReactiveFormsModule,
     FormsModule,
     MatInputModule,
-    MatListModule
+    MatListModule,
+    MatExpansionModule,
+    NgxMatSelectSearchModule
   ]
 })
 export class CommonUtilsModule { }
