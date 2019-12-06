@@ -5,6 +5,7 @@ import { SongsService } from './../../songs/songsServices/songs.service';
 import { Observable } from 'rxjs';
 import { PlaylistModel } from './../playlistModel';
 import { AuthService } from './../../services/auth.service';
+import { SearchMusicWithinPlaylistPipe } from './../../pipe/search-music-within-playlist.pipe';
 
 @Component({
   selector: 'app-create-new-playlist',
@@ -14,6 +15,7 @@ import { AuthService } from './../../services/auth.service';
 })
 export class CreateNewPlaylistComponent implements OnInit {
   createNewPlaylistForm: FormGroup;
+  query:string;
   songs = new FormControl();
   visibilitySelected = new FormControl();
   playlistCreated = false;
@@ -22,7 +24,7 @@ export class CreateNewPlaylistComponent implements OnInit {
   selectedVisibility:string = 'Private';
   songsList: string;
   
-  constructor(public auth: AuthService,private _playlistService:PlaylistService, private _songsService:SongsService) {
+  constructor(public auth: AuthService,private _playlistService:PlaylistService, private _songsService:SongsService, private _pipe:SearchMusicWithinPlaylistPipe) {
 
    }
 
@@ -68,4 +70,10 @@ export class CreateNewPlaylistComponent implements OnInit {
     )
   }
 
+  handleQuery(query:string){
+    console.log(`Checking for input query ${query}`);
+    console.log(`Calling pipe`);
+    this.songsList = this._pipe.transform(this.songsData,query);
   }
+  
+}

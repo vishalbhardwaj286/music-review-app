@@ -16,7 +16,13 @@
 
             <mat-form-field [floatLabel]="createNewPlaylistForm.value.floatLabel" required>
                 <mat-label>Select Songs</mat-label>
-                <mat-select placeholder="Select Songs" [formControl]="songs" multiple [(ngModel)]="selectedSongs">
+                <mat-select placeholder="Select Songs" [formControl]="songs" autocomplete="off" multiple [(ngModel)]="selectedSongs">
+                <!-- <mat-select [formControl]="songsMultiCtrl" placeholder="Add songs" [multiple]="true" #multiSelect> -->
+                <!-- <ngx-mat-select-search [showToggleAllCheckbox]="true" (toggleAll)="toggleSelectAll($event)" [formControl]="bankMultiFilterCtrl"></ngx-mat-select-search> -->
+                <!-- <input  type="text" name="search" [(ngModel)]="searchMusic" autocomplete="off" placeholder = "Start searching for a hero by id or name or country"> -->
+                <input class="form-control" name="query" type="text" placeholder="Search songs"
+                [(ngModel)]="query"
+                (keyup)="handleQuery(query)">
                 <mat-option *ngFor="let song of songsList" [value]="song._id">{{song.title}}</mat-option>
                 </mat-select>
             </mat-form-field>
@@ -33,8 +39,6 @@
     <div class="text-center">
         <button type="submit" class="btn btn-primary">Create New Playlist</button>        
     </div>
-
-    
     
     </form>
     </div>
