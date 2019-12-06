@@ -2,6 +2,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { PlaylistService } from '../playlistsServices/playlist.service';
 import { AuthService } from '../../services/auth.service';
 import { PlaylistModel } from './../playlistModel';
+import {MatDialog, MatDialogConfig} from "@angular/material";
+import { EditPlaylistDialogComponent } from './../edit-playlist-dialog/edit-playlist-dialog.component';
 
 
 @Component({
@@ -12,20 +14,48 @@ import { PlaylistModel } from './../playlistModel';
 export class EditPlaylistComponent implements OnInit {
   playlistsData:PlaylistModel[];
   playlistEdited:boolean;
-  constructor(public auth: AuthService,private _playlistService:PlaylistService) { }
+  constructor(public auth: AuthService,private _playlistService:PlaylistService,private dialog: MatDialog) { }
 
   ngOnInit() {
     this.getAllPlaylists();
   }
   
   getAllPlaylists(){
-    let userEmail = this.auth.userProfileSubject$.value.email;
-
+    // let userEmail = this.auth.userProfileSubject$.value.email;
+    let userEmail = 'vishalbhardwaj630@gmail.com';
     this._playlistService.fetchExistingPlaylist(userEmail).subscribe(
       results=>{
         this.playlistsData = results.playlists;
       }
     )
+  }
+
+  // editPlaylist(playlistID:string){
+  //   console.log(`Editing Playlist`);
+  //   //show popup.
+  // }
+
+  openDialog(playlistID:string,playlistTitle:string,playlistDescription:string,playListVisibilityScope:string) {
+
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.minHeight = "300px";
+    dialogConfig.minWidth = "500px";
+
+
+    dialogConfig.data = {
+      id: playlistID,
+      playlistTitle:playlistTitle,
+      playlistDescription:playlistDescription,
+      playListVisibilityScope:playListVisibilityScope
+  };
+    this.dialog.open(EditPlaylistDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(EditPlaylistDialogComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(
+        data => console.log("Dialog output:", data)
+    );    
   }
 
   deleteSongFromPlaylist(songID:string,playlistID:string){
@@ -36,7 +66,7 @@ export class EditPlaylistComponent implements OnInit {
       playlistID:playlistID,
       songsInPlaylist:songID,
       // createdByUser:this.auth.userProfileSubject$.value.email
-      createdByUser:'vishal b.'
+      createdByUser:'vishalbhardwaj630@gmail.com'
     };
     this.callPlaylistServiceForDeletingSongFromPlaylist(SongToDeleteInPlaylist);
   }
@@ -45,6 +75,7 @@ export class EditPlaylistComponent implements OnInit {
     this._playlistService.removeSongFromPlaylist(SongToDeleteInPlaylist).subscribe(
       result=>{
         this.playlistEdited = true;
+        this.getAllPlaylists();
       }
     )
   }
