@@ -276,16 +276,21 @@ const fetchTopTenSongsByGivenFilter = (req,res) => {
     
     SongsReviewsSchema
     .aggregate([
+        
         {
             $project: {
                 item: 1,
                 reviewedSongID:"$reviewedSongID",
                 ratingsGivenByUser:"$ratingsGivenByUser",
                 numberOfReviews: { $cond: { if: { $isArray: "$ratingsGivenByUser" }, then: { $size: "$ratingsGivenByUser" }, else: "NA"} },
-                
+                ratingAvg: 
+                { 
+                    $avg: "$ratingsGivenByUser.rating"
+                }
             }
             
         },
+        
         {
             $sort: {
                 numberOfReviews : -1
@@ -302,6 +307,14 @@ const fetchTopTenSongsByGivenFilter = (req,res) => {
                 as:"songDetails"
             }
         },
+        // {
+        //     $group: {
+        //         _id: "$reviewedSongID",
+        //         avgNumberOfReviews: {
+        //             $avg:"$rating"
+        //         }
+        //     }
+        // },
         { 
             "$unwind": "$songDetails" 
         },
