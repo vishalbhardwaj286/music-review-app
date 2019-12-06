@@ -15,6 +15,7 @@ import { SongsService } from './songs/songsServices/songs.service';
 import { AboutUsComponent } from './about-us/about-us.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { CommonUtilsModule } from './common-utils/common-utils.module';
+import { PipeModule } from './pipe/pipe.module';
 
 @NgModule({
   declarations: [
@@ -33,10 +34,12 @@ import { CommonUtilsModule } from './common-utils/common-utils.module';
   BrowserAnimationsModule,
   HttpClientModule,
   MatExpansionModule,
-  CommonUtilsModule
+  CommonUtilsModule,
+  PipeModule
   ],
   exports:[
-    CommonUtilsModule
+    CommonUtilsModule,
+    PipeModule
   ],
   providers: [SongsService],
   bootstrap: [AppComponent]
