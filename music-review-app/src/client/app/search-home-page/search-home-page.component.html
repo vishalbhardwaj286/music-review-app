@@ -1,10 +1,10 @@
 <form class="example-form">
     <mat-form-field class="example-full-width">
-        <mat-label>Playlist Title</mat-label>
+        <mat-label>Search Songs here</mat-label>
         <input type="text" [(ngModel)]="playlistTitle" matInput [formControl]="searchControl" [matAutocomplete]="auto">
     </mat-form-field>
         <mat-autocomplete #auto="matAutocomplete" [displayWith] = "displayTitlefunction">
-            <mat-option *ngFor="let result of songsData | async" [value]="result" matTooltip="Info about the action" multiselect>
+            <mat-option *ngFor="let result of songsData | async" [value]="result" matTooltip="Info about the action">
             <mat-label>{{result.title}}</mat-label>
             <button type="button" class="btn btn-primary btn-circle" id="addSongToPlaylist" data-toggle="tooltip" data-placement="top" title="Add this song to Playlist" (click)="openDialog(result._id,result.title)">
                 <i class="fa fa-plus" aria-hidden="true"></i>

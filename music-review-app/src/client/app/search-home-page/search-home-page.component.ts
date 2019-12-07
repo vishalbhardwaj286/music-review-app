@@ -48,7 +48,7 @@ export class SearchHomePageComponent implements OnInit {
             map(
               value => 
               this._filter(value))
-    );
+          );
         }
       )
     }
@@ -57,21 +57,17 @@ export class SearchHomePageComponent implements OnInit {
     }
 
     openDialog(songID:string,songTitle:string) {
-
       const dialogConfig = new MatDialogConfig();
-  
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.minHeight = "300px";
       dialogConfig.minWidth = "500px";
   
-  
       dialogConfig.data = {
-        id: songID,
+        songId: songID,
         songTitle:songTitle
     };
-      this.dialog.open(AddSongToPlaylistDialogComponent, dialogConfig);
-      const dialogRef = this.dialog.open(AddSongToPlaylistDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(AddSongToPlaylistDialogComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
           data => console.log("Dialog output:", data)
       );    
