@@ -1,75 +1,103 @@
-<div class="container">
-    <div class="row">
-        <div *ngFor="let song of topTenSongs">
-            <div class="col-sm-6" >
-                <div class="card" style="width: 30rem;">
-                    <div class="visible">
-                    <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
-                    
-                        Average User Rating: {{song.ratingAvg}}
-                        <star-rating value={{song.ratingAvg}} checkedcolor="red"></star-rating>
-                    <div class="card-body">
-                    <h5 class="card-title">{{song.songDetails.title}}</h5>
-                    <p class="card-text">Genre: {{song.songDetails.genre}}</p>
-                    <p class="card-text">Artist: {{song.songDetails.artist}}</p>
-                    <p class="card-text">Year Released: {{song.songDetails.year}}</p>
-                    
-                    
-                    <mat-accordion>
-                        <mat-expansion-panel>
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>
-                                    View More
-                                </mat-panel-title>
-                                
-                                <mat-panel-description >
-                                    Reviewed By: {{song.numberOfReviews}} Users
-                                </mat-panel-description>
-                                
-                            </mat-expansion-panel-header>
-                            <span *ngFor="let song_rating of song.ratingsGivenByUser;let i=index">
-                            <div class="media">
-                                <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg"
-                                    alt="Avatar">
-                                <div class="media-body">
-                                    <h5 class="mt-0 font-weight-bold blue-text">{{song_rating.ratedByUser}}</h5>
-                                    <star-rating value={{song_rating.rating}} checkedcolor="red"></star-rating>
-                                    {{song_rating.comments}}
-                                
-                                    <!-- <div class="media mt-3 shadow-textarea" *ngIf="i%2==0">
-                                    <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-8.jpg"
-                                        alt="Generic placeholder image">
-                                    <div class="media-body">
-                                        <h5 class="mt-0 font-weight-bold blue-text">{{song_rating[i+1].ratedByUser}}</h5>
-                                        <div class="form-group basic-textarea rounded-corners">
-                                                {{song_rating[i+1].comments}}
-                                        </div>
+<ejs-splitter #horizontal height='100%' width='100%'>
+    <e-panes>
+        <e-pane size='80%'>
+            <ng-template #content>
+                <div class="container">
+                    <div class="row">
+                        <div *ngFor="let song of topTenSongs">
+                            <div class="col-sm-6" >
+                                <div class="card" style="width: 30rem;">
+                                    <div class="visible">
+                                    <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+                                    
+                                        Average User Rating: {{song.ratingAvg}}
+                                        <star-rating value={{song.ratingAvg}} checkedcolor="red"></star-rating>
+                                    <div class="card-body">
+                                    <h5 class="card-title">{{song.songDetails.title}}</h5>
+                                    <p class="card-text">Genre: {{song.songDetails.genre}}</p>
+                                    <p class="card-text">Artist: {{song.songDetails.artist}}</p>
+                                    <p class="card-text">Year Released: {{song.songDetails.year}}</p>
+                                    
+                                    
+                                    <mat-accordion>
+                                        <mat-expansion-panel>
+                                            <mat-expansion-panel-header>
+                                                <mat-panel-title>
+                                                    View More
+                                                </mat-panel-title>
+                                                
+                                                <mat-panel-description >
+                                                    Reviewed By: {{song.numberOfReviews}} Users
+                                                </mat-panel-description>
+                                                
+                                            </mat-expansion-panel-header>
+                                            <span *ngFor="let song_rating of song.ratingsGivenByUser;let i=index">
+                                            <div class="media">
+                                                <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg"
+                                                    alt="Avatar">
+                                                <div class="media-body">
+                                                    <h5 class="mt-0 font-weight-bold blue-text">{{song_rating.ratedByUser}}</h5>
+                                                    <star-rating value={{song_rating.rating}} checkedcolor="red"></star-rating>
+                                                    {{song_rating.comments}}
+                                                
+                                                    <!-- <div class="media mt-3 shadow-textarea" *ngIf="i%2==0">
+                                                    <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-8.jpg"
+                                                        alt="Generic placeholder image">
+                                                    <div class="media-body">
+                                                        <h5 class="mt-0 font-weight-bold blue-text">{{song_rating[i+1].ratedByUser}}</h5>
+                                                        <div class="form-group basic-textarea rounded-corners">
+                                                                {{song_rating[i+1].comments}}
+                                                        </div>
+                                                    </div>
+                                                    </div> -->
+                                                </div>
+                                            </div>
+                
+                                            <!-- <div class="media" *ngIf="isOdd/3==0">
+                                                <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-10.jpg"
+                                                    alt="Avatar">
+                                                <div class="media-body">
+                                                    <h5 class="mt-0 font-weight-bold blue-text">Caroline Horwitz</h5>
+                                                    Hi
+                                                </div>
+                                            </div> -->
+                                        </span>
+                                        <!-- <div class="media">
+                                        <div class="media mt-3 shadow-textarea">
+                                                <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-3.jpg"
+                                                    alt="Generic placeholder image">
+                                                <div class="media-body">
+                                                    <h5 class="mt-0 font-weight-bold blue-text">New User</h5>
+                                                    <div class="form-group basic-textarea rounded-corners">
+                                                        
+                                                    </div>
+                                                </div>
+                                                </div>     
+                                            </div> -->
+                                        </mat-expansion-panel>
+                                    </mat-accordion>
+                
+                
+                
                                     </div>
-                                    </div> -->
+                                    </div>
                                 </div>
+                
                             </div>
-
-                            <!-- <div class="media" *ngIf="isOdd/3==0">
-                                <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-10.jpg"
-                                    alt="Avatar">
-                                <div class="media-body">
-                                    <h5 class="mt-0 font-weight-bold blue-text">Caroline Horwitz</h5>
-                                    Hi
-                                </div>
-                            </div> -->
-                        </span>
-                                  
-                        </mat-expansion-panel>
-                    </mat-accordion>
-
-
-
+                        </div>
                     </div>
-                    </div>
-                </div>
+                </div>         
+             </ng-template>
+         </e-pane>
+      
+      <e-pane size='20%'>
+            <ng-template #content>
+                    <app-search-home-page></app-search-home-page>
+            </ng-template>
+           
+      </e-pane>
+     </e-panes>
+</ejs-splitter>
 
-            </div>
-        </div>
-    </div>
-</div>
+
 
