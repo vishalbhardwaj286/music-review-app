@@ -16,13 +16,15 @@ import { AboutUsComponent } from './about-us/about-us.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { CommonUtilsModule } from './common-utils/common-utils.module';
 import { PipeModule } from './pipe/pipe.module';
+import { SearchHomePageComponent } from './search-home-page/search-home-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     HomeComponent,
-    AboutUsComponent
+    AboutUsComponent,
+    SearchHomePageComponent
   ],
   imports: [
   BrowserModule,
