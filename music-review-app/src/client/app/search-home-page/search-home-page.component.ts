@@ -4,7 +4,8 @@ import { SongsService } from './../songs/songsServices/songs.service';
 import { Observable } from 'rxjs';
 import { SearchMusicWithinHomePipe } from '../pipe/search-music-within-home.pipe';
 import {map, startWith} from 'rxjs/operators';
-
+import {MatDialog, MatDialogConfig} from "@angular/material";
+import { AddSongToPlaylistDialogComponent } from './add-song-to-playlist-dialog/add-song-to-playlist-dialog.component';
 
 @Component({
   selector: 'app-search-home-page',
@@ -18,10 +19,8 @@ export class SearchHomePageComponent implements OnInit {
   songsData:Observable<string[]>;
   songsList:string[];
   playlistTitle:string
-  // results: any[] = [];
-  // queryField: FormControl = new FormControl();
 
-  constructor(private _songsService : SongsService,private _pipe:SearchMusicWithinHomePipe) { 
+  constructor(private _songsService : SongsService,private _pipe:SearchMusicWithinHomePipe,private dialog: MatDialog) { 
     
   }
 
@@ -50,19 +49,31 @@ export class SearchHomePageComponent implements OnInit {
               value => 
               this._filter(value))
     );
-          // this.songsList = this._pipe.transform(this.songsData,query);
         }
       )
     }
-
-    // handleQuery(queryField:FormControl) {
-    //   console.log(`Got quiery Field as ${queryField.value}`);
-    //   this.fetchAllSongs(this.queryField.value);
-      
-    // }
-
     displayTitlefunction(song){
       return song?song.title:undefined;
     }
 
+    openDialog(songID:string,songTitle:string) {
+
+      const dialogConfig = new MatDialogConfig();
+  
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.minHeight = "300px";
+      dialogConfig.minWidth = "500px";
+  
+  
+      dialogConfig.data = {
+        id: songID,
+        songTitle:songTitle
+    };
+      this.dialog.open(AddSongToPlaylistDialogComponent, dialogConfig);
+      const dialogRef = this.dialog.open(AddSongToPlaylistDialogComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(
+          data => console.log("Dialog output:", data)
+      );    
+    }
 }
