@@ -1,6 +1,8 @@
 const Songs = require('./../models/SongsSchema');
+
 const Playlist = require('./../models/PlaylistSchema');
 const SongsReviewsSchema = require('../models/SongReviewSchema');
+
 
 const addNewSong = (req,res) => {
 
@@ -339,16 +341,41 @@ const fetchTopTenSongsByGivenFilter = (req,res) => {
     .catch(error=>{
         console.log(`Got error ${error} while Fetching reviews for song ${req.params.songID}`);
         res.status(500).send({"message":`Technical Error Occured! Please contact the system administrator !`});
-    })
+    });
 
     
 };
 
-const fetchAllSongs = (req,res) => {
+const fetchAllSongs = (req,res,query) => {
     
-    console.log(`Fetching all songs`);
+    if(query !== undefined) {
+        console.log(`We have filter to be applied`);
+        const regex = new RegExp(escapeRegex(query), 'gi');
+        console.log(`Fetching all songs`);
+        Songs.find({title:regex,artist:regex,genre:regex})
+            .then(result=>{
+                console.log(result);
+                if(result!==null) {
+                    console.log("All songs fetched successfully");
+                    res.status(200).json({'songs':result});
+                }
+                else {
+                    console.log(`Need to update the song with id ${song_id}`);
+                    res.status(200).json({'message':'No songs found in the database'});
+                }
+                
+            }).catch(err=>{
+                console.log(err);
+                res.status(500).json({
+                    "message":`Unable to fetch songs`
+                });
+            });
+        
+    }
     
-    Songs.find()
+    else{
+        console.log('Fetching all songs without any filter');
+        Songs.find()
     .then(result=>{
         console.log(result);
         if(result!==null) {
@@ -366,6 +393,8 @@ const fetchAllSongs = (req,res) => {
             "message":`Unable to fetch songs`
         });
     });
+    
+    }
     
 };
 
@@ -438,6 +467,11 @@ const deleteExistingSongFromUserPlaylist = (req,res)=>{
     });
     
 };
+
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
+
 module.exports = {
     addNewSong,createNewPlaylist,fetchAllPublicPlaylists,saveUserReviewsForGivenSong,
     fetchAllReviewforParticularSong,
