@@ -43,16 +43,13 @@ export class EditPlaylistComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.minHeight = "300px";
     dialogConfig.minWidth = "500px";
-
-
     dialogConfig.data = {
       id: playlistID,
       playlistTitle:playlistTitle,
       playlistDescription:playlistDescription,
       playListVisibilityScope:playListVisibilityScope
   };
-    this.dialog.open(EditPlaylistDialogComponent, dialogConfig);
-    const dialogRef = this.dialog.open(EditPlaylistDialogComponent, dialogConfig);
+  const dialogRef = this.dialog.open(EditPlaylistDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(
         data => console.log("Dialog output:", data)
     );    
