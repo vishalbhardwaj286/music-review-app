@@ -7,3 +7,11 @@
 .example-full-width {
   width: 100%;
 }
+#addSongToPlaylist{
+  margin-top: 1px;
+  margin-right: 2px;
+  position:absolute;
+  top:0;
+  right:0;
+  
+}
