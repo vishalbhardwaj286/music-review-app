@@ -14,6 +14,8 @@ import { StarRatingComponent } from 'ng-starrating';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { SplitterModule } from '@syncfusion/ej2-angular-layouts';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatTableModule} from '@angular/material/table';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 
@@ -34,7 +36,9 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     NgxMatSelectSearchModule ,
     Ng2SearchPipeModule,
     SplitterModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatTableModule,
+    MatDialogModule
 
   ],
   exports: [
@@ -52,7 +56,9 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     Ng2SearchPipeModule,
     StarRatingComponent,
     SplitterModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatTableModule,
+    MatDialogModule
   ]
 })
 export class CommonUtilsModule { }
