@@ -17,6 +17,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import { CommonUtilsModule } from './common-utils/common-utils.module';
 import { PipeModule } from './pipe/pipe.module';
 import { SearchHomePageComponent } from './search-home-page/search-home-page.component';
+import { AddSongToPlaylistDialogComponent } from './search-home-page/add-song-to-playlist-dialog/add-song-to-playlist-dialog.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { SearchHomePageComponent } from './search-home-page/search-home-page.com
     NavbarComponent,
     HomeComponent,
     AboutUsComponent,
-    SearchHomePageComponent
+    SearchHomePageComponent,
+    AddSongToPlaylistDialogComponent
   ],
   imports: [
   BrowserModule,
@@ -43,6 +45,7 @@ import { SearchHomePageComponent } from './search-home-page/search-home-page.com
     CommonUtilsModule,
     PipeModule
   ],
+  entryComponents:[AddSongToPlaylistDialogComponent],
   providers: [SongsService],
   bootstrap: [AppComponent]
 })
