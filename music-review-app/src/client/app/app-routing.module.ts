@@ -10,11 +10,11 @@ import { AboutUsComponent } from './about-us/about-us.component';
 import { EditPlaylistComponent } from './playlists/edit-playlist/edit-playlist.component';
 
 const routes: Routes = [
-  // {
-  //   path: '',
-  //   redirectTo: 'home',
-  //   pathMatch: 'full'
-  // },
+  {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full'
+  },
   {
     path: 'home',
     component: HomeComponent
