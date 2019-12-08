@@ -16,6 +16,8 @@ import { SplitterModule } from '@syncfusion/ej2-angular-layouts';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatTableModule} from '@angular/material/table';
 import {MatDialogModule} from '@angular/material/dialog';
+import {TextFieldModule} from '@angular/cdk/text-field';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -38,7 +40,9 @@ import {MatDialogModule} from '@angular/material/dialog';
     SplitterModule,
     MatAutocompleteModule,
     MatTableModule,
-    MatDialogModule
+    MatDialogModule,
+    TextFieldModule,
+    NgbModule
 
   ],
   exports: [
@@ -58,7 +62,9 @@ import {MatDialogModule} from '@angular/material/dialog';
     SplitterModule,
     MatAutocompleteModule,
     MatTableModule,
-    MatDialogModule
+    MatDialogModule,
+    TextFieldModule,
+    NgbModule
   ]
 })
 export class CommonUtilsModule { }
