@@ -39,41 +39,23 @@
                                                     <h5 class="mt-0 font-weight-bold blue-text">{{song_rating.ratedByUser}}</h5>
                                                     <star-rating value={{song_rating.rating}} checkedcolor="red"></star-rating>
                                                     {{song_rating.comments}}
-                                                
-                                                    <!-- <div class="media mt-3 shadow-textarea" *ngIf="i%2==0">
-                                                    <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-8.jpg"
-                                                        alt="Generic placeholder image">
-                                                    <div class="media-body">
-                                                        <h5 class="mt-0 font-weight-bold blue-text">{{song_rating[i+1].ratedByUser}}</h5>
-                                                        <div class="form-group basic-textarea rounded-corners">
-                                                                {{song_rating[i+1].comments}}
-                                                        </div>
-                                                    </div>
-                                                    </div> -->
+                                       
                                                 </div>
                                             </div>
                 
-                                            <!-- <div class="media" *ngIf="isOdd/3==0">
-                                                <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-10.jpg"
-                                                    alt="Avatar">
-                                                <div class="media-body">
-                                                    <h5 class="mt-0 font-weight-bold blue-text">Caroline Horwitz</h5>
-                                                    Hi
-                                                </div>
-                                            </div> -->
+                                       
                                         </span>
-                                        <!-- <div class="media">
-                                        <div class="media mt-3 shadow-textarea">
-                                                <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-3.jpg"
+                                       
+                                            <!-- <div class="input-group" *ngIf="auth.loggedIn"> -->
+                                                <div class="input-group">
+                                                <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-8.jpg"
                                                     alt="Generic placeholder image">
-                                                <div class="media-body">
-                                                    <h5 class="mt-0 font-weight-bold blue-text">New User</h5>
-                                                    <div class="form-group basic-textarea rounded-corners">
-                                                        
-                                                    </div>
+                                                    <textarea class="form-control custom-control" [(ngModel)]="comments" name="comments" placeholder="Write your comments here" 
+                                                    rows="3" style="resize:none"></textarea>     
+                                                    <span class="input-group-addon btn btn-primary" (click)=openDialog(song.songDetails._id)>Send</span>
+                                                    
                                                 </div>
-                                                </div>     
-                                            </div> -->
+                                            
                                         </mat-expansion-panel>
                                     </mat-accordion>
                 
