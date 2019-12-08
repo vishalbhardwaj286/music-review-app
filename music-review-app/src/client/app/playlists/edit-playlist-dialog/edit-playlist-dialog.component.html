@@ -7,7 +7,7 @@
 <mat-dialog-content >
   
     <mat-form-field style="width:400px;" [floatLabel]="editPlaylistForm.value.floatLabel">
-        <mat-select placeholder="What would you like to edit" [formControl]="optionSelected" [(ngModel)]="selectedOptionToEdit" style="width:400px;" required>
+        <mat-select placeholder="What would you like to edit" [formControl]="optionSelectedControl" [(ngModel)]="selectedOptionToEdit" style="width:400px;" required>
             <mat-option value="default" >---Select---</mat-option>
             <mat-option value="playlistTitle">Playlist Title</mat-option>
             <mat-option value="playlistDescription">Playlist Description</mat-option>
@@ -21,17 +21,21 @@
 
     <mat-form-field *ngIf="selectedOptionToEdit=='playlistTitle'" [floatLabel]="editPlaylistForm.value.floatLabel">
         <mat-label>New Playlist Title</mat-label>
-        <input [(ngModel)]="newPlaylistTitle" matInput name = "newPlaylistTitle" placeholder="Please provide new playlist title" required> 
+        <input [(ngModel)]="newPlaylistTitle" [formControl] = "newPlaylistTitleController" matInput name = "newPlaylistTitle" placeholder="Please provide new playlist title" required> 
     </mat-form-field>
 
     <mat-form-field *ngIf="selectedOptionToEdit=='playlistDescription'" [floatLabel]="editPlaylistForm.value.floatLabel">
         <mat-label>New Playlist Description</mat-label>
-        <input [(ngModel)]="newPlaylistDescription" matInput name = "newPlaylistDescription" placeholder="Please provide new description about playlist" required> 
+        <input [(ngModel)]="newPlaylistDescription" [formControl] = "newPlaylistDescriptionController" matInput name = "newPlaylistDescription" placeholder="Please provide new description about playlist" required> 
     </mat-form-field>
 
-    <mat-form-field *ngIf="selectedOptionToEdit=='playlistVisibilityScope'" [floatLabel]="editPlaylistForm.value.floatLabel">
+    <mat-form-field *ngIf="selectedOptionToEdit=='playlistVisibilityScope'"  [floatLabel]="editPlaylistForm.value.floatLabel">
         <mat-label>New Playlist Scope</mat-label>
-        <input [(ngModel)]="newPlaylistVisibilityScope" matInput name = "newPlaylistVisibilityScope" placeholder="Please choose new visibility scope for playlist" required> 
+        <mat-select [formControl] = "newPlaylistVisibilityScopeController" matInput name="newPlaylistVisibilityScope">
+        <mat-option value="Public">Public</mat-option>
+        <mat-option value="Private">Private</mat-option>
+        </mat-select>
+    
     </mat-form-field>
 
 

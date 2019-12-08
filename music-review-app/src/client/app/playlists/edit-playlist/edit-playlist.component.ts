@@ -42,7 +42,7 @@ export class EditPlaylistComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.minHeight = "300px";
-    dialogConfig.minWidth = "500px";
+    dialogConfig.minWidth = "650px";
     dialogConfig.data = {
       id: playlistID,
       playlistTitle:playlistTitle,

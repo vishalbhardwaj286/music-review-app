@@ -50,5 +50,14 @@ export class PlaylistService {
     };
     return this.http.get<any>(fetchExistingPlaylistURI,options);
   };
-
+  
+  updateExistingPlaylist(updatedPlaylist:Object,playlistID:string):Observable<any>{
+    console.log(`Executing service for fetching existing playlists of user`);
+    let httpHeaders = new HttpHeaders().set('Content-Type','application/Json');
+    let fetchExistingPlaylistURI = `/secure/playlist/${playlistID}`;
+    let options = {
+      headers:httpHeaders
+    };
+    return this.http.post<any>(fetchExistingPlaylistURI,updatedPlaylist,options);
+  };
 }
