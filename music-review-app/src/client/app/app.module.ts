@@ -18,6 +18,9 @@ import { CommonUtilsModule } from './common-utils/common-utils.module';
 import { PipeModule } from './pipe/pipe.module';
 import { SearchHomePageComponent } from './search-home-page/search-home-page.component';
 import { AddSongToPlaylistDialogComponent } from './search-home-page/add-song-to-playlist-dialog/add-song-to-playlist-dialog.component';
+import { RatingsModule } from './ratings/ratings.module';
+import { RatingDialogComponent } from './ratings/rating-dialog/rating-dialog.component';
+
 
 @NgModule({
   declarations: [
@@ -29,7 +32,8 @@ import { AddSongToPlaylistDialogComponent } from './search-home-page/add-song-to
     AddSongToPlaylistDialogComponent
   ],
   imports: [
-  BrowserModule,
+
+BrowserModule,
   AppRoutingModule,
   NgbModule,
   SongsModule,
@@ -39,13 +43,14 @@ import { AddSongToPlaylistDialogComponent } from './search-home-page/add-song-to
   HttpClientModule,
   MatExpansionModule,
   CommonUtilsModule,
-  PipeModule
+  PipeModule,
+  RatingsModule
   ],
   exports:[
     CommonUtilsModule,
     PipeModule
   ],
-  entryComponents:[AddSongToPlaylistDialogComponent],
+  entryComponents:[AddSongToPlaylistDialogComponent,RatingDialogComponent],
   providers: [SongsService],
   bootstrap: [AppComponent]
 })
