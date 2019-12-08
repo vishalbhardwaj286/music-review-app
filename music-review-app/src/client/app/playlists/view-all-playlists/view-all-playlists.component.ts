@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { PlaylistService } from './../playlistsServices/playlist.service';
+import { PlaylistModel } from '../playlistModel';
 
 @Component({
   selector: 'app-view-all-playlists',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ViewAllPlaylistsComponent implements OnInit {
 
-  constructor() { }
+  allPlaylists:PlaylistModel[];
+
+  constructor(private _playlistService:PlaylistService) { }
 
   ngOnInit() {
+    this.callServiceForFetchingAllPublicPlaylists();
   }
 
+  callServiceForFetchingAllPublicPlaylists(){
+    this._playlistService.fetchAllPublicPlaylist().subscribe(allPlaylists=>{
+      this.allPlaylists = allPlaylists.playlists;
+    });
+  }
 }
