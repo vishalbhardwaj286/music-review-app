@@ -41,4 +41,14 @@ export class PlaylistService {
     return this.http.post<PlaylistModel>(fetchExistingPlaylistURI,SongToDeleteInPlaylist,options);
   };
 
+  fetchAllPublicPlaylist():Observable<any>{
+    console.log(`Executing service for fetching existing playlists of user`);
+    let httpHeaders = new HttpHeaders().set('Content-Type','application/Json');
+    let fetchExistingPlaylistURI = `/public/fetchAllPublicPlaylists`;
+    let options = {
+      headers:httpHeaders
+    };
+    return this.http.get<any>(fetchExistingPlaylistURI,options);
+  };
+
 }
