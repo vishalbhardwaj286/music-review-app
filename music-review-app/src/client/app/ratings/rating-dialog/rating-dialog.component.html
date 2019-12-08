@@ -1,0 +1,15 @@
+<h2 mat-dialog-title> Please Rate this song</h2>
+
+<form #rateSongForm ="ngForm" (ngSubmit)="onFormSubmit(rateSongForm.value)">
+
+    <mat-dialog-content >
+        <ngb-rating [formControl]="ratingControl"></ngb-rating>  
+    </mat-dialog-content>
+
+</form>
+    <mat-dialog-actions>
+        <button class="mat-raised-button"(click)="close()">Close</button>
+        <button *ngIf="ratingControl.valid" class="mat-raised-button mat-primary"(click)="save()">Save</button>
+    </mat-dialog-actions>
+
+
