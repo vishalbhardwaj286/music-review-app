@@ -21,7 +21,6 @@
             </li>
             <li class="nav-item">
                 <button type="button" class="btn btn-danger SignIn" (click)="auth.logout()" *ngIf="auth.loggedIn" >Log Out</button>
-
             </li>
             <li class="nav-item">
                 <a class="nav-link" routerLink="addNewSong" *ngIf="auth.loggedIn">Upload New Song</a> 
@@ -37,6 +36,9 @@
               <a class="nav-link" routerLink="editPlaylist">Edit existing playlist</a> 
             </li>
             
+            <li class="nav-item">
+              <a class="nav-link" routerLink="viewAllPlaylists">View all playlist</a> 
+            </li>
 
           </ul>
         </div>

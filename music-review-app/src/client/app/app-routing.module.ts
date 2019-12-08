@@ -8,6 +8,7 @@ import { AuthGuard } from './auth.guard';
 import {HomeComponent} from '../app/home/home.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { EditPlaylistComponent } from './playlists/edit-playlist/edit-playlist.component';
+import { ViewAllPlaylistsComponent } from './playlists/view-all-playlists/view-all-playlists.component';
 
 const routes: Routes = [
   {
@@ -35,13 +36,16 @@ const routes: Routes = [
   {
     path:'editPlaylist',
     component:EditPlaylistComponent
+  },
+  {
+    path:'viewAllPlaylists',
+    component:ViewAllPlaylistsComponent
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  
-exports: [RouterModule],
+  exports: [RouterModule],
   providers:[
     {
       provide: HTTP_INTERCEPTORS,
