@@ -54,7 +54,7 @@ const routes = (app) => {
         updatePlaylistAttributes(req,res);
     });
 
-    app.route('/secure/fetchAllPublicPlaylists')
+    app.route('/public/fetchAllPublicPlaylists')
     .get((req,res,next)=>{
         console.log(`Fetching all public playlists`);
         next();
