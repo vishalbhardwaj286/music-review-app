@@ -59,11 +59,10 @@ const createNewPlaylist = (req,res) => {
         playlistTitle: req.body.playlistTitle,
         playlistDescription:req.body.playlistDescription,
         songsInPlaylist:req.body.songsInPlaylist,
-        createdByUser:req.body.createdByUser,
-
+        createdByUser:req.body.createdByUser
     });
     
-    Playlist.findOne({"playlistTitle":req.params.playlistTitle})
+    Playlist.findOne({"playlistTitle":req.body.playlistTitle})
     .then(result=>{
         console.log(result);
         if(result==null) {
@@ -79,21 +78,7 @@ const createNewPlaylist = (req,res) => {
         else {
             let playlist_id = result._id;
             console.log(`Need to update the song with id ${playlist_id}`);
-            Songs.updateOne(
-                {_id: playlist_id}, 
-                {$set: {
-                    playlistTitle: req.body.playlistTitle,
-                    playlistDescription:req.body.playlistDescription,
-                    genre:req.body.genre,
-                    year:req.body.year,
-                    reviews:req.body.reviews}
-                })
-            .then(result=>{
-                res.status(200).json({'message':'Playlist attributes updated','playlist':result});
-            })
-            .catch(error=>{
-                res.status(500).json({"message":`Encountered error while updating ${playlist_id}`});
-            })
+            res.status(200).json({'message':'Playlist with same name already exists. Please choose another name'});
             
         }
         
@@ -235,11 +220,12 @@ const fetchAllReviewforParticularSong = (req,res) => {
 };
 
 const updatePlaylistAttributes = (req,res)=>{
-    let playlistTitle = req.params.playlistTitle;
+    console.log(`Executing updatePlaylistAttributes`)
+    let playlistID = req.params.playlistID;
     let userRequestingUpdate = req.body.userEmail;
 
-    console.log(`Updating Playlist attributes of playlist ${playlistTitle}`);
-    Playlist.findOneAndUpdate({ "playlistTitle" : playlistTitle },
+    console.log(`Updating Playlist attributes of playlist ${playlistID}`);
+    Playlist.findOneAndUpdate({ "_id" : playlistID },
     req.body)
     .then(results=>{
         if(results != null) {

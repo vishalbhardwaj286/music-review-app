@@ -28,27 +28,24 @@ const routes = (app) => {
         
     });
 
-    app.route('/secure/playlist/:playlistTitle')
+    app.route('/secure/playlist/:playlistID')
     
     .put((req,res,next)=> {
         //middlerware
-        console.log(`Request parameter got in the PUT request is ${req.params.playlistTitle}`);
+        console.log(`Request parameter got in the PUT request is ${req.params.playlistID}`);
         //console.log(req);
         console.log(`Request from :${req.originalUrl}`);
         console.log(`Request type :${req.method}`);
-        createNewPlaylist(req,res);        
         next();
     },(req,res) => {
         let val= null;
         console.log('Saving the items');
-        // addNewItem(req,res);
-        return;
-        
+        createNewPlaylist(req,res);        
     })
     
     .post((req,res,next)=>{
-        console.log(`Updating Playlist ${req.params.playlistTitle}`);
-        //Parsing request body to find the to-update-element.
+        console.log(`Updating Playlist ${req.params.playlistID}`);
+        
         next();
     },(req,res) =>{
         updatePlaylistAttributes(req,res);
