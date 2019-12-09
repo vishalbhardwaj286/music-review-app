@@ -12,6 +12,10 @@
                                     
                                         Average User Rating: {{song.ratingAvg}}
                                         <star-rating value={{song.ratingAvg}} checkedcolor="red"></star-rating>
+                                    <!-- A button to add the song to the playlist -->
+                                    <button type="button" id="buttonToAddToPlaylist" class="btn btn-primary btn-circle" data-toggle="tooltip" data-placement="top" title="Add Song to playlist here" (click)="addSongToPlaylistDialog(song.songDetails._id)">
+                                        <i class="fa fa-plus" aria-hidden="true" ></i>
+                                    </button>
                                     <div class="card-body">
                                     <h5 class="card-title">{{song.songDetails.title}}</h5>
                                     <p class="card-text">Genre: {{song.songDetails.genre}}</p>

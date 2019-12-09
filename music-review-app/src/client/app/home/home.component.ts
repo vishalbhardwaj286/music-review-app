@@ -52,4 +52,7 @@ export class HomeComponent implements OnInit {
     );    
   }
 
+  addSongToPlaylistDialog(songID:string) {
+    console.log(`songID to be added is ${songID}`);
+  }
 }
