@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { SongsService } from './../songs/songsServices/songs.service';
 import { Observable } from 'rxjs';
-import { SearchMusicWithinHomePipe } from '../pipe/search-music-within-home.pipe';
+
 import {map, startWith} from 'rxjs/operators';
 import {MatDialog, MatDialogConfig} from "@angular/material";
 import { AddSongToPlaylistDialogComponent } from './add-song-to-playlist-dialog/add-song-to-playlist-dialog.component';
@@ -20,7 +20,7 @@ export class SearchHomePageComponent implements OnInit {
   songsList:string[];
   playlistTitle:string
 
-  constructor(private _songsService : SongsService,private _pipe:SearchMusicWithinHomePipe,private dialog: MatDialog) { 
+  constructor(private _songsService : SongsService,private dialog: MatDialog) { 
     
   }
 

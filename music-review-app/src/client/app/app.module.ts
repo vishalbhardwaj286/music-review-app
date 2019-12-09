@@ -22,6 +22,7 @@ import { RatingsModule } from './ratings/ratings.module';
 import { RatingDialogComponent } from './ratings/rating-dialog/rating-dialog.component';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
