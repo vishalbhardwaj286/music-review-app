@@ -45,9 +45,11 @@ export class AddSongToPlaylistDialogComponent implements OnInit {
   }
 
   save() {
-    console.log('Save Caled');
+    console.log('Save Called');
     // this._playlistService.
   }
 
-
+  createNewPlaylist(){
+    console.log(`Calling service to create a new playlist`);
+  }
 }

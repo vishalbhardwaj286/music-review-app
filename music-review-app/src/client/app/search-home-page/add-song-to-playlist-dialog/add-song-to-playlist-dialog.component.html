@@ -1,11 +1,14 @@
-<h2 mat-dialog-title>Update your playlist</h2>
+<h2 mat-dialog-title>Add Song to Playlist</h2>
 
 <form #addNewSongToPlaylistForm ="ngForm" (ngSubmit)="onFormSubmit(addNewSongToPlaylistForm.value)">
 
         <div class="example-container container">
             <div class="example-container">
 <mat-dialog-content >
-  
+   
+    <button type="button" id="buttonToCreateNewPlaylist" class="btn btn-primary btn-circle" data-toggle="tooltip" data-placement="top" title="Create New Playlist here" (click)="createNewPlaylist()">
+        <i class="fa fa-plus" aria-hidden="true" ></i>
+    </button>
     <mat-form-field style="width:400px;" [floatLabel]="addNewSongToPlaylistForm.value.floatLabel">
         <mat-select placeholder="Please Choose Playlist to update" [formControl]="optionSelectedControl" name="selectedPlaylistToUpdate" [(ngModel)]="selectedPlaylistToUpdate" style="width:400px;" required>
             <mat-option value="default" >---Select---</mat-option>

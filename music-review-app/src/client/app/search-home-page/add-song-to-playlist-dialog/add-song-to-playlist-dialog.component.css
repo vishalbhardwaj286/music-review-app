@@ -1,0 +1,10 @@
+.example-container {
+    position:relative;
+}
+#buttonToCreateNewPlaylist {
+    margin-top: 1px;
+    margin-right: 2px;
+    position: absolute;
+    top: -74px;
+    right: -32px;
+}
