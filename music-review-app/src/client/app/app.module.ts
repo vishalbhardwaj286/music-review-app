@@ -20,7 +20,7 @@ import { SearchHomePageComponent } from './search-home-page/search-home-page.com
 import { AddSongToPlaylistDialogComponent } from './search-home-page/add-song-to-playlist-dialog/add-song-to-playlist-dialog.component';
 import { RatingsModule } from './ratings/ratings.module';
 import { RatingDialogComponent } from './ratings/rating-dialog/rating-dialog.component';
-
+import { PlaylistDialogComponentFromHomePageComponent } from './playlists/playlist-dialog-component-from-home-page/playlist-dialog-component-from-home-page.component';
 
 
 @NgModule({
@@ -33,6 +33,7 @@ import { RatingDialogComponent } from './ratings/rating-dialog/rating-dialog.com
     AddSongToPlaylistDialogComponent
   ],
   imports: [
+
 
 BrowserModule,
   AppRoutingModule,
@@ -51,7 +52,7 @@ BrowserModule,
     CommonUtilsModule,
     PipeModule
   ],
-  entryComponents:[AddSongToPlaylistDialogComponent,RatingDialogComponent],
+  entryComponents:[AddSongToPlaylistDialogComponent,RatingDialogComponent,PlaylistDialogComponentFromHomePageComponent],
   providers: [SongsService],
   bootstrap: [AppComponent]
 })

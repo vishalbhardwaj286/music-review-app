@@ -1,0 +1,21 @@
+<h2 mat-dialog-title> Please choose playlist</h2>
+
+<form #choosePlaylistForm ="ngForm" (ngSubmit)="onFormSubmit(choosePlaylistForm.value)">
+
+    <mat-form-field [floatLabel]="choosePlaylistForm.value.floatLabel" style="width:400px;">
+        <mat-label>Select Playlist to add song</mat-label>
+        <mat-select [formControl] = "addNewSongToPlaylistController" [(ngModel)]="playlistSelectedToAddSong" matInput name="playlistSelectedToAddSong"
+         autocomplete="off">
+        <mat-option *ngFor="let playlist of allPlaylists" value={{playlist._id}}>{{playlist.playlistTitle}}</mat-option>
+
+        </mat-select>
+    
+    </mat-form-field>
+
+</form>
+    <mat-dialog-actions>
+        <button class="mat-raised-button"(click)="close()">Close</button>
+        <button *ngIf="addNewSongToPlaylistController.valid" class="mat-raised-button mat-primary"(click)="save()">Save</button>
+    </mat-dialog-actions>
+
+
