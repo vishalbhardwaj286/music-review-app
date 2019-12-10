@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { SongsService } from './../songs/songsServices/songs.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
-import {map, startWith} from 'rxjs/operators';
 import {MatDialog, MatDialogConfig} from "@angular/material";
 import { AddSongToPlaylistDialogComponent } from './add-song-to-playlist-dialog/add-song-to-playlist-dialog.component';
 
@@ -15,43 +15,27 @@ import { AddSongToPlaylistDialogComponent } from './add-song-to-playlist-dialog/
 })
 export class SearchHomePageComponent implements OnInit {
   searchControl = new FormControl();
-  
+  searchTerm$ = new Subject<string>();
+
   songsData:Observable<string[]>;
   songsList:string[];
   playlistTitle:string
 
   constructor(private _songsService : SongsService,private dialog: MatDialog) { 
-    
+  
   }
 
+  readonly filteredSongs$ = this.searchTerm$.pipe(
+    debounceTime(250),
+    distinctUntilChanged(),
+    switchMap(songTitle => this._songsService.fetchAllSongs(songTitle))
+  );
+
   ngOnInit() {
-    this.fetchAllSongs(this.playlistTitle);
-    }
+    console.log('Initialising component');
   
-    private _filter(value: string): string[] {
-      const filterValue = value.toLowerCase();
-      return this.songsList.filter(
-        option => option['title'].toLowerCase().includes(filterValue) ||
-        option['genre'].toLowerCase().includes(filterValue) ||
-        option['artist'].toLowerCase().includes(filterValue) 
-        );
     }
     
-    fetchAllSongs(query:string) {
-      this._songsService.fetchAllSongs(query).subscribe(
-        songs=>{
-          this.songsList = songs.songs;
-          console.log(`Songs Data is ${this.songsData}`);
-          this.songsData = this.searchControl.valueChanges
-          .pipe(
-            startWith(''),
-            map(
-              value => 
-              this._filter(value))
-          );
-        }
-      )
-    }
     displayTitlefunction(song){
       return song?song.title:undefined;
     }
@@ -72,4 +56,9 @@ export class SearchHomePageComponent implements OnInit {
           data => console.log("Dialog output:", data)
       );    
     }
+
+    
+  searchSongs(songTitle: string) {
+    this.searchTerm$.next(songTitle);
+  }
 }
