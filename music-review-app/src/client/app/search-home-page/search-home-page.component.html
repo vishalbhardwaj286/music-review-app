@@ -3,8 +3,8 @@
         <mat-label>Search Songs here</mat-label>
         <input (input)="searchSongs($event.target.value)" type="text" [(ngModel)]="playlistTitle" matInput [formControl]="searchControl">
     </mat-form-field>
-    <ng-container *ngIf="(filteredSongs$ | async) as songs">
-    <mat-option *ngFor="let result of songs.songs" [value]="result" matTooltip="Did you mean this">
+    <ng-container *ngIf="filteredSongs">
+    <mat-option *ngFor="let result of filteredSongs" [value]="result._id" matTooltip="Did you mean this">
         <mat-label>{{result.title}}</mat-label>
         <button type="button" class="btn btn-primary btn-circle" id="addSongToPlaylist" data-toggle="tooltip" data-placement="top" title="Add this song to Playlist" (click)="openDialog(result._id,result.title)">
             <i class="fa fa-plus" aria-hidden="true"></i>

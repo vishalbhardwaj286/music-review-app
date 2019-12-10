@@ -4,7 +4,30 @@
             <ng-template #content>
                 <div class="container">
                     <div class="row">
-                        <div *ngFor="let song of topTenSongs">
+                        <div class="row" *ngIf="receivedChildMessage && receivedChildMessage.length>0">
+                                <div  *ngFor="let song of receivedChildMessage">
+                                        <div class="col-sm-6" >
+                                            <div class="card" style="width: 30rem;">
+                                                <div class="visible">
+                                                <button type="button" id="buttonToAddToPlaylist" class="btn btn-primary btn-circle" data-toggle="tooltip" data-placement="top" title="Add Song to playlist here" (click)="addSongToPlaylistDialog(song._id)">
+                                                    <i class="fa fa-plus" aria-hidden="true" ></i>
+                                                </button>
+                                                <div class="card-body">
+                                                <h5 class="card-title">{{song.title}}</h5>
+                                                <p class="card-text">Genre: {{song.genre}}</p>
+                                                <p class="card-text">Artist: {{song.artist}}</p>
+                                                <p class="card-text">Year Released: {{song.year}}</p>
+                                                
+                                                </div>
+                                                </div>
+                                            </div>
+                            
+                                        </div>
+                                    </div>
+                                </div>         
+                        
+                        <div class="row" *ngIf="!receivedChildMessage || receivedChildMessage.length==0">
+                        <div  *ngFor="let song of topTenSongs">
                             <div class="col-sm-6" >
                                 <div class="card" style="width: 30rem;">
                                     <div class="visible">
@@ -71,6 +94,7 @@
                 
                             </div>
                         </div>
+                        </div>
                     </div>
                 </div>         
              </ng-template>
@@ -78,7 +102,7 @@
       
       <e-pane size='20%'>
             <ng-template #content>
-                    <app-search-home-page></app-search-home-page>
+                    <app-search-home-page (messageToEmit)="getMessage($event)"></app-search-home-page>
             </ng-template>
            
       </e-pane>

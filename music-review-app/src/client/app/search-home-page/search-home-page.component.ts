@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Output,EventEmitter} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { SongsService } from './../songs/songsServices/songs.service';
 import { Observable, Subject } from 'rxjs';
@@ -16,28 +16,32 @@ import { AddSongToPlaylistDialogComponent } from './add-song-to-playlist-dialog/
 export class SearchHomePageComponent implements OnInit {
   searchControl = new FormControl();
   searchTerm$ = new Subject<string>();
-
   songsData:Observable<string[]>;
   songsList:string[];
-  playlistTitle:string
+  playlistTitle:string;
+  filteredSongs;
+
+  @Output() messageToEmit = new EventEmitter<string>();
+
 
   constructor(private _songsService : SongsService,private dialog: MatDialog) { 
-  
+    this._songsService.filteredSongs$.subscribe(newValue=>{
+      console.log(`new value is ${newValue.songs}`);
+      this.filteredSongs = newValue.songs;
+      // console.log(`song is ${this.filteredSongs[0].title}`);
+      this.messageToEmit.emit(this.filteredSongs);
+    });
   }
 
-  readonly filteredSongs$ = this.searchTerm$.pipe(
-    debounceTime(250),
-    distinctUntilChanged(),
-    switchMap(songTitle => this._songsService.fetchAllSongs(songTitle))
-  );
+  // readonly filteredSongs$ = this.searchTerm$.pipe(
+  //   debounceTime(250),
+  //   distinctUntilChanged(),
+  //   switchMap(songTitle => this._songsService.fetchAllSongs(songTitle))
+  // );
 
   ngOnInit() {
     console.log('Initialising component');
   
-    }
-    
-    displayTitlefunction(song){
-      return song?song.title:undefined;
     }
 
     openDialog(songID:string,songTitle:string) {
@@ -59,6 +63,10 @@ export class SearchHomePageComponent implements OnInit {
 
     
   searchSongs(songTitle: string) {
-    this.searchTerm$.next(songTitle);
+    //Calling service to set new behavioral subject
+    this._songsService.searchSongs(songTitle);
+    // this.searchTerm$.next(songTitle);
+    // this.queryResultToEmit.emit(this.filteredSongs$);
+
   }
 }

@@ -4,6 +4,8 @@ import { SongsModel } from './../songs/songsModel';
 import { AuthService } from './../services/auth.service';
 import {MatDialog, MatDialogConfig} from "@angular/material";
 import { RatingDialogComponent } from './../ratings/rating-dialog/rating-dialog.component';
+import { PlaylistDialogComponentFromHomePageComponent } from './../playlists/playlist-dialog-component-from-home-page/playlist-dialog-component-from-home-page.component';
+
 
 @Component({
   selector: 'app-home',
@@ -13,11 +15,19 @@ import { RatingDialogComponent } from './../ratings/rating-dialog/rating-dialog.
 })
 export class HomeComponent implements OnInit {
   topTenSongs:SongsModel[];
-  comments:string;  
+  comments:string;
+  topTenSongsfiltered
+  receivedChildMessage: string;
+
+  getMessage(message: string) {
+    this.receivedChildMessage = message;
+  }
 
   constructor(private _songsService:SongsService,public auth: AuthService,private dialog: MatDialog) { 
-    //console.log(`logged in User Details are ${auth.userProfileSubject$.value.email}`);
-    //this.callServiceForDisplayingTop10Songs();
+    this._songsService.observing.subscribe(newValue=>{
+      console.log(`new value is the ${newValue}`);
+      this.topTenSongsfiltered = newValue;
+    })
   }
 
   ngOnInit() {
@@ -54,5 +64,22 @@ export class HomeComponent implements OnInit {
 
   addSongToPlaylistDialog(songID:string) {
     console.log(`songID to be added is ${songID}`);
+    const dialogConfigForAddingSongToPlaylist = new MatDialogConfig();
+    dialogConfigForAddingSongToPlaylist.disableClose = true;
+    dialogConfigForAddingSongToPlaylist.autoFocus = true;
+    dialogConfigForAddingSongToPlaylist.minHeight = "100px";
+    dialogConfigForAddingSongToPlaylist.minWidth = "100px";
+
+    dialogConfigForAddingSongToPlaylist.data = {
+      songID:songID
+  };
+  const dialogRef = this.dialog.open(PlaylistDialogComponentFromHomePageComponent, dialogConfigForAddingSongToPlaylist);
+    dialogRef.afterClosed().subscribe(
+        data => console.log("Dialog output:", data)
+    );    
   }
+
+  
+    
 }
+
