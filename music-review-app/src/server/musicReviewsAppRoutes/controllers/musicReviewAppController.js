@@ -225,15 +225,57 @@ const updatePlaylistAttributes = (req,res)=>{
     let userRequestingUpdate = req.body.userEmail;
 
     console.log(`Updating Playlist attributes of playlist ${playlistID}`);
-    Playlist.findOneAndUpdate({ "_id" : playlistID },
-    req.body)
+    const entries = Object.keys(req.body);
+    const updates = {};
+    for (let i = 0; i < entries.length; i++) {
+        updates[entries[i]] = Object.values(req.body)[i]
+        console.log(updates[entries[i]]);
+    }
+    let newJSON = JSON.stringify(updates) 
+    console.log(`Updating for ${newJSON}`);
+
+    Playlist.findOne({ _id : playlistID })
     .then(results=>{
         if(results != null) {
             if(results.createdByUser === userRequestingUpdate) {
-                console.log(`results got after updating record ${results}`);
-                res.status(200).send({
-                    count:results.length
-                });
+                if(req.body.songsInPlaylist) {
+                    console.log(`Updating songs array for id ${results._id}`);
+                    Playlist.updateOne(
+                        {_id: playlistID}, 
+                        {
+                            $push: 
+                            {
+                                songsInPlaylist: req.body.songsInPlaylist
+                            }
+                        })
+                    .then(result=>{
+                        res.status(200).json({'message':'Song attributes updated','song':result});
+                    })
+                    .catch(error=>{
+                    res.status(500).json({"message":`Encountered ${error} while updating ${playlistID}`});
+                    })
+                }  
+                else {
+                    console.log('Triggering regular update');
+                    Playlist.updateOne(
+                        {_id: playlistID}, 
+                        {
+                            $set: 
+                            {
+                                playlistTitle: req.body.playlistTitle
+                            }
+                        })
+                    .then(result=>{
+                        res.status(200).json({'message':'Song attributes updated','song':result});
+                    })
+                    .catch(error=>{
+                    res.status(500).json({"message":`Encountered error while updating ${song_id}`});
+                    })
+            
+                }
+
+
+
             }
             else {
                 console.log(`Unauthorized access`);
@@ -254,6 +296,7 @@ const updatePlaylistAttributes = (req,res)=>{
         console.log(`Got an error while updating the record in the database ${error}`);
         res.status(500).send({"message":`Technical Error Occured! Please contact the system administrator !`});
     });
+
 };
 
 
@@ -338,7 +381,15 @@ const fetchAllSongs = (req,res,query) => {
         console.log(`We have filter to be applied`);
         const regex = new RegExp(escapeRegex(query), 'gi');
         console.log(`Fetching all songs`);
-        Songs.find({title:regex,artist:regex,genre:regex})
+        Songs.find(
+            {
+                $or:[
+                    {title:regex},
+                    {artist:regex},
+                    {genre:regex}
+                    
+                ]
+            })
             .then(result=>{
                 console.log(result);
                 if(result!==null) {
@@ -356,7 +407,7 @@ const fetchAllSongs = (req,res,query) => {
                     "message":`Unable to fetch songs`
                 });
             });
-        
+
     }
     
     else{
