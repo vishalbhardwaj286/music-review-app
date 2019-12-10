@@ -381,6 +381,53 @@ const fetchAllSongs = (req,res,query) => {
         console.log(`We have filter to be applied`);
         const regex = new RegExp(escapeRegex(query), 'gi');
         console.log(`Fetching all songs`);
+    //     SongsReviewsSchema
+    // .aggregate([
+        
+    //     {
+    //         $project: {
+    //             item: 1,
+    //             reviewedSongID:"$reviewedSongID",
+    //             ratingsGivenByUser:"$ratingsGivenByUser",
+    //             numberOfReviews: { $cond: { if: { $isArray: "$ratingsGivenByUser" }, then: { $size: "$ratingsGivenByUser" }, else: "NA"} },
+    //             ratingAvg: 
+    //             { 
+    //                 $avg: "$ratingsGivenByUser.rating"
+    //             }
+    //         }
+            
+    //     },
+        
+    //     {
+    //         $sort: {
+    //             numberOfReviews : -1
+    //         }  
+    //     },
+    //     {
+    //         $limit: 10
+    //     },
+    //     {
+    //         $lookup :{
+    //             from :"Songs",
+    //             localField:"reviewedSongID",
+    //             foreignField:"_id",
+    //             as:"songDetails"
+    //         }
+    //     },
+    //     // {
+    //     //     $group: {
+    //     //         _id: "$reviewedSongID",
+    //     //         avgNumberOfReviews: {
+    //     //             $avg:"$rating"
+    //     //         }
+    //     //     }
+    //     // },
+    //     { 
+    //         "$unwind": "$songDetails" 
+    //     }
+        
+        
+    // ])
         Songs.find(
             {
                 $or:[
@@ -390,11 +437,11 @@ const fetchAllSongs = (req,res,query) => {
                     
                 ]
             })
-            .then(result=>{
-                console.log(result);
-                if(result!==null) {
+            .then(reviews=>{
+                console.log(reviews);
+                if(reviews!==null) {
                     console.log("All songs fetched successfully");
-                    res.status(200).json({'songs':result});
+                    res.status(200).json({'songs':reviews});
                 }
                 else {
                     console.log(`Need to update the song with id ${song_id}`);
