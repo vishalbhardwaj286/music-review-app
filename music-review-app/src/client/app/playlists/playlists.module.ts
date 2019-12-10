@@ -7,9 +7,10 @@ import {MatDialogModule} from "@angular/material";
 import { EditPlaylistDialogComponent } from './edit-playlist-dialog/edit-playlist-dialog.component';
 import { PipeModule } from './../pipe/pipe.module';
 import { ViewAllPlaylistsComponent } from './view-all-playlists/view-all-playlists.component';
+import { PlaylistDialogComponentFromHomePageComponent } from './playlist-dialog-component-from-home-page/playlist-dialog-component-from-home-page.component';
 
 @NgModule({
-  declarations: [CreateNewPlaylistComponent, EditPlaylistComponent, EditPlaylistDialogComponent, ViewAllPlaylistsComponent],
+  declarations: [CreateNewPlaylistComponent, EditPlaylistComponent, EditPlaylistDialogComponent, ViewAllPlaylistsComponent, PlaylistDialogComponentFromHomePageComponent],
   imports: [
   CommonModule,
   CommonUtilsModule,
