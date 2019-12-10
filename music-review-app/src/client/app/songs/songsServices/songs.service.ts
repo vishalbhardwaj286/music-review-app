@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient,HttpHeaders,HttpHandler } from '@angular/common/http';
 import { SongsModel } from './../songsModel';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +11,9 @@ import { SongsModel } from './../songsModel';
 export class SongsService {
   
   constructor(private http:HttpClient) { }
+  searchTerm$ = new Subject<string>();
+  
+  observing = this.searchTerm$.asObservable();
 
   uploadNewSong(newSong:SongsModel):Observable<SongsModel>{
     let httpHeaders = new HttpHeaders().set('Content-Type','application/Json');
@@ -29,17 +34,36 @@ export class SongsService {
 
     return this.http.get<any>(fetchtop10SongsURL);
   };
+  
 
+  
+  // search(query:Observable<string>) {
+  //   return query.pipe(
+  //     debounceTime(250),
+  //     distinctUntilChanged(),
+  //     switchMap(songTitle => this.fetchAllSongs(songTitle))
+  //   );
+  // }
   fetchAllSongs(query?:string):Observable<any>{
     console.log(`Executing service to fetch all songs`);
     let httpHeaders = new HttpHeaders().set('Content-Type','application/Json');
-    let fetchAllSongsURI = `/secure/songs?${query}`;
+    let fetchAllSongsURI = `/secure/songs?searchQuery=${query}`;
     let options = {
       headers:httpHeaders
     };
 
     return this.http.get<any>(fetchAllSongsURI,options);
   }
-
+  readonly filteredSongs$ = this.searchTerm$.pipe(
+    debounceTime(250),
+    distinctUntilChanged(),
+    switchMap(songTitle => this.fetchAllSongs(songTitle))
+  );
+  searchSongs(songTitle:string) {
+    if(songTitle!=="")
+    this.searchTerm$.next(songTitle);
+    else
+    this.searchTerm$.next(null);
+  }
 }
 
