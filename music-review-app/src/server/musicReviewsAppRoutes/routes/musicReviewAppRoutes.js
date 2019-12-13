@@ -4,7 +4,7 @@ const {
     fetchAllReviewforParticularSong,
     updatePlaylistAttributes,
     fetchTopTenSongsByGivenFilter,fetchAllSongs,fetchPlaylistsOfUser,
-    deleteExistingSongFromUserPlaylist
+    deleteExistingSongFromUserPlaylist, fetchLoggedInUserDetails
 
 } = require('./../controllers/musicReviewAppController');
 
@@ -102,6 +102,16 @@ const routes = (app) => {
     .post((req,res) =>{
         deleteExistingSongFromUserPlaylist(req,res);
     });
+
+    app.route('/secure/users/:userID')
+
+    .get((req,res,next) =>{
+        console.log(`Got user id as ${req.params.userID}`);
+        next();
+    },(req,res)=>{
+        fetchLoggedInUserDetails(req,res);
+    });
 }
 
+    
 module.exports = routes;

@@ -2,7 +2,7 @@ const Songs = require('./../models/SongsSchema');
 
 const Playlist = require('./../models/PlaylistSchema');
 const SongsReviewsSchema = require('../models/SongReviewSchema');
-
+const users = require('../models/users');
 
 const addNewSong = (req,res) => {
 
@@ -552,6 +552,36 @@ const deleteExistingSongFromUserPlaylist = (req,res)=>{
     
 };
 
+const fetchLoggedInUserDetails = (req,res)=>{
+    console.log(`Executing controller to delete songs from Playlist ${req.params.userID}`);
+    let user_ID = req.params.userID;
+    console.log(`fetching roles for user_ID ${user_ID}`);
+    users.findOne({ 'email': user_ID})
+    .then(result=>{
+        console.log(result);
+        if(result!==null) {
+            console.log("Id found in the Database");
+            res.status(200).json({
+                "result":result
+            });
+        }
+        else {
+            console.log(`No such user exists in the database.`);
+            res.status(200).json({
+                "message":"No such user ${user_ID} exists in the database."
+            });
+            
+        }
+        
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).json({
+            "message":`Technical error occured while fetching roles for user ${playlist_id}`
+        });
+    });
+    
+};
+
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
@@ -562,6 +592,6 @@ module.exports = {
     updatePlaylistAttributes,
     fetchTopTenSongsByGivenFilter,
     fetchAllSongs,fetchPlaylistsOfUser,
-    deleteExistingSongFromUserPlaylist
+    deleteExistingSongFromUserPlaylist,fetchLoggedInUserDetails
 
 };
