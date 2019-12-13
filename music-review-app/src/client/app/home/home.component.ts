@@ -5,6 +5,7 @@ import { AuthService } from './../services/auth.service';
 import {MatDialog, MatDialogConfig} from "@angular/material";
 import { RatingDialogComponent } from './../ratings/rating-dialog/rating-dialog.component';
 import { PlaylistDialogComponentFromHomePageComponent } from './../playlists/playlist-dialog-component-from-home-page/playlist-dialog-component-from-home-page.component';
+import { UserService } from './../user/user.service';
 
 
 @Component({
@@ -18,16 +19,35 @@ export class HomeComponent implements OnInit {
   comments:string;
   topTenSongsfiltered
   receivedChildMessage: string;
-
+  isAdminLoggedIn:string;
   getMessage(message: string) {
     this.receivedChildMessage = message;
   }
 
-  constructor(private _songsService:SongsService,public auth: AuthService,private dialog: MatDialog) { 
+  constructor(private _songsService:SongsService,public auth: AuthService,private dialog: MatDialog,private _userService:UserService) { 
+    this.auth.userProfile$.subscribe(result=>{
+      if(result!==null) {
+        this.getUserRoles(auth.userProfileSubject$.value.email);
+      }
+    });
     this._songsService.observing.subscribe(newValue=>{
       console.log(`new value is the ${newValue}`);
       this.topTenSongsfiltered = newValue;
+      
     })
+  }
+
+  getUserRoles(email:string) {
+    if(this.auth.loggedIn!=null) {
+      this.isAdminLoggedIn = "false";
+    this._userService.checkUserRoles(email).subscribe(result=>{
+      if(result.result.role === "site manager access") {
+        this.isAdminLoggedIn = "true";
+      }
+      localStorage.setItem('isAdmin',this.isAdminLoggedIn);
+    });
+    }
+    
   }
 
   ngOnInit() {
