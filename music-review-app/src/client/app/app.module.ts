@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './nav-bar/nav-bar.component';
@@ -21,7 +20,7 @@ import { AddSongToPlaylistDialogComponent } from './search-home-page/add-song-to
 import { RatingsModule } from './ratings/ratings.module';
 import { RatingDialogComponent } from './ratings/rating-dialog/rating-dialog.component';
 import { PlaylistDialogComponentFromHomePageComponent } from './playlists/playlist-dialog-component-from-home-page/playlist-dialog-component-from-home-page.component';
-
+import { AdminModule } from './admin/admin.module';
 
 @NgModule({
   declarations: [
@@ -33,8 +32,7 @@ import { PlaylistDialogComponentFromHomePageComponent } from './playlists/playli
     AddSongToPlaylistDialogComponent
   ],
   imports: [
-
-
+  
 BrowserModule,
   AppRoutingModule,
   NgbModule,
@@ -46,7 +44,8 @@ BrowserModule,
   MatExpansionModule,
   CommonUtilsModule,
   PipeModule,
-  RatingsModule
+  RatingsModule,
+  AdminModule
   ],
   exports:[
     CommonUtilsModule,
