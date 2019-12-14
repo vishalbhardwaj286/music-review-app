@@ -5,6 +5,7 @@ export interface SongsModel{
     genre:string,
     year:Date,
     reviews:string,
+    songVisibility?:boolean
     addedByUser:string,
     created_date?: Date;
 }

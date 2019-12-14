@@ -30,6 +30,11 @@ const SongsSchema = mongoose.Schema({
         default: 'Not Reviewed yet !',
         lowercase:true,
    },
+   songVisibility:
+   {
+     type:Boolean,
+     default:false,
+   },
    addedByUser:{
           type:String,
           lowercase:true
