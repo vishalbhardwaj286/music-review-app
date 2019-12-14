@@ -307,7 +307,6 @@ const fetchTopTenSongsByGivenFilter = (req,res) => {
     
     SongsReviewsSchema
     .aggregate([
-        
         {
             $project: {
                 item: 1,
@@ -330,14 +329,36 @@ const fetchTopTenSongsByGivenFilter = (req,res) => {
         {
             $limit: 10
         },
+        // {
+        //     $lookup :{
+        //         from :"Songs",
+        //         localField:"reviewedSongID",
+        //         foreignField:"_id",
+        //         as:"songDetails"
+        //     }
+        // },
         {
-            $lookup :{
-                from :"Songs",
-                localField:"reviewedSongID",
-                foreignField:"_id",
+            $lookup:{
+                from:"Songs",
+                let: {
+                    id: "$reviewedSongID"
+                  },
+                pipeline:[
+                    {
+                        $match:{
+                            $expr:{
+                                $and:[
+                                    { $ne: [ false, "$songVisibility" ] },
+                                    { $eq: [ "$_id", "$$id" ] }
+                                ]
+                            }
+                        }
+                    }
+                ],
                 as:"songDetails"
             }
         },
+        
         // {
         //     $group: {
         //         _id: "$reviewedSongID",
@@ -349,6 +370,7 @@ const fetchTopTenSongsByGivenFilter = (req,res) => {
         { 
             "$unwind": "$songDetails" 
         },
+        // {"$match":{"Songs.songVisibility":true}}
         
     ])
     .then(reviews=>{
@@ -607,6 +629,21 @@ const fetchLoggedInUserDetails = (req,res)=>{
     }
 };
 
+function updateSongsParameter(req,res) {
+    // let songIDToUpdate =  req.body.songID;
+    // let isHidden = req.body.songVisibility;
+    console.log(`songID got is ${req.body.songID} and isHidden is ${req.body.songVisibility}`)
+    Songs.updateOne({'_id': req.body.songID}, {$set: {'songVisibility': req.body.songVisibility}})
+    // Songs.update(
+    //     {_id: songIDToUpdate}, 
+    //     {$set: {songVisibility: isHidden}})
+    .then(result=>{
+        res.status(200).json({'message':'Song attributes updated','result':'Success'});
+    })
+    .catch(error=>{
+    res.status(500).json({"message":`Encountered error ${error} while updating ${req.body.songID}`});
+    })  
+}
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
@@ -617,6 +654,7 @@ module.exports = {
     updatePlaylistAttributes,
     fetchTopTenSongsByGivenFilter,
     fetchAllSongs,fetchPlaylistsOfUser,
-    deleteExistingSongFromUserPlaylist,fetchLoggedInUserDetails
+    deleteExistingSongFromUserPlaylist,fetchLoggedInUserDetails,
+    updateSongsParameter
 
 };

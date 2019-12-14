@@ -4,7 +4,8 @@ const {
     fetchAllReviewforParticularSong,
     updatePlaylistAttributes,
     fetchTopTenSongsByGivenFilter,fetchAllSongs,fetchPlaylistsOfUser,
-    deleteExistingSongFromUserPlaylist, fetchLoggedInUserDetails
+    deleteExistingSongFromUserPlaylist, fetchLoggedInUserDetails,
+    updateSongsParameter
 
 } = require('./../controllers/musicReviewAppController');
 
@@ -88,6 +89,10 @@ const routes = (app) => {
         fetchAllSongs(req,res,query);
     })
 
+    //This route handle all the updates w.r.t to the song
+    .post((req,res)=>{
+        updateSongsParameter(req,res);
+    })
     app.route('/secure/playlists/:userEmail')
 
     .get((req,res,next)=>{
