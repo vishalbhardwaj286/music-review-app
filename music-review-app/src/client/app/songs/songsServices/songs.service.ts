@@ -65,5 +65,17 @@ export class SongsService {
     else
     this.searchTerm$.next(null);
   }
+  //service for hiding the song
+  hideSongFromList(updateObject:object){
+    //call backend REST API to handle the request.
+    let httpHeaders = new HttpHeaders().set('Content-Type','application/Json');
+    let updateSongAttributesURI = `/secure/songs`;
+    let options = {
+      headers:httpHeaders
+    };
+
+    //start from here
+    return this.http.post<any>(updateSongAttributesURI,updateObject,options);    
+  }
 }
 
