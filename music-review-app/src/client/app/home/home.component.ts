@@ -5,7 +5,7 @@ import { AuthService } from './../services/auth.service';
 import {MatDialog, MatDialogConfig} from "@angular/material";
 import { RatingDialogComponent } from './../ratings/rating-dialog/rating-dialog.component';
 import { PlaylistDialogComponentFromHomePageComponent } from './../playlists/playlist-dialog-component-from-home-page/playlist-dialog-component-from-home-page.component';
-import { UserService } from './../user/user.service';
+// import { UserService } from './../user/user.service';
 
 @Component({
   selector: 'app-home',
@@ -24,10 +24,10 @@ export class HomeComponent implements OnInit {
     this.receivedChildMessage = message;
   }
 
-  constructor(private _songsService:SongsService,public auth: AuthService,private dialog: MatDialog,private _userService:UserService) { 
+  constructor(private _songsService:SongsService,public auth: AuthService,private dialog: MatDialog) { 
     this.auth.userProfile$.subscribe(result=>{
       if(result!==null) {
-        this.getUserRoles(auth.userProfileSubject$.value.email);
+        this.isAdminLoggedIn = localStorage.getItem("isAdmin"); 
       }
     });
     this._songsService.observing.subscribe(newValue=>{
@@ -37,26 +37,12 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  getUserRoles(email:string) {
-    if(this.auth.loggedIn!=null) {
-      this.isAdminLoggedIn = "false";
-    this._userService.checkUserRoles(email).subscribe(result=>{
-      if(result.Users.role === "site manager access") {
-        this.isAdminLoggedIn = "true";
-        localStorage.setItem('isAdmin',this.isAdminLoggedIn); 
-      }
-      else {
-        localStorage.setItem('isAdmin',this.isAdminLoggedIn);  
-      }
-      localStorage.setItem('loggedInUserName',this.auth.userProfileSubject$.value.email);  
-
-    });
-    }
-    
-  }
+  
 
   ngOnInit() {
     console.log(`Calling service to retrieve top 10 most reviewed songs`);
+    // this.isAdminLoggedIn = localStorage.getItem("isAdmin");
+    console.log(`Logged in user is admin ${this.isAdminLoggedIn}`);
     this.callServiceForDisplayingTop10Songs();
   }
 
