@@ -5,7 +5,7 @@ const {
     updatePlaylistAttributes,
     fetchTopTenSongsByGivenFilter,fetchAllSongs,fetchPlaylistsOfUser,
     deleteExistingSongFromUserPlaylist, fetchLoggedInUserDetails,
-    updateSongsParameter
+    updateSongsParameter,updateRolesOfUsersByAdmin
 
 } = require('./../controllers/musicReviewAppController');
 
@@ -115,7 +115,14 @@ const routes = (app) => {
         next();
     },(req,res)=>{
         fetchLoggedInUserDetails(req,res);
-    });
+    })
+
+    //Patch API for handling bulk update of attributes of users
+    .patch((req,res,next)=>{
+        next();
+    },(req,res)=>{
+        updateRolesOfUsersByAdmin(req,res);
+    })
 }
 
     

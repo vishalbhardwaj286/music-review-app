@@ -101,7 +101,7 @@ const fetchAllPublicPlaylists = (req,res) => {
     
     .then(playlists=>{
         if(playlists==null){
-            res.status(200).send({"message":`There isn't any playlist to show currently`});
+            res.status(200).json({"message":`There isn't any playlist to show currently`});
         }
         else {
             console.log('Playlists fetched successully');
@@ -634,15 +634,37 @@ function updateSongsParameter(req,res) {
     // let isHidden = req.body.songVisibility;
     console.log(`songID got is ${req.body.songID} and isHidden is ${req.body.songVisibility}`)
     Songs.updateOne({'_id': req.body.songID}, {$set: {'songVisibility': req.body.songVisibility}})
-    // Songs.update(
-    //     {_id: songIDToUpdate}, 
-    //     {$set: {songVisibility: isHidden}})
     .then(result=>{
         res.status(200).json({'message':'Song attributes updated','result':'Success'});
     })
     .catch(error=>{
     res.status(500).json({"message":`Encountered error ${error} while updating ${req.body.songID}`});
     })  
+}
+
+//Controller for updating user roles by Admin
+function updateRolesOfUsersByAdmin(req,res) {
+    let updateResults = [];
+    
+    for (let i = 0; i < req.body.length; i++) {
+        users.findByIdAndUpdate({_id:req.body[i].id},{role:req.body[i].newRole})
+        .then(res=>{
+            console.log(`result after updating is ${res}`);
+            updateResults.push(res.role);
+        })
+        .catch(error=>{
+            console.log(`error during updating is ${error}`);
+            res.status(500).json({"message":error})
+        });
+        
+    }
+
+    res.status(200).json(
+        {
+            'status':'Success',
+            'result':updateResults
+        }
+    );
 }
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
@@ -655,6 +677,6 @@ module.exports = {
     fetchTopTenSongsByGivenFilter,
     fetchAllSongs,fetchPlaylistsOfUser,
     deleteExistingSongFromUserPlaylist,fetchLoggedInUserDetails,
-    updateSongsParameter
+    updateSongsParameter,updateRolesOfUsersByAdmin
 
 };
