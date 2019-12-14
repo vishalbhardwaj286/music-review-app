@@ -7,7 +7,6 @@ import { RatingDialogComponent } from './../ratings/rating-dialog/rating-dialog.
 import { PlaylistDialogComponentFromHomePageComponent } from './../playlists/playlist-dialog-component-from-home-page/playlist-dialog-component-from-home-page.component';
 import { UserService } from './../user/user.service';
 
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -41,10 +40,15 @@ export class HomeComponent implements OnInit {
     if(this.auth.loggedIn!=null) {
       this.isAdminLoggedIn = "false";
     this._userService.checkUserRoles(email).subscribe(result=>{
-      if(result.result.role === "site manager access") {
+      if(result.Users.role === "site manager access") {
         this.isAdminLoggedIn = "true";
+        localStorage.setItem('isAdmin',this.isAdminLoggedIn); 
       }
-      localStorage.setItem('isAdmin',this.isAdminLoggedIn);
+      else {
+        localStorage.setItem('isAdmin',this.isAdminLoggedIn);  
+      }
+      localStorage.setItem('loggedInUserName',this.auth.userProfileSubject$.value.email);  
+
     });
     }
     
@@ -97,9 +101,5 @@ export class HomeComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
         data => console.log("Dialog output:", data)
     );    
-  }
-
-  
-    
+  }   
 }
-

@@ -13,7 +13,7 @@ export class UserService {
   checkUserRoles(loggedInUser:string){
     console.log(`Executing service for fetching existing playlists of user`);
     let httpHeaders = new HttpHeaders().set('Content-Type','application/Json');
-    let fetchUserRolesURI = `/secure/users/${loggedInUser}`;
+    let fetchUserRolesURI = `/secure/users?user=${loggedInUser}`;
     let options = {
       headers:httpHeaders
     };
