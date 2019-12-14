@@ -553,33 +553,58 @@ const deleteExistingSongFromUserPlaylist = (req,res)=>{
 };
 
 const fetchLoggedInUserDetails = (req,res)=>{
-    console.log(`Executing controller to delete songs from Playlist ${req.params.userID}`);
-    let user_ID = req.params.userID;
-    console.log(`fetching roles for user_ID ${user_ID}`);
-    users.findOne({ 'email': user_ID})
-    .then(result=>{
-        console.log(result);
-        if(result!==null) {
-            console.log("Id found in the Database");
-            res.status(200).json({
-                "result":result
-            });
-        }
-        else {
-            console.log(`No such user exists in the database.`);
-            res.status(200).json({
-                "message":"No such user ${user_ID} exists in the database."
-            });
+    //Checking for query params. If exists, then get attributes of particular user
+    console.log(`query parameters are ${req.query.user}`);
+    if(req.query.user !== undefined) {
+        users.findOne({'email':req.query.user})
+        .then(result=>{
+            console.log(result);
+            if(result!==null) {
+                console.log("Id found in the Database");
+                res.status(200).json({
+                    "Users":result
+                });
+            }
+            else {
+                console.log(`No users exists in the database.`);
+                res.status(200).json({
+                    "message":"No  user exists in the database."
+                });
+                
+            }
             
-        }
-        
-    }).catch(err=>{
-        console.log(err);
-        res.status(500).json({
-            "message":`Technical error occured while fetching roles for user ${playlist_id}`
-        });
+        }).catch(err=>{
+            console.log(err);
+            res.status(500).json({
+                "message":`Technical error occured while fetching users`
+            });
     });
-    
+    }
+    // Otherwise fetch all users
+    else {
+        users.find({})
+        .then(result=>{
+            console.log(result);
+            if(result!==null) {
+                res.status(200).json({
+                    "Users":result
+                });
+            }
+            else {
+                console.log(`No users exists in the database.`);
+                res.status(200).json({
+                    "message":"No  user exists in the database."
+                });
+                
+            }
+            
+        }).catch(err=>{
+            console.log(err);
+            res.status(500).json({
+                "message":`Technical error occured while fetching users`
+            });
+        });
+    }
 };
 
 function escapeRegex(text) {

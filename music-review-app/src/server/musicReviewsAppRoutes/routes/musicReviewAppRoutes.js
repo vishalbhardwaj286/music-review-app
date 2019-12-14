@@ -103,7 +103,7 @@ const routes = (app) => {
         deleteExistingSongFromUserPlaylist(req,res);
     });
 
-    app.route('/secure/users/:userID')
+    app.route('/secure/users')
 
     .get((req,res,next) =>{
         console.log(`Got user id as ${req.params.userID}`);
