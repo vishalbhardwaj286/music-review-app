@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
   topTenSongsfiltered
   receivedChildMessage: string;
   isAdminLoggedIn:string;
+  updateObject:object;
   getMessage(message: string) {
     this.receivedChildMessage = message;
   }
@@ -101,5 +102,21 @@ export class HomeComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
         data => console.log("Dialog output:", data)
     );    
-  }   
+  }
+  
+  //This function hides the selected song by admin from all the subsequent views
+  hideSongFromList(songID:string) {
+    //call the song service for hiding the song id
+    console.log(`Song id to update is ${songID}`);
+  this.updateObject = {
+    'songID':songID,
+    'songVisibility':false
+  }    
+    this._songsService.hideSongFromList(this.updateObject).subscribe(result=>{
+      if(result.result === "Success") {
+        //Refresh the page again to show unhidden songs list
+        this.callServiceForDisplayingTop10Songs();
+      }
+    });
+  }
 }
