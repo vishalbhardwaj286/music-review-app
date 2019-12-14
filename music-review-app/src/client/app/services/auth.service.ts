@@ -117,6 +117,7 @@ export class AuthService {
     // Ensure Auth0 client instance exists
     this.auth0Client$.subscribe((client: Auth0Client) => {
       // Call method to log out
+      localStorage.setItem('isAdmin',"false"); 
       client.logout({
         client_id: "WJ1wCPUiTWfMvoBQ1ltmAKMnyTV41gd8",
         returnTo: `${window.location.origin}`
