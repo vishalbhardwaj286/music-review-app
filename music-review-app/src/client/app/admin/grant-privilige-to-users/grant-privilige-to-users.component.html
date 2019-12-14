@@ -1,1 +1,36 @@
-<p>grant-privilige-to-users works!</p>
+<div class="container"  *ngIf="userObject">
+    <div class="row">
+      <div class="col-12">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">User ID</th>
+              <th scope="col">Email</th>
+              <th scope="col">Role</th>
+              <th scope="col">Last Updated</th>
+              
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of userObject.Users">
+            <td>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="{{user._id}}" (click) = handleClick(user._id)>
+                    <label class="custom-control-label" for="{{user._id}}">{{user._id}}</label>
+                </div>
+                </td>
+            <td>{{user.email}}</td>
+            <td>{{user.role}}</td>
+            <td>{{user.updated_date}}</td>
+
+            </tr>
+
+          </tbody>
+        </table>
+        
+        <td><input class="btn btn-primary" type="submit" value="Grant Access" (click) = handleSubmitButtonClicked()></td>
+
+      </div>
+    </div>
+  </div>
+  
