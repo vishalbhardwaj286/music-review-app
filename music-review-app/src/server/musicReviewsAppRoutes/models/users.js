@@ -14,6 +14,10 @@ const users = mongoose.Schema({
    role :{
         type : String,
         default:'Regular User'
+   },
+   updated_date: {
+        type:Date,
+        default:Date.now
    }
 });
 users.plugin(mongooseUniqueValidator);
