@@ -79,6 +79,13 @@ const routes = (app) => {
         fetchTopTenSongsByGivenFilter(req,res);
     });
     
+    app.route('/public/songs')
+    .get((req,res)=>{
+        
+        console.log(`Handling Request to fetch all songs`);
+        fetchAllSongs(req,res);
+    })
+
     app.route('/secure/songs')
     
     .get((req,res)=>{
