@@ -273,7 +273,7 @@ const updatePlaylistAttributes = (req,res)=>{
                                 res.status(200).json({'message':'Success','playlist':result});
                             })
                             .catch(error=>{
-                            res.status(500).json({"message":`Encountered error while updating ${playlistID}`});
+                            res.status(500).json({"message":`Encountered error ${error} while updating ${playlistID}`});
                             })
                         }
                     else if(playlistDescription !== undefined) {
