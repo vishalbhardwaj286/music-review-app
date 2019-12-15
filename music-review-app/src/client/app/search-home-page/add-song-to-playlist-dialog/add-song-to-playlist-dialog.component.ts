@@ -5,6 +5,7 @@ import { PlaylistService } from './../../playlists/playlistsServices/playlist.se
 import { Observable } from 'rxjs';
 import { PlaylistModel } from './../../playlists/playlistModel';
 import { AuthService } from './../../services/auth.service';
+import {Router} from "@angular/router"
 
 @Component({
   selector: 'app-add-song-to-playlist-dialog',
@@ -19,11 +20,13 @@ export class AddSongToPlaylistDialogComponent implements OnInit {
   itemToChange:Object;
   selectedSongTitle:string;
   selectedSongID:string;
+  isToReRenderParentComponent:boolean=false;
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<AddSongToPlaylistDialogComponent>,
     private _playlistService:PlaylistService,
     private _authService:AuthService,
+    private router: Router,
     @Inject(MAT_DIALOG_DATA) data
   ) { this.selectedSongID = data.songId;
       this.selectedSongTitle = data.songTitle;
@@ -63,12 +66,17 @@ export class AddSongToPlaylistDialogComponent implements OnInit {
         'userEmail':this._authService.userProfileSubject$.value.email
       }
     this._playlistService.updateExistingPlaylist(this.itemToChange,this.selectedPlaylistID).subscribe(result=>{
-      console.log(``);
-      this.dialogRef.close();
+      if(result.message ==="Success") {
+        this.isToReRenderParentComponent = true;
+        this.dialogRef.close(this.isToReRenderParentComponent);
+      }
+      
     });
   }
 
   createNewPlaylist(){
     console.log(`Calling service to create a new playlist`);
+    this.router.navigate(['/createPlaylist']);
+    this.close();
   }
 }
