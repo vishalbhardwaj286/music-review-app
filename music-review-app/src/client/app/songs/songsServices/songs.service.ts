@@ -47,13 +47,14 @@ export class SongsService {
   fetchAllSongs(query?:string):Observable<any>{
     console.log(`Executing service to fetch all songs`);
     let showAllHiddenSongsQuery = (query === 'showAllHiddenSongsQuery'?'showAllHiddenSongsQuery':undefined);
-    let fetchAllSongsURI = undefined;
+    let searchQuery = (query !== undefined?query:undefined);
+    let fetchAllSongsURI =`/secure/songs`;
     let httpHeaders = new HttpHeaders().set('Content-Type','application/Json');
     if(showAllHiddenSongsQuery !==undefined){
       fetchAllSongsURI = `/secure/songs?showAllHiddenSongsQuery=${showAllHiddenSongsQuery}`;
     }
-    else{
-      fetchAllSongsURI = `/secure/songs?searchQuery=${query}`;
+    else if(searchQuery !== undefined){
+      fetchAllSongsURI = `/public/songs?searchQuery=${searchQuery}`;
     }
     
     let options = {
@@ -95,5 +96,6 @@ export class SongsService {
     //Calling Backend to unhide songs
     return this.http.patch<any>(updateVisibilityofSongURI,updateObject,options);  
   }
+  
 }
 
