@@ -21,6 +21,7 @@ import { RatingsModule } from './ratings/ratings.module';
 import { RatingDialogComponent } from './ratings/rating-dialog/rating-dialog.component';
 import { PlaylistDialogComponentFromHomePageComponent } from './playlists/playlist-dialog-component-from-home-page/playlist-dialog-component-from-home-page.component';
 import { AdminModule } from './admin/admin.module';
+import { ViewHiddenSongsDialogComponent } from './songs/view-hidden-songs-dialog/view-hidden-songs-dialog.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,7 @@ BrowserModule,
     CommonUtilsModule,
     PipeModule
   ],
-  entryComponents:[AddSongToPlaylistDialogComponent,RatingDialogComponent,PlaylistDialogComponentFromHomePageComponent],
+  entryComponents:[AddSongToPlaylistDialogComponent,RatingDialogComponent,PlaylistDialogComponentFromHomePageComponent,ViewHiddenSongsDialogComponent],
   providers: [SongsService],
   bootstrap: [AppComponent]
 })
