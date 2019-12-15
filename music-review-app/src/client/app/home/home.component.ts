@@ -45,7 +45,21 @@ export class HomeComponent implements OnInit {
     console.log(`Calling service to retrieve top 10 most reviewed songs`);
     // this.isAdminLoggedIn = localStorage.getItem("isAdmin");
     console.log(`Logged in user is admin ${this.isAdminLoggedIn}`);
-    this.callServiceForDisplayingTop10Songs();
+    if(this.auth.loggedIn) {
+      this.callServiceForDisplayingAllSongs();
+    }
+    else {
+      this.callServiceForDisplayingTop10Songs();
+    }
+    
+  }
+
+  callServiceForDisplayingAllSongs() {
+    this._songsService.fetchAllSongs().subscribe(
+      songs=>{
+        this.topTenSongs = songs.reviews;
+      }
+    )
   }
 
   callServiceForDisplayingTop10Songs(){
