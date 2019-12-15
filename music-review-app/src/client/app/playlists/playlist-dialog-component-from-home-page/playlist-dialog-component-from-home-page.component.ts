@@ -60,7 +60,7 @@ export class PlaylistDialogComponentFromHomePageComponent implements OnInit {
       selectedSongsJson.push({'songs':this.songID});
       this.itemToChange = {
         "songsInPlaylist":selectedSongsJson,
-        'userEmail':'vishalbhardwaj630@gmail.com'
+        'userEmail':this.auth.userProfileSubject$.value.email
       }
       this._playlistService.updateExistingPlaylist(this.itemToChange,this.selectedPlaylist).subscribe(result=>{
       console.log(`Service Executed`);
@@ -68,17 +68,3 @@ export class PlaylistDialogComponentFromHomePageComponent implements OnInit {
   }
 
 }
-
-
-// let selectedSongsJson = [];
-// console.log(`New song ${newValue} added`);
-// console.log('newSongsAdded');
-// for(let i=0;i<newValue.length;i++) {
-// selectedSongsJson.push({'songs':newValue[i]});
-// }
-
-// this.itemToChange = {
-//   "songsInPlaylist":selectedSongsJson,
-//   'userEmail':'vishalbhardwaj630@gmail.com'
-// }
-// });
