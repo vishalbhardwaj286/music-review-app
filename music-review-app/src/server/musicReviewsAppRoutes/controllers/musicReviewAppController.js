@@ -249,7 +249,7 @@ const updatePlaylistAttributes = (req,res)=>{
                             }
                         })
                     .then(result=>{
-                        res.status(200).json({'message':'Song attributes updated','song':result});
+                        res.status(200).json({'message':'Success','song':result});
                     })
                     .catch(error=>{
                     res.status(500).json({"message":`Encountered ${error} while updating playlist ${playlistID}`});
@@ -270,7 +270,7 @@ const updatePlaylistAttributes = (req,res)=>{
                                 }
                             })
                             .then(result=>{
-                                res.status(200).json({'message':'Playlist title  updated','playlist':result});
+                                res.status(200).json({'message':'Success','playlist':result});
                             })
                             .catch(error=>{
                             res.status(500).json({"message":`Encountered error while updating ${playlistID}`});
@@ -286,7 +286,7 @@ const updatePlaylistAttributes = (req,res)=>{
                                 }
                             })
                             .then(result=>{
-                                res.status(200).json({'message':'Playlist attributes updated','playlist':result});
+                                res.status(200).json({'message':'Success','playlist':result});
                             })
                             .catch(error=>{
                             res.status(500).json({"message":`Encountered error while updating ${playlistID}`});
@@ -304,7 +304,7 @@ const updatePlaylistAttributes = (req,res)=>{
                                 }
                             })
                             .then(result=>{
-                                res.status(200).json({'message':'Playlist visibility scope updated','song':result});
+                                res.status(200).json({'message':'Success','song':result});
                             })
                             .catch(error=>{
                             res.status(500).json({"message":`Encountered error while updating ${playlistID}`});
