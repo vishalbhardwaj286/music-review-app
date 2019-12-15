@@ -448,19 +448,83 @@ const fetchAllSongs = (req,res) => {
     }
     else{
         console.log('Fetching all songs without any filter');
-        Songs.find()
-    .then(result=>{
-        console.log(result);
-        if(result!==null) {
-            console.log("All songs fetched successfully");
-            res.status(200).json({'songs':result});
-        }
-        else {
-            console.log(`Need to update the song with id ${song_id}`);
-            res.status(200).json({'message':'No songs found in the database'});
+    //     Songs.find({ songVisibility:{$ne:false}})
+    //     .then(result=>{
+    //     console.log(result);
+    //     if(result!==null) {
+    //         console.log("All songs fetched successfully");
+    //         res.status(200).json({'songs':result});
+    //     }
+    //     else {
+    //         console.log(`Need to update the song with id ${song_id}`);
+    //         res.status(200).json({'message':'No songs found in the database'});
+    //     }
+        
+    // })
+    SongsReviewsSchema
+    .aggregate([
+        {
+            $project: {
+                item: 1,
+                reviewedSongID:"$reviewedSongID",
+                ratingsGivenByUser:"$ratingsGivenByUser",
+                numberOfReviews: { $cond: { if: { $isArray: "$ratingsGivenByUser" }, then: { $size: "$ratingsGivenByUser" }, else: "NA"} },
+                ratingAvg: 
+                { 
+                    $avg: "$ratingsGivenByUser.rating"
+                }
+            }
+            
+        },
+        
+        {
+            $sort: {
+                numberOfReviews : -1
+            }  
+        },
+        {
+            $lookup:{
+                from:"Songs",
+                let: {
+                    id: "$reviewedSongID"
+                  },
+                pipeline:[
+                    {
+                        $match:{
+                            $expr:{
+                                $and:[
+                                    { $ne: [ false, "$songVisibility" ] },
+                                    { $eq: [ "$_id", "$$id" ] }
+                                ]
+                            }
+                        }
+                    }
+                ],
+                as:"songDetails"
+            }
+        },
+        { 
+            "$unwind": "$songDetails" 
         }
         
-    }).catch(err=>{
+    ])
+    .then(reviews=>{
+        console.log(``);
+        if(reviews==null){
+            res.status(200).send({"message":`There aren't any music to show currently`});
+        }
+        else {
+            console.log('Top 10 most reviewed songs fetched successully');
+            
+           
+            console.log(reviews);
+            res.status(200).json({
+                reviews
+            });
+            
+        }
+    })
+    .catch(err=>{
         console.log(err);
         res.status(500).json({
             "message":`Unable to fetch songs`
