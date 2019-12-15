@@ -37,7 +37,7 @@ export class CreateNewPlaylistComponent implements OnInit {
       songs=>{
         this.songsData = songs.songs;
         console.log(`Songs Data is ${this.songsData}`);
-        this.songsList = songs.songs;
+        this.songsList = songs.reviews;
       }
     )
   }

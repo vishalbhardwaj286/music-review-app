@@ -23,7 +23,7 @@
                 <input class="form-control" name="query" type="text" placeholder="Search songs"
                 [(ngModel)]="query"
                 (keyup)="handleQuery(query)">
-                <mat-option *ngFor="let song of songsList" [value]="song._id">{{song.title}}</mat-option>
+                <mat-option *ngFor="let song of songsList" [value]="song.songDetails._id">{{song.songDetails.title}} &nbsp; (Reviewed By: {{song.numberOfReviews}} Users)</mat-option>
                 </mat-select>
             </mat-form-field>
             <mat-form-field [floatLabel]="createNewPlaylistForm.value.floatLabel">
