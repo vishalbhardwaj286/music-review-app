@@ -3,6 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { PlaylistService } from './../playlistsServices/playlist.service';
 import { SongsService } from './../../songs/songsServices/songs.service';
+import { AuthService } from './../../services/auth.service';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class EditPlaylistDialogComponent implements OnInit {
         private dialogRef: MatDialogRef<EditPlaylistDialogComponent>,
         private _playlistService:PlaylistService,
         private _songsService:SongsService,
+        private _authService:AuthService,
         @Inject(MAT_DIALOG_DATA) data) {
 
         this.description = data.description;
@@ -51,7 +53,7 @@ export class EditPlaylistDialogComponent implements OnInit {
       console.log(`New title is ${newValue}`);
       this.itemToChange = {
         'playlistTitle':newValue,
-        'userEmail':'vishalbhardwaj630@gmail.com'
+        'userEmail':this._authService.userProfileSubject$.value.email
       }
     });
     
@@ -61,7 +63,7 @@ export class EditPlaylistDialogComponent implements OnInit {
       // let key = 'playlistDescription';
       this.itemToChange = {
         "playlistDescription":newValue,
-        'userEmail':'vishalbhardwaj630@gmail.com'
+        'userEmail':this._authService.userProfileSubject$.value.email
       }
       
     });
@@ -70,7 +72,7 @@ export class EditPlaylistDialogComponent implements OnInit {
       console.log(`New Scope is ${newValue}`);
       this.itemToChange = {
         "playListVisibilityScope":newValue,
-        'userEmail':'vishalbhardwaj630@gmail.com'
+        'userEmail':this._authService.userProfileSubject$.value.email
       }
     });
     //Handling of new songs added in playlist
@@ -84,7 +86,7 @@ export class EditPlaylistDialogComponent implements OnInit {
       
       this.itemToChange = {
         "songsInPlaylist":selectedSongsJson,
-        'userEmail':'vishalbhardwaj630@gmail.com'
+        'userEmail':this._authService.userProfileSubject$.value.email
       }
     });
 

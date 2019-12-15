@@ -21,8 +21,8 @@ export class EditPlaylistComponent implements OnInit {
   }
   
   getAllPlaylists(){
-    // let userEmail = this.auth.userProfileSubject$.value.email;
-    let userEmail = 'vishalbhardwaj630@gmail.com';
+    let userEmail = this.auth.userProfileSubject$.value.email;
+    
     this._playlistService.fetchExistingPlaylist(userEmail).subscribe(
       results=>{
         this.playlistsData = results.playlists;
@@ -62,8 +62,8 @@ export class EditPlaylistComponent implements OnInit {
       
       playlistID:playlistID,
       songsInPlaylist:songID,
-      // createdByUser:this.auth.userProfileSubject$.value.email
-      createdByUser:'vishalbhardwaj630@gmail.com'
+      createdByUser:this.auth.userProfileSubject$.value.email
+      
     };
     this.callPlaylistServiceForDeletingSongFromPlaylist(SongToDeleteInPlaylist);
   }

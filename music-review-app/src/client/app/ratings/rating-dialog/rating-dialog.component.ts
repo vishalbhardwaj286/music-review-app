@@ -4,6 +4,7 @@ import {NgbRatingConfig} from '@ng-bootstrap/ng-bootstrap';
 import { FormControl,Validators } from '@angular/forms';
 import { RatingService } from './../ratingsServices/rating.service';
 import { RatingsModel } from './../ratingsModel';
+import { AuthService } from './../../services/auth.service';
 
 @Component({
   selector: 'app-rating-dialog',
@@ -19,6 +20,7 @@ export class RatingDialogComponent implements OnInit {
 
   constructor(
     private dialogRef: MatDialogRef<RatingDialogComponent>,
+    private auth:AuthService,
     @Inject(MAT_DIALOG_DATA) data,
     ratingConfig:NgbRatingConfig,
     private _ratingService:RatingService
@@ -47,7 +49,7 @@ export class RatingDialogComponent implements OnInit {
       // createdByUser:this.auth.userProfileSubject$.value.email
       ratingsGivenByUser:{
         'rating':this.currentRate,
-        'ratedByUser':'vishalbhardwaj630@gmail.com',
+        'ratedByUser':this.auth.userProfileSubject$.value.email,
         'comments':this.userComments
       }
     };
