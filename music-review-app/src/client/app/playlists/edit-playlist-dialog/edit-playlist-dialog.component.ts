@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { PlaylistService } from './../playlistsServices/playlist.service';
 import { SongsService } from './../../songs/songsServices/songs.service';
 import { AuthService } from './../../services/auth.service';
+import { PlaylistModel } from './../playlistModel';
 
 
 @Component({
@@ -29,7 +30,9 @@ export class EditPlaylistDialogComponent implements OnInit {
   newSongsAdded:string[] = [];
   allSongsDropdown:object[];
   isToReRenderParentComponent:boolean = false;  
-
+  existingPlayListData:PlaylistModel[];
+  songAlreadyExist:boolean = false;
+  playListTitle:string;
   constructor(
         private fb: FormBuilder,
         private dialogRef: MatDialogRef<EditPlaylistDialogComponent>,
@@ -40,6 +43,8 @@ export class EditPlaylistDialogComponent implements OnInit {
 
         this.description = data.description;
         this.playListID = data.id;
+        this.existingPlayListData = data.playListData;
+        this.playListTitle = data.playlistTitle;
     }
 
   ngOnInit() {
@@ -80,9 +85,21 @@ export class EditPlaylistDialogComponent implements OnInit {
       let selectedSongsJson = [];
       console.log(`New song ${newValue} added`);
       console.log('newSongsAdded');
-      for(let i=0;i<newValue.length;i++) {
-      selectedSongsJson.push({'songs':newValue[i]});
+      for(let i=0;i<this.existingPlayListData.length;i++) {
+        if(this.playListTitle === this.existingPlayListData[i].playlistTitle) {
+          for(let j=0;j<this.existingPlayListData[i].songsInPlaylist.length;j++){
+            if(this.existingPlayListData[i].songsInPlaylist[j].songs._id ==newValue) {
+              this.songAlreadyExist = true;
+            }
+          }  
+        }
       }
+      if(!this.songAlreadyExist) {
+        for(let i=0;i<newValue.length;i++) {
+          selectedSongsJson.push({'songs':newValue[i]});
+        }  
+      }
+      
       
       this.itemToChange = {
         "songsInPlaylist":selectedSongsJson,

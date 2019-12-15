@@ -47,7 +47,8 @@ export class EditPlaylistComponent implements OnInit {
       id: playlistID,
       playlistTitle:playlistTitle,
       playlistDescription:playlistDescription,
-      playListVisibilityScope:playListVisibilityScope
+      playListVisibilityScope:playListVisibilityScope,
+      playListData:this.playlistsData
   };
   const dialogRef = this.dialog.open(EditPlaylistDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(
