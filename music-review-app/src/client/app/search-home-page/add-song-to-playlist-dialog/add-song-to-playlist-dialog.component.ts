@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { PlaylistService } from './../../playlists/playlistsServices/playlist.service';
 import { Observable } from 'rxjs';
 import { PlaylistModel } from './../../playlists/playlistModel';
+import { AuthService } from './../../services/auth.service';
 
 @Component({
   selector: 'app-add-song-to-playlist-dialog',
@@ -15,12 +16,19 @@ export class AddSongToPlaylistDialogComponent implements OnInit {
   playlistsData:PlaylistModel[];
   selectedPlaylistID:string;
   optionSelectedControl = new FormControl();
+  itemToChange:Object;
+  selectedSongTitle:string;
+  selectedSongID:string;
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<AddSongToPlaylistDialogComponent>,
     private _playlistService:PlaylistService,
+    private _authService:AuthService,
     @Inject(MAT_DIALOG_DATA) data
-  ) { }
+  ) { this.selectedSongID = data.songId;
+      this.selectedSongTitle = data.songTitle;
+      console.log(`Selected song id is ${this.selectedPlaylistID}`);
+    }
 
   ngOnInit() {
     //fetch all user's playlist.
@@ -33,7 +41,7 @@ export class AddSongToPlaylistDialogComponent implements OnInit {
   }
 
   fetchAllPlaylistsOfUser() {
-    let userEmail = 'vishalbhardwaj630@gmail.com';
+    let userEmail = this._authService.userProfileSubject$.value.email
     this._playlistService.fetchExistingPlaylist(userEmail).subscribe(
       results=>{
         this.playlistsData = results.playlists;
@@ -46,7 +54,18 @@ export class AddSongToPlaylistDialogComponent implements OnInit {
 
   save() {
     console.log('Save Called');
-    // this._playlistService.
+    let selectedSongsJson = [];
+      console.log(`New song ${this.selectedSongID} added`);
+      console.log('newSongsAdded');
+      selectedSongsJson.push({'songs':this.selectedSongID});
+      this.itemToChange = {
+        "songsInPlaylist":selectedSongsJson,
+        'userEmail':this._authService.userProfileSubject$.value.email
+      }
+    this._playlistService.updateExistingPlaylist(this.itemToChange,this.selectedPlaylistID).subscribe(result=>{
+      console.log(``);
+      this.dialogRef.close();
+    });
   }
 
   createNewPlaylist(){
