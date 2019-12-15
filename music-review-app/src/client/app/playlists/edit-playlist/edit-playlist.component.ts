@@ -51,8 +51,11 @@ export class EditPlaylistComponent implements OnInit {
   };
   const dialogRef = this.dialog.open(EditPlaylistDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(
-        data => console.log("Dialog output:", data)
-    );    
+        data => {console.log("Dialog output:", data)
+          if(data) {
+            this.getAllPlaylists();
+          }
+        });    
   }
 
   deleteSongFromPlaylist(songID:string,playlistID:string){

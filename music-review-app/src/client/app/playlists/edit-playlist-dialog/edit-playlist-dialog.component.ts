@@ -28,7 +28,7 @@ export class EditPlaylistDialogComponent implements OnInit {
   playListUpdated:object;
   newSongsAdded:string[] = [];
   allSongsDropdown:object[];
-  
+  isToReRenderParentComponent:boolean = false;  
 
   constructor(
         private fb: FormBuilder,
@@ -99,12 +99,15 @@ export class EditPlaylistDialogComponent implements OnInit {
   save() {
     console.log(`Updating the attributes`);
     this.callServiceForUpdatingPlaylistAttributes();
-    this.dialogRef.close();
   }
   
   callServiceForUpdatingPlaylistAttributes() {
         this._playlistService.updateExistingPlaylist(this.itemToChange,this.playListID).subscribe(updatedPlaylist=>{
           this.playListUpdated = updatedPlaylist;
+          if(updatedPlaylist.message==="Success") {
+            this.isToReRenderParentComponent = true;
+            this.dialogRef.close(this.isToReRenderParentComponent);
+          }
         });
   }
 

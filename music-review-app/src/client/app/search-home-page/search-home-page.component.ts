@@ -59,8 +59,9 @@ export class SearchHomePageComponent implements OnInit {
     };
     const dialogRef = this.dialog.open(AddSongToPlaylistDialogComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
-          data => console.log("Dialog output:", data)
-      );    
+          data =>{
+            console.log("Dialog output:", data.isToReRenderParentComponent)
+          }); 
     }
 
     
