@@ -24,7 +24,6 @@ const routes = (app) => {
     },(req,res) => {
         console.log('Saving the items');
         addNewSong(req,res);
-        console.log('Song saved successfully');
         return;
         
     });
