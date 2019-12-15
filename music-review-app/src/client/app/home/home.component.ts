@@ -5,6 +5,7 @@ import { AuthService } from './../services/auth.service';
 import {MatDialog, MatDialogConfig} from "@angular/material";
 import { RatingDialogComponent } from './../ratings/rating-dialog/rating-dialog.component';
 import { PlaylistDialogComponentFromHomePageComponent } from './../playlists/playlist-dialog-component-from-home-page/playlist-dialog-component-from-home-page.component';
+import { ViewHiddenSongsDialogComponent } from '../songs/view-hidden-songs-dialog/view-hidden-songs-dialog.component';
 // import { UserService } from './../user/user.service';
 
 @Component({
@@ -20,6 +21,7 @@ export class HomeComponent implements OnInit {
   receivedChildMessage: string;
   isAdminLoggedIn:string;
   updateObject:object;
+  isToReRender:boolean = true;
   getMessage(message: string) {
     this.receivedChildMessage = message;
   }
@@ -105,4 +107,29 @@ export class HomeComponent implements OnInit {
       }
     });
   }
+
+  //Function to open dialog box to show all hidden songs to admin
+  viewAllHiddenSongs(){
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.minHeight = "300px";
+    dialogConfig.minWidth = "650px";
+    dialogConfig.data = {
+      
+  };
+  const dialogRef = this.dialog.open(ViewHiddenSongsDialogComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(data=>{
+      console.log("Dialog output:", data);
+      this.isToReRender = data;
+      if(this.isToReRender == true) {
+        // Re-rendering home page
+        this.callServiceForDisplayingTop10Songs();
+      }   
+    });
+
+    
+  }
+  
 }

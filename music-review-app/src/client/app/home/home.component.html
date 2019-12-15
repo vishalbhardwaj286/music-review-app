@@ -3,7 +3,10 @@
         <e-pane size='80%'>
             <ng-template #content>
                 <div class="container">
-                    <div class="row">
+                    <div class="row">                            
+                            <button *ngIf="isAdminLoggedIn == 'true'" type="button" id="buttonToUnhideSongs" class="btn btn-primary btn-circle" data-toggle="tooltip" data-placement="top" title="View all hidden songs" (click)="viewAllHiddenSongs()">
+                                    <span class="fas fa-eye-slash" aria-hidden="true"></span>
+                            </button>
                         <div class="row" *ngIf="receivedChildMessage && receivedChildMessage.length>0">
                                 <div  *ngFor="let song of receivedChildMessage">
                                         <div class="col-sm-6" >
@@ -89,8 +92,6 @@
                                             
                                         </mat-expansion-panel>
                                     </mat-accordion>
-                
-                
                 
                                     </div>
                                     </div>
