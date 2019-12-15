@@ -6,6 +6,7 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 import {MatDialog, MatDialogConfig} from "@angular/material";
 import { AddSongToPlaylistDialogComponent } from './add-song-to-playlist-dialog/add-song-to-playlist-dialog.component';
+import { AuthService } from './../services/auth.service';
 
 @Component({
   selector: 'app-search-home-page',
@@ -20,11 +21,12 @@ export class SearchHomePageComponent implements OnInit {
   songsList:string[];
   playlistTitle:string;
   filteredSongs;
+  isAdminLoggedIn:string;
 
   @Output() messageToEmit = new EventEmitter<string>();
 
 
-  constructor(private _songsService : SongsService,private dialog: MatDialog) { 
+  constructor(private _songsService : SongsService,private dialog: MatDialog,private auth:AuthService) { 
     this._songsService.filteredSongs$.subscribe(newValue=>{
       console.log(`new value is ${newValue.songs}`);
       this.filteredSongs = newValue.songs;
@@ -41,7 +43,7 @@ export class SearchHomePageComponent implements OnInit {
 
   ngOnInit() {
     console.log('Initialising component');
-  
+    this.isAdminLoggedIn = localStorage.getItem("isAdmin"); 
     }
 
     openDialog(songID:string,songTitle:string) {
