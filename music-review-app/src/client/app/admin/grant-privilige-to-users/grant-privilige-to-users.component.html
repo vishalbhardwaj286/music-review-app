@@ -18,7 +18,7 @@
                     <input type="checkbox" class="custom-control-input" id="{{user._id}}" (click) = handleClick(user._id)>
                     <label class="custom-control-label" for="{{user._id}}">{{user._id}}</label>
                 </div>
-                </td>
+            </td>
             <td>{{user.email}}</td>
             <td>{{user.role}}</td>
             <td>{{user.updated_date}}</td>
@@ -28,7 +28,7 @@
           </tbody>
         </table>
         
-        <td><input class="btn btn-primary" type="submit" value="Grant Access" (click) = handleSubmitButtonClicked()></td>
+        <td><input class="btn btn-primary" type="submit" value="Grant Access" (click) = handleGrantAccessClicked()></td>
 
       </div>
     </div>

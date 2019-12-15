@@ -10,14 +10,16 @@ import { AdminService } from './../adminServices/admin.service';
 export class GrantPriviligeToUsersComponent implements OnInit {
   loggedInUser:string
   userObject:object;
-  selectedUsersToGrantAccess:string[];
+  selectedUsersToGrantAccess:object[]=[];
+  itemToChange:Object;
   constructor(private _authService:AuthService,private _adminService:AdminService) { 
     
   }
 
   ngOnInit() {
     //Calling Service to fetch all users present in the system.
-    this.callAdminServiceToFetchAllUsers(localStorage.getItem('loggedInUserName'));
+    this.loggedInUser = localStorage.getItem('loggedInUserName');
+    this.callAdminServiceToFetchAllUsers(this.loggedInUser);
   }
 
   callAdminServiceToFetchAllUsers(loggedInUser:string) {
@@ -34,12 +36,31 @@ export class GrantPriviligeToUsersComponent implements OnInit {
   }
 
   //Handle Submit button when Admin wants to grant access to normal users for admin operations
-  handleSubmitButtonClicked() {
+  handleGrantAccessClicked() {
     //Checking if user has selected any songs or randomly pressed submit
     if(this.selectedUsersToGrantAccess.length>0) {
       //Prepare JSON to submit the data
-
+      console.log(`number of users selected ${this.selectedUsersToGrantAccess.length}`)
+      let selectedUsersJSON = [];
+      
+      
+      for(let i=0;i<this.selectedUsersToGrantAccess.length;i++) {
+      selectedUsersJSON.push(
+      {
+        'id':this.selectedUsersToGrantAccess[i],
+        'newRole':"site manager access"
+      },
+      );
+      }
+      
+      this.itemToChange = {
+        selectedUsersJSON
+      }
       //Call service to send the data to backend and update the database
+      this._adminService.adminUpdateUserRoles(this.itemToChange).subscribe(result=>{
+        console.log(`status got is ${result.status}`);
+        this.callAdminServiceToFetchAllUsers(this.loggedInUser);
+      });
     }
   }
 }
