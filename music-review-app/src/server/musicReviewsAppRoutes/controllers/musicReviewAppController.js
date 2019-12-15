@@ -4,6 +4,7 @@ const Playlist = require('./../models/PlaylistSchema');
 const SongsReviewsSchema = require('../models/SongReviewSchema');
 const users = require('../models/users');
 
+//Controller to add new song to DB
 const addNewSong = (req,res) => {
 
     let newSong = new Songs({
@@ -31,6 +32,7 @@ const addNewSong = (req,res) => {
 
 };
 
+//Controller to create new playlist
 const createNewPlaylist = (req,res) => {
 
     console.log(`Creating new playlist for user ${req.body.createdByUser} having title ${req.body.playlistTitle} with songs ${req.body.songsInPlaylist}`);
@@ -70,6 +72,7 @@ const createNewPlaylist = (req,res) => {
     
 };
 
+//Controller to fetch all public playlists which are marked as public
 const fetchAllPublicPlaylists = (req,res) => {
 
     console.log(`Fetching all public playlists`);
@@ -100,6 +103,7 @@ const fetchAllPublicPlaylists = (req,res) => {
     
 };
 
+//Controller to save user reviews for a given song
 const saveUserReviewsForGivenSong = (req,res) => {
 
     console.log(`Saving user reviews for song ${req.body.reviewedSongID}`);
@@ -134,17 +138,6 @@ const saveUserReviewsForGivenSong = (req,res) => {
                  } }
                 
             )
-            // SongsReviewsSchema.update(
-            //     {reviewedSongTitle: review_id}, 
-            //     {$push: {
-            //         reviewedSongID: req.body.reviewedSongID,
-            //         ratingsGivenByUser:req.body.ratingsGivenByUser,
-            //         commentsGivenByUser:req.body.commentsGivenByUser,
-            //         ratedByUser:req.body.ratedByUser
-            //         }
-                    
-            //     })
-            
             .then(result=>{
                 res.status(200).json({'message':'Another review added','reviews':result});
             })
@@ -163,6 +156,7 @@ const saveUserReviewsForGivenSong = (req,res) => {
     
 };
 
+//Controller to Fetch all reviews for One Particular song
 const fetchAllReviewforParticularSong = (req,res) => {
 
     console.log(`Fetching all Reviews for song ${req.params.SongID}`);
@@ -171,10 +165,6 @@ const fetchAllReviewforParticularSong = (req,res) => {
     findOne({'reviewedSongID':req.params.SongID}).
     lean().
     populate('reviewedSongID')
-    
-    
-    //.select('id playlistTitle playlistDescription songsInPlaylist createdByUser created_date')
-    //.populate('songsInPlaylist.songs')
     
     .then(reviews=>{
         if(reviews==null){
@@ -198,6 +188,8 @@ const fetchAllReviewforParticularSong = (req,res) => {
     
 };
 
+// Controller to Update Playlist attributes based on request structure
+// If req.body contains song array, then update songs; otherwise update basic attributes of playlist
 const updatePlaylistAttributes = (req,res)=>{
     console.log(`Executing updatePlaylistAttributes`)
     let playlistID = req.params.playlistID;
@@ -315,7 +307,7 @@ const updatePlaylistAttributes = (req,res)=>{
 
 };
 
-
+//Controller to Fetch Top Ten Songs To display to Regular users
 const fetchTopTenSongsByGivenFilter = (req,res) => {
     
     let filterBy = req.query?req.query.id:null
@@ -345,14 +337,6 @@ const fetchTopTenSongsByGivenFilter = (req,res) => {
         {
             $limit: 10
         },
-        // {
-        //     $lookup :{
-        //         from :"Songs",
-        //         localField:"reviewedSongID",
-        //         foreignField:"_id",
-        //         as:"songDetails"
-        //     }
-        // },
         {
             $lookup:{
                 from:"Songs",
@@ -375,18 +359,11 @@ const fetchTopTenSongsByGivenFilter = (req,res) => {
             }
         },
         
-        // {
-        //     $group: {
-        //         _id: "$reviewedSongID",
-        //         avgNumberOfReviews: {
-        //             $avg:"$rating"
-        //         }
-        //     }
-        // },
+       
         { 
             "$unwind": "$songDetails" 
         },
-        // {"$match":{"Songs.songVisibility":true}}
+       
         
     ])
     .then(reviews=>{
@@ -413,6 +390,7 @@ const fetchTopTenSongsByGivenFilter = (req,res) => {
     
 };
 
+// Controller to fetch all songs from Mongo DB based on the request structure
 const fetchAllSongs = (req,res) => {
     let searchQuery = req.query.searchQuery?req.query.searchQuery:undefined;
     let showAllHiddenSongsQuery = req.query.showAllHiddenSongsQuery?req.query.showAllHiddenSongsQuery:undefined;
@@ -425,9 +403,10 @@ const fetchAllSongs = (req,res) => {
                 $or:[
                     {title:regex},
                     {artist:regex},
-                    {genre:regex}
+                    {genre:regex},
                     
-                ]
+                ],
+                songVisibility:{$ne:false}
             })
             .then(reviews=>{
                 console.log(reviews);
@@ -464,19 +443,7 @@ const fetchAllSongs = (req,res) => {
     }
     else{
         console.log('Fetching all songs without any filter');
-    //     Songs.find({ songVisibility:{$ne:false}})
-    //     .then(result=>{
-    //     console.log(result);
-    //     if(result!==null) {
-    //         console.log("All songs fetched successfully");
-    //         res.status(200).json({'songs':result});
-    //     }
-    //     else {
-    //         console.log(`Need to update the song with id ${song_id}`);
-    //         res.status(200).json({'message':'No songs found in the database'});
-    //     }
-        
-    // })
+    
     SongsReviewsSchema
     .aggregate([
         {
@@ -551,6 +518,7 @@ const fetchAllSongs = (req,res) => {
     
 };
 
+//Controller to Playlist of a particular user who is logged in and requesting for the resource 
 const fetchPlaylistsOfUser = (req,res)=>{
     console.log(`Executing Controller to fetch user specific playlists`);
     
@@ -577,6 +545,7 @@ const fetchPlaylistsOfUser = (req,res)=>{
     
 };
 
+// Function to Delete Existing Song from playlist chosen by the User
 const deleteExistingSongFromUserPlaylist = (req,res)=>{
     console.log(`Executing controller to delete songs from Playlist`);
     let playlist_id = req.body.playlistID;
@@ -621,6 +590,7 @@ const deleteExistingSongFromUserPlaylist = (req,res)=>{
     
 };
 
+// Function to Confirm Logged In User and fetch all its attributes such as ID and roles
 const fetchLoggedInUserDetails = (req,res)=>{
     //Checking for query params. If exists, then get attributes of particular user
     console.log(`query parameters are ${req.query.user}`);
@@ -676,9 +646,9 @@ const fetchLoggedInUserDetails = (req,res)=>{
     }
 };
 
+// Function to update Existing Songs Parameters such as song visibility etc.
 function updateSongsParameter(req,res) {
-    // let songIDToUpdate =  req.body.songID;
-    // let isHidden = req.body.songVisibility;
+    
     console.log(`songID got is ${req.body.songID} and isHidden is ${req.body.songVisibility}`)
     Songs.updateOne({'_id': req.body.songID}, {$set: {'songVisibility': req.body.songVisibility}})
     .then(result=>{
@@ -695,8 +665,6 @@ function updateRolesOfUsersByAdmin(req,res) {
     
     
     for (let i = 0; i < req.body.selectedUsersJSON.length; i++) {
-
-        // users.find({'_id':req.body.selectedUsersJSON[i].id})
         users.findByIdAndUpdate({_id:req.body.selectedUsersJSON[i].id},{role:req.body.selectedUsersJSON[i].newRole})
         .then(res=>{
             console.log(`result after updating is ${res}`);
@@ -722,7 +690,6 @@ function updateSongVisibilityToTrueByAdmin(req,res) {
     let updateResults = [];
     for (let i = 0; i < req.body.selectedSongsJSON.length; i++) {
 
-        // users.find({'_id':req.body.selectedUsersJSON[i].id})
         Songs.findByIdAndUpdate({_id:req.body.selectedSongsJSON[i].id},{songVisibility:req.body.selectedSongsJSON[i].songVisibility})
         .then(res=>{
             console.log(`result after updating is ${res}`);
@@ -743,6 +710,8 @@ function updateSongVisibilityToTrueByAdmin(req,res) {
     );
 }
 
+// Referred from https://stackoverflow.com/questions/3115150/how-to-escape-regular-expression-special-characters-using-javascript
+// This function is used for performing key-word wise search in the home tab of application.
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
