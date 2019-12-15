@@ -4,6 +4,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { SongsService } from './../songsServices/songs.service';
 import { Observable } from 'rxjs';
 import { SongsModel } from './../songsModel';
+import { RatingService } from './../../ratings/ratingsServices/rating.service';
+import { RatingsModel } from './../../ratings/ratingsModel';
 
 
 @Component({
@@ -19,7 +21,7 @@ export class AddNewSongComponent implements OnInit {
   songsData:Observable<SongsModel>[];
   profile:string;
 
-  constructor(public auth: AuthService,private formBuilder: FormBuilder,private _songsService:SongsService) { 
+  constructor(public auth: AuthService,private formBuilder: FormBuilder,private _songsService:SongsService,private _ratingService:RatingService) { 
     console.log(`logged in User Details are ${auth.userProfileSubject$.value.email}`);
     
   }
@@ -40,7 +42,7 @@ export class AddNewSongComponent implements OnInit {
   }
 
   onFormSubmit(form:any) {
-    let ItemToAdd : SongsModel  = {
+    let ItemToAdd  = {
       title:form.titleOfSong,
       artist:form.artistOfSong,
       album:form.songAlbum,
@@ -53,12 +55,30 @@ export class AddNewSongComponent implements OnInit {
     this.uploadNewSongForm.reset();
   }
 
-  callServiceForUploadingNewSong(newSong:SongsModel){
+  callServiceForUploadingNewSong(newSong:any){
     this._songsService.uploadNewSong(newSong).subscribe(
       newSong=>{
         this.songUploaded = true;
+        
+          this.callServiceToUpdateReviews(newSong);
+        
+        
       }
     )
+  }
+  callServiceToUpdateReviews(song:any) {
+    let SongToReview : RatingsModel  = {
+      
+      reviewedSongID:song.newSong[0]._id,
+      ratingsGivenByUser:{
+        'rating':5,
+        'ratedByUser':this.auth.userProfileSubject$.value.email,
+        'comments':song.newSong[0].reviews
+      }
+    };
+  this._ratingService.addReviewToSong(SongToReview).subscribe(result=>{
+    console.log(`Reviews saved successfully ${result}`);
+  })
   }
  
 }
