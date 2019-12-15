@@ -46,8 +46,16 @@ export class SongsService {
   // }
   fetchAllSongs(query?:string):Observable<any>{
     console.log(`Executing service to fetch all songs`);
+    let showAllHiddenSongsQuery = (query === 'showAllHiddenSongsQuery'?'showAllHiddenSongsQuery':undefined);
+    let fetchAllSongsURI = undefined;
     let httpHeaders = new HttpHeaders().set('Content-Type','application/Json');
-    let fetchAllSongsURI = `/secure/songs?searchQuery=${query}`;
+    if(showAllHiddenSongsQuery !==undefined){
+      fetchAllSongsURI = `/secure/songs?showAllHiddenSongsQuery=${showAllHiddenSongsQuery}`;
+    }
+    else{
+      fetchAllSongsURI = `/secure/songs?searchQuery=${query}`;
+    }
+    
     let options = {
       headers:httpHeaders
     };
@@ -74,8 +82,18 @@ export class SongsService {
       headers:httpHeaders
     };
 
-    //start from here
+    //Calling Backend to hide song
     return this.http.post<any>(updateSongAttributesURI,updateObject,options);    
+  }
+  unhideSongFromList(updateObject:object) {
+    let httpHeaders = new HttpHeaders().set('Content-Type','application/Json');
+    let updateVisibilityofSongURI = `/secure/songs`;
+    let options = {
+      headers:httpHeaders
+    };
+
+    //Calling Backend to unhide songs
+    return this.http.patch<any>(updateVisibilityofSongURI,updateObject,options);  
   }
 }
 
