@@ -397,59 +397,13 @@ const fetchTopTenSongsByGivenFilter = (req,res) => {
     
 };
 
-const fetchAllSongs = (req,res,query) => {
-    
-    if(query !== undefined) {
+const fetchAllSongs = (req,res) => {
+    let searchQuery = req.query.searchQuery?req.query.searchQuery:undefined;
+    let showAllHiddenSongsQuery = req.query.showAllHiddenSongsQuery?req.query.showAllHiddenSongsQuery:undefined;
+    if( searchQuery !== undefined) {
         console.log(`We have filter to be applied`);
-        const regex = new RegExp(escapeRegex(query), 'gi');
+        const regex = new RegExp(escapeRegex(searchQuery), 'gi');
         console.log(`Fetching all songs`);
-    //     SongsReviewsSchema
-    // .aggregate([
-        
-    //     {
-    //         $project: {
-    //             item: 1,
-    //             reviewedSongID:"$reviewedSongID",
-    //             ratingsGivenByUser:"$ratingsGivenByUser",
-    //             numberOfReviews: { $cond: { if: { $isArray: "$ratingsGivenByUser" }, then: { $size: "$ratingsGivenByUser" }, else: "NA"} },
-    //             ratingAvg: 
-    //             { 
-    //                 $avg: "$ratingsGivenByUser.rating"
-    //             }
-    //         }
-            
-    //     },
-        
-    //     {
-    //         $sort: {
-    //             numberOfReviews : -1
-    //         }  
-    //     },
-    //     {
-    //         $limit: 10
-    //     },
-    //     {
-    //         $lookup :{
-    //             from :"Songs",
-    //             localField:"reviewedSongID",
-    //             foreignField:"_id",
-    //             as:"songDetails"
-    //         }
-    //     },
-    //     // {
-    //     //     $group: {
-    //     //         _id: "$reviewedSongID",
-    //     //         avgNumberOfReviews: {
-    //     //             $avg:"$rating"
-    //     //         }
-    //     //     }
-    //     // },
-    //     { 
-    //         "$unwind": "$songDetails" 
-    //     }
-        
-        
-    // ])
         Songs.find(
             {
                 $or:[
@@ -478,7 +432,20 @@ const fetchAllSongs = (req,res,query) => {
             });
 
     }
-    
+    else if(showAllHiddenSongsQuery!== undefined){
+        console.log('Fetching all hidden songs to show to admin');
+        Songs.find({ songVisibility:{$ne:true}})
+        .then(result=>{
+            console.log(`got results ${result}`)
+            res.status(200).json({'songs':result});
+        })
+        .catch(error=>{
+            console.log(`Got error ${error}`);
+            res.status(500).json({
+                "message":`Unable to fetch songs`
+            });
+        })
+    }
     else{
         console.log('Fetching all songs without any filter');
         Songs.find()
@@ -646,8 +613,11 @@ function updateSongsParameter(req,res) {
 function updateRolesOfUsersByAdmin(req,res) {
     let updateResults = [];
     
-    for (let i = 0; i < req.body.length; i++) {
-        users.findByIdAndUpdate({_id:req.body[i].id},{role:req.body[i].newRole})
+    
+    for (let i = 0; i < req.body.selectedUsersJSON.length; i++) {
+
+        // users.find({'_id':req.body.selectedUsersJSON[i].id})
+        users.findByIdAndUpdate({_id:req.body.selectedUsersJSON[i].id},{role:req.body.selectedUsersJSON[i].newRole})
         .then(res=>{
             console.log(`result after updating is ${res}`);
             updateResults.push(res.role);
@@ -666,6 +636,33 @@ function updateRolesOfUsersByAdmin(req,res) {
         }
     );
 }
+
+// Function to toggle visibility of songs from false to true
+function updateSongVisibilityToTrueByAdmin(req,res) {
+    let updateResults = [];
+    for (let i = 0; i < req.body.selectedSongsJSON.length; i++) {
+
+        // users.find({'_id':req.body.selectedUsersJSON[i].id})
+        Songs.findByIdAndUpdate({_id:req.body.selectedSongsJSON[i].id},{songVisibility:req.body.selectedSongsJSON[i].songVisibility})
+        .then(res=>{
+            console.log(`result after updating is ${res}`);
+            updateResults.push(res.role);
+        })
+        .catch(error=>{
+            console.log(`error during updating is ${error}`);
+            res.status(500).json({"message":error})
+        });
+        
+    }
+
+    res.status(200).json(
+        {
+            'status':'Success',
+            'result':updateResults
+        }
+    );
+}
+
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
@@ -677,6 +674,7 @@ module.exports = {
     fetchTopTenSongsByGivenFilter,
     fetchAllSongs,fetchPlaylistsOfUser,
     deleteExistingSongFromUserPlaylist,fetchLoggedInUserDetails,
-    updateSongsParameter,updateRolesOfUsersByAdmin
+    updateSongsParameter,updateRolesOfUsersByAdmin,
+    updateSongVisibilityToTrueByAdmin
 
 };
