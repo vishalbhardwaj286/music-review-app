@@ -23,5 +23,15 @@ export class AdminService {
     return this.http.get<any>(fetchAllUsersURI,options);
   }
 
+  adminUpdateUserRoles(object:any):Observable<any>{
+    let httpHeaders = new HttpHeaders().set('Content-Type','application/Json');
+    let updateRolesOfUsersURI = `/secure/users`;
+    let options = {
+      headers:httpHeaders
+    };
+
+    return this.http.patch<any>(updateRolesOfUsersURI,object,options);
+  }
+
 }
 
