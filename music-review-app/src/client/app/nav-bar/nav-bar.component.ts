@@ -9,9 +9,14 @@ import { UserService } from './../user/user.service';
 })
 export class NavbarComponent implements OnInit {
   isAdminLoggedIn:string
+  loggedInPersonEmail:string = null;
+
   constructor(public auth: AuthService,private _userService:UserService) { 
     this.auth.userProfile$.subscribe(result=>{
       if(result!==null) {
+        this.loggedInPersonEmail = auth.userProfileSubject$.value.email;
+        let data = this.loggedInPersonEmail.split('@') ;
+        this.loggedInPersonEmail = data[0];
         this.getUserRoles(auth.userProfileSubject$.value.email);
       }
     });

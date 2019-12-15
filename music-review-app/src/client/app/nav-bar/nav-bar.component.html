@@ -1,7 +1,8 @@
 <div class="container mt-2 col-md-12">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">
-            <img src="logo" width="30" height="30" alt="">
+            <!-- <img src="logo" width="30" height="30" alt=""> -->
+            <i class="fas fa-music"></i>
         </a>
         
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,6 +42,10 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" routerLink="grantPriviligeToUsersComponent" *ngIf="isAdminLoggedIn=='true'">Grant Access to Other User</a> 
+            </li>
+
+            <li class="nav-item" *ngIf="isAdminLoggedIn=='true'">
+              <span id=loggedInUser><p>Welcome Admin {{loggedInPersonEmail}}</p></span>
             </li>
             
 
