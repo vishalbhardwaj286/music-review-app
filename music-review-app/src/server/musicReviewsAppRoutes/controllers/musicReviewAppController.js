@@ -252,30 +252,67 @@ const updatePlaylistAttributes = (req,res)=>{
                         res.status(200).json({'message':'Song attributes updated','song':result});
                     })
                     .catch(error=>{
-                    res.status(500).json({"message":`Encountered ${error} while updating ${playlistID}`});
+                    res.status(500).json({"message":`Encountered ${error} while updating playlist ${playlistID}`});
                     })
                 }  
                 else {
                     console.log('Triggering regular update');
-                    Playlist.updateOne(
-                        {_id: playlistID}, 
-                        {
-                            $set: 
+                    let playlistTitle =  req.body.playlistTitle?req.body.playlistTitle:undefined;
+                    let playlistDescription =  req.body.playlistDescription?req.body.playlistDescription:undefined;
+                    let playListVisibilityScope = req.body.playListVisibilityScope?req.body.playListVisibilityScope:undefined;
+                    if(playlistTitle!==undefined) {
+                        Playlist.updateOne(
+                            {_id: playlistID}, 
                             {
-                                playlistTitle: req.body.playlistTitle
-                            }
-                        })
-                    .then(result=>{
-                        res.status(200).json({'message':'Song attributes updated','song':result});
-                    })
-                    .catch(error=>{
-                    res.status(500).json({"message":`Encountered error while updating ${song_id}`});
-                    })
+                                $set: 
+                                {
+                                    playlistTitle: req.body.playlistTitle
+                                }
+                            })
+                            .then(result=>{
+                                res.status(200).json({'message':'Playlist title  updated','playlist':result});
+                            })
+                            .catch(error=>{
+                            res.status(500).json({"message":`Encountered error while updating ${playlistID}`});
+                            })
+                        }
+                    else if(playlistDescription !== undefined) {
+                        Playlist.updateOne(
+                            {_id: playlistID}, 
+                            {
+                                $set: 
+                                {
+                                    playlistDescription: req.body.playlistDescription
+                                }
+                            })
+                            .then(result=>{
+                                res.status(200).json({'message':'Playlist attributes updated','playlist':result});
+                            })
+                            .catch(error=>{
+                            res.status(500).json({"message":`Encountered error while updating ${playlistID}`});
+                            })
+                        }
+                    
+                    else if(playListVisibilityScope!==undefined) {
+                        console.log(`Playlist visibility Scope got ${playListVisibilityScope}`);
+                        Playlist.updateOne(
+                            {_id: playlistID}, 
+                            {
+                                $set: 
+                                {
+                                    playListVisibilityScope: req.body.playListVisibilityScope
+                                }
+                            })
+                            .then(result=>{
+                                res.status(200).json({'message':'Playlist visibility scope updated','song':result});
+                            })
+                            .catch(error=>{
+                            res.status(500).json({"message":`Encountered error while updating ${playlistID}`});
+                            })
+                        }
+                    
             
                 }
-
-
-
             }
             else {
                 console.log(`Unauthorized access`);
