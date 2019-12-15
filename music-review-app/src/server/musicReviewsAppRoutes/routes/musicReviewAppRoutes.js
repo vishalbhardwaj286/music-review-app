@@ -1,3 +1,4 @@
+// Importing all controller functions from music-controller
 const {
     addNewSong,createNewPlaylist,fetchAllPublicPlaylists,
     saveUserReviewsForGivenSong,
@@ -14,9 +15,9 @@ const routes = (app) => {
     app.route('/secure/song/:title')
 
     .put((req,res,next)=> {
-        //middlerware
+        //middlerware before executing actual request
         console.log(`Request parameter got in the PUT request is ${req.params.title}`);
-        //console.log(req);
+        
         console.log(`Request from :${req.originalUrl}`);
         console.log(`Request type :${req.method}`);
                 
@@ -27,6 +28,9 @@ const routes = (app) => {
         return;
         
     });
+
+    //Routes to handle All secured REST calls related to Playlist operations . For instance , below is used to create or update 
+    // playlist data 
 
     app.route('/secure/playlist/:playlistID')
     
@@ -51,6 +55,7 @@ const routes = (app) => {
         updatePlaylistAttributes(req,res);
     });
 
+    // Route to handle Guest user request to fetch all public playlists
     app.route('/public/fetchAllPublicPlaylists')
     .get((req,res,next)=>{
         console.log(`Fetching all public playlists`);
@@ -59,18 +64,22 @@ const routes = (app) => {
         fetchAllPublicPlaylists(req,res);
     });
     
+    //Secure route to handle reviews for a given song. It handles Fetching all reviews and posting a new review of user for given song
     app.route('/secure/reviews/:SongID')
     
+    // Use to fetch all reviews
     .get((req,res)=>{
         console.log(`Fetching reviews for particular song id ${req.params.SongID}`);
         fetchAllReviewforParticularSong(req,res);
     })
     
+    // Use to Post user reviews for given song
     .post((req,res)=> {
         console.log(`Request Reached for adding reviews to a song`);
         saveUserReviewsForGivenSong(req,res);        
     });
 
+    // API Route to Fetch Top Ten Songs to Display to Regular User
     app.route('/public/fetchTopTenSongs')
 
     .get((req,res)=>{
@@ -98,10 +107,12 @@ const routes = (app) => {
         updateSongsParameter(req,res);
     })
 
+    // Bulk Updates of songs visibility of different songs
     .patch((req,res)=>{
         updateSongVisibilityToTrueByAdmin(req,res)
     });
 
+    // This route handles all playlists of logged in User
     app.route('/secure/playlists/:userEmail')
 
     .get((req,res,next)=>{
@@ -111,12 +122,14 @@ const routes = (app) => {
         fetchPlaylistsOfUser(req,res);
     });
 
+    // Route to handle deletion of songs from playlist by its owner
     app.route('/secure/playlist/songs/:playlistID')
     
     .post((req,res) =>{
         deleteExistingSongFromUserPlaylist(req,res);
     });
 
+    // Route to fetch all users by the admin so as to grant access to them
     app.route('/secure/users')
 
     .get((req,res,next) =>{
@@ -134,5 +147,5 @@ const routes = (app) => {
     })
 }
 
-    
+// Exporting modules to be used in other module or class which will import this    
 module.exports = routes;
