@@ -1,0 +1,70 @@
+<h2 mat-dialog-title> Select Songs to unhide</h2>
+
+<mat-dialog-content >
+        <!-- <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+                <!--- Note that these columns can be defined in any order.
+                      The actual rendered columns are set as a property on the row definition" -->
+              
+                <!-- Position Column
+                <ng-container matColumnDef="position">
+                  <th mat-header-cell *matHeaderCellDef> No. </th>
+                  <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                </ng-container>
+              
+                <!-- Name Column 
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef> Name </th>
+                  <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                </ng-container>
+              
+                <!-- Weight Column 
+                <ng-container matColumnDef="weight">
+                  <th mat-header-cell *matHeaderCellDef> Weight </th>
+                  <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+                </ng-container>
+              
+                <!-- Symbol Column 
+                <ng-container matColumnDef="symbol">
+                  <th mat-header-cell *matHeaderCellDef> Symbol </th>
+                  <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+                </ng-container>
+              
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table> -->
+
+              <table class="table table-striped">
+                    <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Title</th>
+                      <th scope="col">Artist</th>
+                      <th scope="col">Genre</th>
+                      <th scope="col">Year</th>
+                    </tr>
+                    </thead>
+                    <tbody *ngIf="dataSource!==undefined">
+                    <tr *ngFor="let song of dataSource.songs; index as i">
+                      <th scope="row">{{ i + 1 }}</th>
+                      <td>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="{{song._id}}" (click) = handleClick(song._id)>
+                            <label class="custom-control-label" for="{{song._id}}">{{song.title}}</label>
+                        </div>
+                      </td>
+                      <td>{{ song.artist}}</td>
+                      <td>{{ song.genre}}</td>
+                      <td>{{ song.year}}</td>
+                      
+                    </tr>
+                    </tbody>
+                  </table>
+              
+</mat-dialog-content>      
+<mat-dialog-actions>
+    <button class="mat-raised-button"(click)="close()">Close</button>
+    <button *ngIf="selectedSongtToUnhide.length>0" class="mat-raised-button mat-primary"(click)="save()">Save</button>
+</mat-dialog-actions>
+
+
