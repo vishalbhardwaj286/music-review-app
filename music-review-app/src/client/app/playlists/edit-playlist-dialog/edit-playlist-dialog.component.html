@@ -41,7 +41,7 @@
     <mat-form-field *ngIf="selectedOptionToEdit=='playlistAddMoreSongs'"  [floatLabel]="editPlaylistForm.value.floatLabel" style="width:400px;">
         <mat-label>Select Songs To Add</mat-label>
         <mat-select [formControl] = "newSongsAddedController" [(ngModel)]="newSongsAdded" matInput name="newSongsAdded" autocomplete="on" multiple>
-        <mat-option *ngFor="let song of allSongsDropdown" value={{song._id}}>{{song.title}}</mat-option>
+        <mat-option *ngFor="let song of allSongsDropdown" value={{song.songDetails._id}}>{{song.songDetails.title}} &nbsp;(Average Rating is: {{song.ratingAvg}} star)</mat-option>
 
         </mat-select>
     

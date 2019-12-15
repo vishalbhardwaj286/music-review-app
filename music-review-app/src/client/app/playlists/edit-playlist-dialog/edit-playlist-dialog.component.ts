@@ -108,7 +108,7 @@ export class EditPlaylistDialogComponent implements OnInit {
 
   callServiceToFetchAllSongs(){
     this._songsService.fetchAllSongs().subscribe(results=>{
-      this.allSongsDropdown = results.songs;
+      this.allSongsDropdown = results.reviews;
     });
   }
 }
