@@ -45,7 +45,7 @@ export class CreateNewPlaylistComponent implements OnInit {
   getAllSongs(){
     this._songsService.fetchAllSongs().subscribe(
       songs=>{
-        this.songsData = songs.songs;
+        this.songsData = songs.reviews;
         console.log(`Songs Data is ${this.songsData}`);
         this.songsList = songs.reviews;
       }

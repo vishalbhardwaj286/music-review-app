@@ -12,7 +12,7 @@ export class SearchMusicWithinPlaylistPipe implements PipeTransform {
     return(
       pipeData.filter(eachItem=>{
         return(
-          eachItem["title"].toLowerCase().includes(pipeModifier.toLowerCase())
+          eachItem["songDetails"].title.toLowerCase().includes(pipeModifier.toLowerCase())
         );
       })
     );
