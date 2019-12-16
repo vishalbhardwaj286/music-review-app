@@ -116,6 +116,7 @@ export class HomeComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
         data =>{
           console.log("Dialog output:", data);
+          this.comments = '';
           this.fetchSongsBasedOnUserLoggedInOrNot();
         } 
         
