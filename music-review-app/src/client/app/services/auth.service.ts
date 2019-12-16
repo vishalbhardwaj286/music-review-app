@@ -1,3 +1,7 @@
+/*
+  Below class is referred from the Auth0.com docs    
+*/
+
 import { Injectable } from '@angular/core';
 import createAuth0Client from '@auth0/auth0-spa-js';
 import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client';
@@ -8,8 +12,12 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
+/*
+  Authorization service for managing the Login, Logout and Token Validation operations
+  during the application flow. 
+*/
 export class AuthService {
-  // Create an observable of Auth0 instance of client
+  // Creating an observable of Auth0 instance of the client
   auth0Client$ = (from(
     createAuth0Client({
       domain: "vishalbhardwaj.auth0.com",
@@ -114,7 +122,7 @@ export class AuthService {
   }
 
   logout() {
-    // Ensure Auth0 client instance exists
+    
     this.auth0Client$.subscribe((client: Auth0Client) => {
       // Call method to log out
       localStorage.setItem('isAdmin',"false"); 
@@ -125,6 +133,9 @@ export class AuthService {
     });
   }
 
+  /*
+    Function to get the token which is passed with every API call to know the authenticity of the user
+  */
   getTokenSilently$(options?): Observable<string> {
     return this.auth0Client$.pipe(
       concatMap((client: Auth0Client) => from(client.getTokenSilently(options)))

@@ -7,6 +7,10 @@ import { SongsService } from '../songsServices/songs.service';
   templateUrl: './view-hidden-songs-dialog.component.html',
   styleUrls: ['./view-hidden-songs-dialog.component.css']
 })
+/*
+  Component to Render Hidden songs to the admin. It opens a dilaog
+  box which contains all the hidden songs information in the table
+*/
 export class ViewHiddenSongsDialogComponent implements OnInit {
 
   dataSource:object;
@@ -34,10 +38,16 @@ export class ViewHiddenSongsDialogComponent implements OnInit {
     })
   }
 
+  /*
+    Called from the template in order to close the dialog box	
+  */
   close() {
     this.dialogRef.close();
   }
 
+  /*
+    Function called to save the user requested changes	
+  */
   save() {
     if(this.selectedSongtToUnhide.length>0) {
       this.callServiceToChangeVisibilityOfSongs();
@@ -45,10 +55,18 @@ export class ViewHiddenSongsDialogComponent implements OnInit {
     
   }
 
+  /*
+    handleClick method takes one string arguement which is 
+    songID that is updated every time the user click on the 
+    check box corresponding to the song user wants to add
+  */
   handleClick(songID:string) {
     this.selectedSongtToUnhide.push(songID);
   }
 
+  /*
+    Calling song Service method to toggle the visibility of the songs
+  */
   callServiceToChangeVisibilityOfSongs(){
     let selectedSongsJSON = [];
     for(let i=0;i<this.selectedSongtToUnhide.length;i++) {

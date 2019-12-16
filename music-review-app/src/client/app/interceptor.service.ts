@@ -1,3 +1,9 @@
+/*
+  Reffered from auth0.com docs.
+  The main functionality of this interceptor is to intercept each and every
+  request in the application and attaching the required token in the
+  request header
+*/
 import { Injectable } from '@angular/core';
 import {
   HttpRequest,

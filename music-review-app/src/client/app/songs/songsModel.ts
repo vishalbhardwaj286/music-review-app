@@ -1,3 +1,6 @@
+/*
+    interface containing the structure of the songs
+*/
 export interface SongsModel{
     title:string,
     artist:string,

@@ -14,6 +14,12 @@ import { ViewHiddenSongsDialogComponent } from '../songs/view-hidden-songs-dialo
   styleUrls: ['./home.component.css'],
   providers:[SongsService],
 })
+/*
+  This class is responsible for managing the home component related changes.
+  For instance all the ngmodels used in the home template are declared over here
+  Apart from this, it takes care of calling services related to various functionalities
+  which are required to render the home compoent successfully.
+*/
 export class HomeComponent implements OnInit {
   topTenSongs:SongsModel[];
   comments:string;
@@ -22,10 +28,18 @@ export class HomeComponent implements OnInit {
   isAdminLoggedIn:string;
   updateObject:object;
   isToReRender:boolean = true;
+  profilePictureURL = 'https://mdbootstrap.com/img/Photos/Avatars/avatar-8.jpg';
+  
+  /*
+    Used for fetching the event that is emitted by the search-component 
+  */
   getMessage(message: string) {
     this.receivedChildMessage = message;
   }
 
+  /*
+    Injecting all the neccessary services used for successful rendering of the home templates
+  */
   constructor(private _songsService:SongsService,public auth: AuthService,private dialog: MatDialog) { 
     this.auth.userProfile$.subscribe(result=>{
       if(result!==null) {
@@ -45,15 +59,25 @@ export class HomeComponent implements OnInit {
     console.log(`Calling service to retrieve top 10 most reviewed songs`);
     // this.isAdminLoggedIn = localStorage.getItem("isAdmin");
     console.log(`Logged in user is admin ${this.isAdminLoggedIn}`);
+    this.fetchSongsBasedOnUserLoggedInOrNot();
+  }
+
+  /*
+    Function to fetch songs based on the Guest user or admin/Regular user
+  */
+  fetchSongsBasedOnUserLoggedInOrNot() {
     if(this.auth.loggedIn) {
       this.callServiceForDisplayingAllSongs();
+      this.profilePictureURL = this.auth.userProfileSubject$.value.picture;
     }
     else {
       this.callServiceForDisplayingTop10Songs();
     }
-    
   }
 
+  /*
+    Calling service to fetch all songs for regular users
+  */
   callServiceForDisplayingAllSongs() {
     this._songsService.fetchAllSongs().subscribe(
       songs=>{
@@ -62,6 +86,9 @@ export class HomeComponent implements OnInit {
     )
   }
 
+  /*
+    Function to fetch only Top Ten Songs as the logged in user will be the Guest User
+  */
   callServiceForDisplayingTop10Songs(){
     this._songsService.fetchTop10Songs().subscribe(
       songs=>{
@@ -71,7 +98,9 @@ export class HomeComponent implements OnInit {
     )
   }
 
-
+  /*
+    Function to open Rating dialog on submission of review by user 
+  */
   openDialog(songID:string) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
@@ -85,10 +114,17 @@ export class HomeComponent implements OnInit {
   };
   const dialogRef = this.dialog.open(RatingDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(
-        data => console.log("Dialog output:", data)
+        data =>{
+          console.log("Dialog output:", data);
+          this.fetchSongsBasedOnUserLoggedInOrNot();
+        } 
+        
     );    
   }
 
+  /*
+    Function triggered to open dialog to add song to playlist 
+  */
   addSongToPlaylistDialog(songID:string) {
     console.log(`songID to be added is ${songID}`);
     const dialogConfigForAddingSongToPlaylist = new MatDialogConfig();

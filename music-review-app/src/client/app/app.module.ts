@@ -1,3 +1,8 @@
+/*
+  The main module of the application which contains all the necessary modules and 
+  component required by the application
+*/
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';

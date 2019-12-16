@@ -14,6 +14,9 @@ import { RatingsModel } from './../../ratings/ratingsModel';
   styleUrls: ['./add-new-song.component.css'],
   providers:[SongsService]
 })
+/*
+    AddNewSongComponent is used to add new song to the Application by the Users/Admin
+*/
 export class AddNewSongComponent implements OnInit {
   uploadNewSongForm: FormGroup;
   songUploaded = false;
@@ -21,6 +24,10 @@ export class AddNewSongComponent implements OnInit {
   songsData:Observable<SongsModel>[];
   profile:string;
 
+/*
+  Injecting all the required services such as AuthService to handle Authentication and checking if the user if logged in or not.
+  Rating service for updating the provded rating of the particular song
+*/
   constructor(public auth: AuthService,private formBuilder: FormBuilder,private _songsService:SongsService,private _ratingService:RatingService) { 
     console.log(`logged in User Details are ${auth.userProfileSubject$.value.email}`);
     
@@ -41,6 +48,9 @@ export class AddNewSongComponent implements OnInit {
 
   }
 
+/*
+  OnFormSubmit is called when the user clicks on the template form and press submit to add new song to the application	
+*/
   onFormSubmit(form:any) {
     let ItemToAdd  = {
       title:form.titleOfSong,
@@ -54,7 +64,12 @@ export class AddNewSongComponent implements OnInit {
     this.callServiceForUploadingNewSong(ItemToAdd);
     this.uploadNewSongForm.reset();
   }
-
+/*
+  This method takes one Song Object and passes it further to the songs service class to 
+  call uploadNewSong() method with parameter of the song object
+  Once the call back comes, it calls the rating service method to update the ratings (user comments)
+  in the Rating Database and render on the home page component.	
+*/
   callServiceForUploadingNewSong(newSong:any){
     this._songsService.uploadNewSong(newSong).subscribe(
       newSong=>{
@@ -66,6 +81,9 @@ export class AddNewSongComponent implements OnInit {
       }
     )
   }
+/*
+  Service to Update Reviews in the Rating Database  	
+*/
   callServiceToUpdateReviews(song:any) {
     let SongToReview : RatingsModel  = {
       

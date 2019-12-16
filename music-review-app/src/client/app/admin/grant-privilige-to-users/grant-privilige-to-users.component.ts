@@ -7,6 +7,9 @@ import { AdminService } from './../adminServices/admin.service';
   templateUrl: './grant-privilige-to-users.component.html',
   styleUrls: ['./grant-privilige-to-users.component.css']
 })
+/*
+This class is specific to admin handler that is used specifically by admin to perform admin related operations
+*/
 export class GrantPriviligeToUsersComponent implements OnInit {
   loggedInUser:string
   userObject:object;
@@ -16,12 +19,14 @@ export class GrantPriviligeToUsersComponent implements OnInit {
     
   }
 
+  //Calling Class function to fetch all users on the Initialization of component itself
   ngOnInit() {
     //Calling Service to fetch all users present in the system.
     this.loggedInUser = localStorage.getItem('loggedInUserName');
     this.callAdminServiceToFetchAllUsers(this.loggedInUser);
   }
 
+  //Calling Admin service to fetch all users on the Initialization of component itself
   callAdminServiceToFetchAllUsers(loggedInUser:string) {
     this._adminService.fetchAllUsers(loggedInUser).subscribe(results=>{
       this.userObject = results;
@@ -29,6 +34,7 @@ export class GrantPriviligeToUsersComponent implements OnInit {
     });
   }
 
+  //This function maintains the selected users list to grant access to 
   handleClick(userID) {
     console.log(`Clicked`);
     this.selectedUsersToGrantAccess.push(userID);

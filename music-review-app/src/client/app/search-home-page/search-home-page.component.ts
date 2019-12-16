@@ -14,6 +14,12 @@ import { AuthService } from './../services/auth.service';
   styleUrls: ['./search-home-page.component.css'],
   providers:[SongsService]
 })
+
+/*
+  SearchHomePageCompoent is intitalied whenever user clicks on the search bar placed on the 
+  the right hand side of the home page. This component takes care of searching user entered query 
+  in the Songs Database.
+*/
 export class SearchHomePageComponent implements OnInit {
   searchControl = new FormControl();
   searchTerm$ = new Subject<string>();
@@ -23,29 +29,31 @@ export class SearchHomePageComponent implements OnInit {
   filteredSongs;
   isAdminLoggedIn:string;
 
+  /*
+    Event Emmitter to transfer the values of the event to the parent function which is home Compoent
+  */
   @Output() messageToEmit = new EventEmitter<string>();
 
-
+/*
+    Constructor for injecting the songsService,MatDialog and Auth Service.
+  */
   constructor(private _songsService : SongsService,private dialog: MatDialog,private auth:AuthService) { 
     this._songsService.filteredSongs$.subscribe(newValue=>{
       console.log(`new value is ${newValue.songs}`);
       this.filteredSongs = newValue.songs;
-      // console.log(`song is ${this.filteredSongs[0].title}`);
+
       this.messageToEmit.emit(this.filteredSongs);
     });
   }
-
-  // readonly filteredSongs$ = this.searchTerm$.pipe(
-  //   debounceTime(250),
-  //   distinctUntilChanged(),
-  //   switchMap(songTitle => this._songsService.fetchAllSongs(songTitle))
-  // );
 
   ngOnInit() {
     console.log('Initialising component');
     this.isAdminLoggedIn = localStorage.getItem("isAdmin"); 
     }
 
+    /*
+      Function to open dialog when user clicks on the add song to playlist while searching for any song
+    */
     openDialog(songID:string,songTitle:string) {
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
@@ -65,11 +73,4 @@ export class SearchHomePageComponent implements OnInit {
     }
 
     
-  searchSongs(songTitle: string) {
-    //Calling service to set new behavioral subject
-    this._songsService.searchSongs(songTitle);
-    // this.searchTerm$.next(songTitle);
-    // this.queryResultToEmit.emit(this.filteredSongs$);
-
-  }
 }

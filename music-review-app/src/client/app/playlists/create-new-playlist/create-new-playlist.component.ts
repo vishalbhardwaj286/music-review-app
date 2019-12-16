@@ -13,6 +13,10 @@ import { SearchMusicWithinPlaylistPipe } from './../../pipe/search-music-within-
   styleUrls: ['./create-new-playlist.component.css'],
   providers:[PlaylistService]
 })
+/*
+  Class responsible for creating new playlist and rendering the 
+  create new playlist component
+*/
 export class CreateNewPlaylistComponent implements OnInit {
   createNewPlaylistForm: FormGroup;
   query:string;
@@ -24,6 +28,9 @@ export class CreateNewPlaylistComponent implements OnInit {
   selectedVisibility:string = 'Private';
   songsList: string;
   
+  /*
+    Injected all the required services
+  */
   constructor(public auth: AuthService,private _playlistService:PlaylistService, private _songsService:SongsService, private _pipe:SearchMusicWithinPlaylistPipe) {
 
    }
@@ -31,7 +38,10 @@ export class CreateNewPlaylistComponent implements OnInit {
   ngOnInit() {
     this.getAllSongs();
   }
-
+  /*
+    Function used to call service to fetch all songs to display in songs dropdown
+    while creating new playlists
+  */
   getAllSongs(){
     this._songsService.fetchAllSongs().subscribe(
       songs=>{
@@ -42,6 +52,9 @@ export class CreateNewPlaylistComponent implements OnInit {
     )
   }
 
+  /*
+    Function called when user clicks on submit to create new playlists
+  */
   onFormSubmit(form:any){
     let selectedSongsJson = [];
     console.log(`On Form Submit called ${this.selectedVisibility}`);
@@ -62,6 +75,9 @@ export class CreateNewPlaylistComponent implements OnInit {
     this.createNewPlaylistForm.reset();
   }
 
+  /*
+    Calling Playlist service for actually creating the user playlist
+  */
   callServiceForCreatingNewPlaylist(newPlaylist:PlaylistModel){
     this._playlistService.createNewPlaylist(newPlaylist).subscribe(
       newPlaylist=>{
@@ -70,6 +86,10 @@ export class CreateNewPlaylistComponent implements OnInit {
     )
   }
 
+  /*
+    Below funtion takes care of displaying all the search keywords which are type by the user
+    to add song to the playlist
+  */
   handleQuery(query:string){
     console.log(`Checking for input query ${query}`);
     console.log(`Calling pipe`);

@@ -1,3 +1,8 @@
+/*
+  Reffered from auth0.com docs
+  This guard acts as a protection to protect API access from 
+  postman or any other unauthorized HTTP client
+*/
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, CanActivate } from '@angular/router';
 import { Observable } from 'rxjs';

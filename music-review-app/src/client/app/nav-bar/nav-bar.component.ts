@@ -7,6 +7,10 @@ import { UserService } from './../user/user.service';
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css']
 })
+/*
+  This class is responsible for managing the functions related to the 
+  navigation bar displaying all components present in the application
+*/
 export class NavbarComponent implements OnInit {
   isAdminLoggedIn:string
   loggedInPersonEmail:string = null;
@@ -27,6 +31,9 @@ export class NavbarComponent implements OnInit {
     console.log(`Logged in user is admin ${this.isAdminLoggedIn}`);
   }
 
+  /*
+    Function to get logged in user roles 
+  */
   getUserRoles(email:string) {
     if(this.auth.loggedIn!=null) {
       this.isAdminLoggedIn = "false";

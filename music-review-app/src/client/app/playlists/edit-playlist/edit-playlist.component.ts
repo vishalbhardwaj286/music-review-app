@@ -11,6 +11,9 @@ import { EditPlaylistDialogComponent } from './../edit-playlist-dialog/edit-play
   templateUrl: './edit-playlist.component.html',
   styleUrls: ['./edit-playlist.component.css']
 })
+/*
+  Component Responsible for handling edit playlist request of the user
+*/
 export class EditPlaylistComponent implements OnInit {
   playlistsData:PlaylistModel[];
   playlistEdited:boolean;
@@ -19,7 +22,9 @@ export class EditPlaylistComponent implements OnInit {
   ngOnInit() {
     this.getAllPlaylists();
   }
-  
+  /*
+    Function used to fetch all all the playlist of the logged in user
+  */
   getAllPlaylists(){
     let userEmail = this.auth.userProfileSubject$.value.email;
     
@@ -30,11 +35,9 @@ export class EditPlaylistComponent implements OnInit {
     )
   }
 
-  // editPlaylist(playlistID:string){
-  //   console.log(`Editing Playlist`);
-  //   //show popup.
-  // }
-
+  /*
+    Below Function call will display edit playlist dialog component for editing the playlist
+  */
   openDialog(playlistID:string,playlistTitle:string,playlistDescription:string,playListVisibilityScope:string) {
 
     const dialogConfig = new MatDialogConfig();
@@ -59,6 +62,9 @@ export class EditPlaylistComponent implements OnInit {
         });    
   }
 
+  /*
+    Below function handles deleting songs from user playlist 
+  */
   deleteSongFromPlaylist(songID:string,playlistID:string){
     console.log(`Deleting song ${songID} from Playlist ${playlistID}`);
     
@@ -72,6 +78,9 @@ export class EditPlaylistComponent implements OnInit {
     this.callPlaylistServiceForDeletingSongFromPlaylist(SongToDeleteInPlaylist);
   }
   
+  /*
+    Function which is calling actual playlist service for deleting user songs from playlist
+  */
   callPlaylistServiceForDeletingSongFromPlaylist(SongToDeleteInPlaylist){
     this._playlistService.removeSongFromPlaylist(SongToDeleteInPlaylist).subscribe(
       result=>{

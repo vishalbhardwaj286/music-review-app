@@ -12,6 +12,10 @@ import { PlaylistModel } from './../playlistModel';
   templateUrl: './edit-playlist-dialog.component.html',
   styleUrls: ['./edit-playlist-dialog.component.css']
 })
+/*
+  Class which is called from Edit Playlist component for displaying the 
+  Dialog Box for editing various user requested options
+*/
 export class EditPlaylistDialogComponent implements OnInit {
 
   editPlaylistForm: FormGroup;
@@ -33,6 +37,11 @@ export class EditPlaylistDialogComponent implements OnInit {
   existingPlayListData:PlaylistModel[];
   songAlreadyExist:boolean = false;
   playListTitle:string;
+
+  /*
+    Injected various required services for handling and managing all the user requested 
+    operations in this dialog box
+  */
   constructor(
         private fb: FormBuilder,
         private dialogRef: MatDialogRef<EditPlaylistDialogComponent>,
@@ -47,10 +56,13 @@ export class EditPlaylistDialogComponent implements OnInit {
         this.playListTitle = data.playlistTitle;
     }
 
+  /*
+    This is called when the Component is in the initialisation
+    state
+  */
   ngOnInit() {
 
-    //Fetch All Songs to show in dropdown
-
+    //Local method used to fetch All Songs to show in dropdown
     this.callServiceToFetchAllSongs();
 
     //Handling Playlist Title Changes
@@ -108,16 +120,28 @@ export class EditPlaylistDialogComponent implements OnInit {
     });
 
   }
-
+  /*
+    Function called from the template itself to close the dialog button
+    on user request
+  */
   close() {
     this.dialogRef.close();
   }
 
+  /*
+    Below function is triggered after user has performed required changes
+    in the Dialog Button. this function basically saves the user requested 
+    operations in the DB.
+  */
   save() {
     console.log(`Updating the attributes`);
     this.callServiceForUpdatingPlaylistAttributes();
   }
   
+  /*
+    This function is calling the playlist services to updated user requested changes 
+    in the Database
+  */
   callServiceForUpdatingPlaylistAttributes() {
         this._playlistService.updateExistingPlaylist(this.itemToChange,this.playListID).subscribe(updatedPlaylist=>{
           this.playListUpdated = updatedPlaylist;
@@ -128,6 +152,10 @@ export class EditPlaylistDialogComponent implements OnInit {
         });
   }
 
+  /*
+    Service called to display all songs in the dropdown button to user
+    who may try to perform add more songs operation in the existing playlist
+  */
   callServiceToFetchAllSongs(){
     this._songsService.fetchAllSongs().subscribe(results=>{
       this.allSongsDropdown = results.reviews;

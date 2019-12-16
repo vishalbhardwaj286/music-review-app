@@ -80,9 +80,9 @@
                                        
                                         </span>
                                        
-                                            <!-- <div class="input-group" *ngIf="auth.loggedIn"> -->
-                                                <div class="input-group">
-                                                <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-8.jpg"
+                                            <div class="input-group" *ngIf="auth.loggedIn">
+                                                
+                                                <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src={{profilePictureURL}} width="100" height="100"
                                                     alt="Generic placeholder image">
                                                     <textarea class="form-control custom-control" [(ngModel)]="comments" name="comments" placeholder="Write your comments here" 
                                                     rows="3" style="resize:none"></textarea>     

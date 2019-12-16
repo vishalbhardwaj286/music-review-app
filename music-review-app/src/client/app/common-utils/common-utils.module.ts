@@ -1,3 +1,9 @@
+/*
+  This module takes care of all the neccessary modules which are needed by the application
+  to render several angular material components.
+  The modules then are exported to several modules which are importing this module
+*/
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatCheckboxModule} from '@angular/material/checkbox';

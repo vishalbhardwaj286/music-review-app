@@ -12,6 +12,12 @@ import {Router} from "@angular/router"
   templateUrl: './add-song-to-playlist-dialog.component.html',
   styleUrls: ['./add-song-to-playlist-dialog.component.css']
 })
+
+/*
+  AddSongToPlaylistDialogComponent is used to add Song to the playlist
+  from search bar. This is a Dialog compoent which gets opened from the
+  search bar whenever user wants to add searched song to playlist
+*/
 export class AddSongToPlaylistDialogComponent implements OnInit {
   addNewSongToPlaylistForm:FormGroup;
   playlistsData:PlaylistModel[];

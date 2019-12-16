@@ -8,6 +8,9 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
+/*
+  Songs Service calls the backend music routes to fetch the User Requested URI
+*/
 export class SongsService {
   
   constructor(private http:HttpClient) { }
@@ -15,6 +18,10 @@ export class SongsService {
   
   observing = this.searchTerm$.asObservable();
 
+  /*
+    UploadNewSong takes one arguement of the Songs Model and create new song by calling the specific 
+    URI and return the SongsModel Object to the caller method 
+  */
   uploadNewSong(newSong:SongsModel):Observable<SongsModel>{
     let httpHeaders = new HttpHeaders().set('Content-Type','application/Json');
     let uploadNewSongURL = `/secure/song/${newSong.title}`;
@@ -24,6 +31,10 @@ export class SongsService {
     return this.http.put<SongsModel>(uploadNewSongURL,newSong,options);
   };
 
+  /*
+    FetchTopTenSongs() takes no arguement and returns the top ten songs sorted according to 
+    the number of reviews 	
+  */
   fetchTop10Songs():Observable<any>{
     console.log(`Calling service inside service`);
     let httpHeaders = new HttpHeaders().set('Content-Type','application/Json');
@@ -35,15 +46,10 @@ export class SongsService {
     return this.http.get<any>(fetchtop10SongsURL);
   };
   
-
-  
-  // search(query:Observable<string>) {
-  //   return query.pipe(
-  //     debounceTime(250),
-  //     distinctUntilChanged(),
-  //     switchMap(songTitle => this.fetchAllSongs(songTitle))
-  //   );
-  // }
+/*
+  Fetch All song takes one query parameter and performs operation based on the 
+  value of query parameter
+*/
   fetchAllSongs(query?:string):Observable<any>{
     console.log(`Executing service to fetch all songs`);
     let showAllHiddenSongsQuery = (query === 'showAllHiddenSongsQuery'?'showAllHiddenSongsQuery':undefined);

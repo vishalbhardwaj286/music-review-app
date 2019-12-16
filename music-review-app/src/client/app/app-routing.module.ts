@@ -10,7 +10,9 @@ import { AboutUsComponent } from './about-us/about-us.component';
 import { EditPlaylistComponent } from './playlists/edit-playlist/edit-playlist.component';
 import { ViewAllPlaylistsComponent } from './playlists/view-all-playlists/view-all-playlists.component';
 import { GrantPriviligeToUsersComponent } from './admin/grant-privilige-to-users/grant-privilige-to-users.component';
-
+/*
+  For handling the angular routes
+*/
 const routes: Routes = [
   {
     path: '',
@@ -28,7 +30,8 @@ const routes: Routes = [
   },
   {
     path:'createPlaylist',
-    component:CreateNewPlaylistComponent
+    component:CreateNewPlaylistComponent,
+    canActivate: [AuthGuard]
   },
   {
     path:'aboutUs',
@@ -36,7 +39,8 @@ const routes: Routes = [
   },
   {
     path:'editPlaylist',
-    component:EditPlaylistComponent
+    component:EditPlaylistComponent,
+    canActivate: [AuthGuard]
   },
   {
     path:'viewAllPlaylists',
@@ -44,7 +48,8 @@ const routes: Routes = [
   },
   {
     path:'grantPriviligeToUsersComponent',
-    component:GrantPriviligeToUsersComponent
+    component:GrantPriviligeToUsersComponent,
+    canActivate: [AuthGuard]
   }
 ];
 

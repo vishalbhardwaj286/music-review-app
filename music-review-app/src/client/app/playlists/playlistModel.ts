@@ -1,3 +1,8 @@
+/*
+    PlaylistModel Interface which contain the basic structure 
+    of the Playlists    
+*/
+
 export interface PlaylistModel{
     playlistID?:string
     playlistTitle?:string,
