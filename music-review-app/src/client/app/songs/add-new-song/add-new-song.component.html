@@ -6,19 +6,23 @@
         <div class="example-container">
             <mat-form-field [floatLabel]="uploadNewSongForm.value.floatLabel">
                 <mat-label>Title</mat-label>
-                <input [(ngModel)]="titleOfSong" matInput name = "titleOfSong" placeholder="Title of the Music to be added" required>
+                <input [(ngModel)]="titleOfSong" matInput name = "titleOfSong" [formControl]="titleController" placeholder="Title of the Music to be added" required>
+                <mat-error *ngIf="titleController.invalid">{{getTitleErrorMessage()}}</mat-error>
             </mat-form-field>
             <mat-form-field [floatLabel]="uploadNewSongForm.value.floatLabel">
                 <mat-label>Artist</mat-label>
-                <input [(ngModel)]="artistOfSong" matInput name = "artistOfSong" placeholder="Artist Name" required> 
+                <input [(ngModel)]="artistOfSong" matInput name = "artistOfSong" [formControl]="artistController" placeholder="Artist Name" required> 
+                <mat-error *ngIf="artistController.invalid">{{getArtistErrorMessage()}}</mat-error>
             </mat-form-field>
             <mat-form-field [floatLabel]="uploadNewSongForm.value.floatLabel">
                 <mat-label>Album</mat-label>
-                <input [(ngModel)]="albumOfSong" matInput name = "albumOfSong" placeholder="Album Name">
+                <input [(ngModel)]="albumOfSong" matInput name = "albumOfSong"  [formControl]="albumController" placeholder="Album Name" required>
+                <mat-error *ngIf="albumController.invalid">{{getAlbumErrorMessage()}}</mat-error>
             </mat-form-field>
             <mat-form-field [floatLabel]="uploadNewSongForm.value.floatLabel">
                 <mat-label>Genre</mat-label>
-                <input [(ngModel)]="genreOfSong" name = "genreOfSong" matInput placeholder="Type of music">
+                <input [(ngModel)]="genreOfSong" name = "genreOfSong" matInput [formControl]="genreController" placeholder="Type of music" required>
+                <mat-error *ngIf="genreController.invalid">{{getGenreErrorMessage()}}</mat-error>
             </mat-form-field>
             <mat-form-field [floatLabel]="uploadNewSongForm.value.floatLabel">
                 <mat-label>Year</mat-label>
@@ -33,7 +37,7 @@
         </div>
         
     </div>
-    <div class="text-center">
+    <div class="text-center" *ngIf="titleOfSong && artistOfSong && artistOfSong && albumOfSong && genreOfSong">
         <button type="submit" class="btn btn-primary">Upload new Song</button>        
     </div>
     

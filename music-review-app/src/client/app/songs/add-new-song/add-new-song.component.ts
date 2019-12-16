@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './../../services/auth.service';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { SongsService } from './../songsServices/songs.service';
 import { Observable } from 'rxjs';
 import { SongsModel } from './../songsModel';
@@ -20,7 +20,10 @@ import { RatingsModel } from './../../ratings/ratingsModel';
 export class AddNewSongComponent implements OnInit {
   uploadNewSongForm: FormGroup;
   songUploaded = false;
-
+  titleController = new FormControl();
+  artistController = new FormControl();
+  albumController = new FormControl();
+  genreController = new FormControl();
   songsData:Observable<SongsModel>[];
   profile:string;
 
@@ -40,7 +43,7 @@ export class AddNewSongComponent implements OnInit {
       titleOfSong:['',[Validators.required]],
       artistOfSong:['',[Validators.required]],
       songAlbum:[],
-      genreOfSong:[],
+      genreOfSong:['',Validators.required],
       releaseYearOfSong:[],
       reviews:[],
       userEmail:[]
@@ -98,5 +101,26 @@ export class AddNewSongComponent implements OnInit {
     console.log(`Reviews saved successfully ${result}`);
   })
   }
- 
+
+  getTitleErrorMessage(){
+    if(this.titleController.hasError('required')) {
+      return this.titleController.hasError('required') ? 'You must specify the title of the song' : undefined    
+    }
+  }
+    getArtistErrorMessage(){
+    if(this.artistController.hasError('required')) {
+      return this.artistController.hasError('required') ? 'You must specify the artist of the song' : undefined    
+    }
+  }
+    getGenreErrorMessage(){ 
+     if(this.genreController.hasError('required')) {
+      return this.genreController.hasError('required') ? 'You must specify the genre of the song' : undefined    
+    }
+  }
+    getAlbumErrorMessage(){
+      if(this.albumController.hasError('required')) {
+      return this.albumController.hasError('required') ? 'You must specify the album of the song' : undefined    
+    }
+  }
+
 }
