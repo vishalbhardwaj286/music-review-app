@@ -26,7 +26,12 @@ export class AddNewSongComponent implements OnInit {
   genreController = new FormControl();
   songsData:Observable<SongsModel>[];
   profile:string;
-
+  titleOfSong:string;
+  artistOfSong:string;
+  albumOfSong:string;
+  genreOfSong:string;
+  releaseYearOfSong:string
+  reviews:string;
 /*
   Injecting all the required services such as AuthService to handle Authentication and checking if the user if logged in or not.
   Rating service for updating the provded rating of the particular song
@@ -37,17 +42,17 @@ export class AddNewSongComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.uploadNewSongForm = this.formBuilder.group({
-      hideRequired: false,
-      floatLabel: 'auto',
-      titleOfSong:['',[Validators.required]],
-      artistOfSong:['',[Validators.required]],
-      songAlbum:[],
-      genreOfSong:['',Validators.required],
-      releaseYearOfSong:[],
-      reviews:[],
-      userEmail:[]
-    });
+    //   this.uploadNewSongForm = this.formBuilder.group({
+    //   hideRequired: false,
+    //   floatLabel: 'auto',
+    //   titleOfSong:['',[Validators.required]],
+    //   artistOfSong:['',[Validators.required]],
+    //   songAlbum:[],
+    //   genreOfSong:['',Validators.required],
+    //   releaseYearOfSong:[],
+    //   reviews:[],
+    //   userEmail:[]
+    // });
 
   }
 
@@ -56,16 +61,16 @@ export class AddNewSongComponent implements OnInit {
 */
   onFormSubmit(form:any) {
     let ItemToAdd  = {
-      title:form.titleOfSong,
-      artist:form.artistOfSong,
-      album:form.songAlbum,
-      genre:form.genreOfSong,
-      year:form.releaseYearOfSong,
-      reviews:form.reviews,
+      title:this.titleOfSong,
+      artist:this.artistOfSong,
+      album:this.albumOfSong,
+      genre:this.genreOfSong,
+      year:this.releaseYearOfSong,
+      reviews:this.reviews,
       addedByUser:this.auth.userProfileSubject$.value.email
     };
     this.callServiceForUploadingNewSong(ItemToAdd);
-    this.uploadNewSongForm.reset();
+    
   }
 /*
   This method takes one Song Object and passes it further to the songs service class to 
@@ -77,8 +82,13 @@ export class AddNewSongComponent implements OnInit {
     this._songsService.uploadNewSong(newSong).subscribe(
       newSong=>{
         this.songUploaded = true;
-        
-          this.callServiceToUpdateReviews(newSong);
+        this.titleOfSong = '';
+        this.artistOfSong='';
+        this.albumOfSong='';
+        this.genreOfSong='';
+        this.releaseYearOfSong='';
+        this.reviews='';    
+        this.callServiceToUpdateReviews(newSong);
         
         
       }

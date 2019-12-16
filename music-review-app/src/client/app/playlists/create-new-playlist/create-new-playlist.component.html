@@ -1,6 +1,11 @@
-<!-- <pre *ngIf="auth.userProfile$ | async as profile"> -->
 
-    <!-- <code>{{ profile | json }}</code> -->
+            
+    <div class="row"  *ngIf="playlistCreated">
+                <div class="col-sm-8 d-flex justify-content-center">
+                    <span><p><i class="fas fa-check"></i> Playlist Uploaded Successfully</p></span>
+                </div>
+    </div>            
+
     <div class="container">
     <form #createNewPlaylistForm ="ngForm" (ngSubmit)="onFormSubmit(createNewPlaylistForm.value)">
     <div class="example-container container">

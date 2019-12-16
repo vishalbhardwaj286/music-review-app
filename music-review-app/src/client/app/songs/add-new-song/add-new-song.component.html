@@ -1,6 +1,15 @@
-<pre *ngIf="auth.userProfile$ | async as profile">
 
     <!-- <code>{{ profile | json }}</code> -->
+    <div class="container">
+    <mat-label *ngIf="songUploaded">
+            
+         <div class="row">
+                    <div class="col-sm-8 d-flex justify-content-center">
+                        <span><p><i class="fas fa-check"></i> Song Uploaded Successfully</p></span>
+                    </div>
+        </div>            
+    </mat-label>
+    </div>
     <form #uploadNewSongForm ="ngForm" (ngSubmit)="onFormSubmit(uploadNewSongForm.value)">
     <div class="example-container container">
         <div class="example-container">
@@ -42,4 +51,3 @@
     </div>
     
     </form>
-</pre>
