@@ -72,5 +72,10 @@ export class SearchHomePageComponent implements OnInit {
           }); 
     }
 
+    searchSongs(songTitle: string) {
+      this._songsService.searchSongs(songTitle);
+  
+    }
+
     
 }
