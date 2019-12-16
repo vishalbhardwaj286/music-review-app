@@ -9,6 +9,7 @@ const {
     updateSongsParameter,updateRolesOfUsersByAdmin,updateSongVisibilityToTrueByAdmin
 
 } = require('./../controllers/musicReviewAppController');
+const Joi = require('joi');
 
 const routes = (app) => {
     console.log(`Here`);    
@@ -22,9 +23,28 @@ const routes = (app) => {
         console.log(`Request type :${req.method}`);
                 
         next();
+      
     },(req,res) => {
-        console.log('Saving the items');
-        addNewSong(req,res);
+        let val= null;
+        const joiSchema = Joi.object().keys({
+            'title' : Joi.string().trim().required(),
+            'artist' : Joi.string().trim().required(),
+            'album' : Joi.string().trim().required(),
+            'genre' : Joi.string().trim().required(),
+            'year' : Joi.string().trim().allow('', null).empty(['', null]).default(Date.now()),
+            'reviews':Joi.string().trim().allow('', null).empty(['', null]),
+            'addedByUser' : Joi.string().trim().required()
+        });
+        val = validateRequestWithJoi(req.body,joiSchema);
+        if(val !==null) { 
+            console.log('Validation results has error'+`${val}`);
+            res.status(500).send({'error':val});
+        }
+        else {
+            console.log('Saving the items');
+            addNewSong(req,res);
+        }
+        
         return;
         
     });
@@ -41,18 +61,37 @@ const routes = (app) => {
         console.log(`Request from :${req.originalUrl}`);
         console.log(`Request type :${req.method}`);
         next();
+        
     },(req,res) => {
         let val= null;
-        console.log('Saving the items');
-        createNewPlaylist(req,res);        
+        const joiSchema = Joi.object().keys({
+            'playlistTitle' : Joi.string().trim().required(),
+            'playlistDescription' : Joi.string().trim().allow('', null).empty(['', null]),
+            'songsInPlaylist' : Joi.array().required(),
+            'playListVisibilityScope' : Joi.string().trim().allow('', null).empty(['', null]).default('Private'),
+            'createdByUser' : Joi.string().trim().required(),
+            
+        });
+        val = validateRequestWithJoi(req.body,joiSchema);
+        if(val !==null) { 
+            console.log('Validation results has error'+`${val}`);
+            res.status(500).send({'error':val});
+        }
+        else {
+            console.log('Saving the items');
+            createNewPlaylist(req,res);
+        }
+        
+        return;
+        
     })
     
     .post((req,res,next)=>{
         console.log(`Updating Playlist ${req.params.playlistID}`);
-        
         next();
     },(req,res) =>{
         updatePlaylistAttributes(req,res);
+        
     });
 
     // Route to handle Guest user request to fetch all public playlists
@@ -76,7 +115,31 @@ const routes = (app) => {
     // Use to Post user reviews for given song
     .post((req,res)=> {
         console.log(`Request Reached for adding reviews to a song`);
-        saveUserReviewsForGivenSong(req,res);        
+    
+        let val= null;
+        const joiSchema = Joi.object().keys({
+            'reviewedSongID' : Joi.string().trim().required(),
+            // 'ratingsGivenByUser' : Joi.object().required(),
+            'ratingsGivenByUser' : Joi.object(
+                { 
+                    rating: Joi.number().integer().min(1).allow('', null).empty(['', null]).default(5),
+                    ratedByUser:Joi.string().required(),
+                    comments:Joi.string().allow('', null).empty(['', null])
+                }
+                )
+            
+        });
+        val = validateRequestWithJoi(req.body,joiSchema);
+        if(val !==null) { 
+            console.log('Validation results has error'+`${val}`);
+            res.status(500).send({'error':val});
+        }
+        else {
+            console.log('Saving the items');
+            saveUserReviewsForGivenSong(req,res);
+        }
+        
+        return; 
     });
 
     // API Route to Fetch Top Ten Songs to Display to Regular User
@@ -126,7 +189,23 @@ const routes = (app) => {
     app.route('/secure/playlist/songs/:playlistID')
     
     .post((req,res) =>{
-        deleteExistingSongFromUserPlaylist(req,res);
+        const joiSchema = Joi.object().keys({
+            'playlistID' : Joi.string().trim().required(),
+            'songsInPlaylist' : Joi.string().trim().required(),
+            'createdByUser' : Joi.string().trim().required()
+        });
+        val = validateRequestWithJoi(req.body,joiSchema);
+        if(val !==null) { 
+            console.log('Validation results has error'+`${val}`);
+            res.status(500).send({'error':val});
+        }
+        else {
+            console.log('Saving the items');
+            deleteExistingSongFromUserPlaylist(req,res);
+        }
+        
+        return; 
+        
     });
 
     // Route to fetch all users by the admin so as to grant access to them
@@ -143,9 +222,47 @@ const routes = (app) => {
     .patch((req,res,next)=>{
         next();
     },(req,res)=>{
-        updateRolesOfUsersByAdmin(req,res);
-    })
+        const joiSchema = Joi.object().keys({
+        'selectedUsersJSON' : Joi.array().items(
+            { 
+                id: Joi.string().required(),
+                newRole:Joi.string().required()
+            })    
+        });
+        val = validateRequestWithJoi(req.body,joiSchema);
+        if(val !==null) { 
+            console.log('Validation results has error'+`${val}`);
+            res.status(500).send({'error':val});
+        }
+        else {
+            console.log('Saving the items');
+            updateRolesOfUsersByAdmin(req,res);
+        }
+        
+        return; 
+        
+    });
+    
+    function validateRequestWithJoi(request,joiObject) {
+        let val = null;
+        Joi.validate(request,joiObject,(err,results)=>{
+            if(err) {
+                val=err;
+                console.log('Inside err');
+                console.log(err);
+        
+            }
+            else {
+                console.log(`Showing Validation results ${results}`);
+                console.log(results);
+            }
+        });
+        return val;
+    }
 }
+
+
+
 
 // Exporting modules to be used in other module or class which will import this    
 module.exports = routes;
