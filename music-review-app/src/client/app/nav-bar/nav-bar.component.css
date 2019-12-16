@@ -4,10 +4,9 @@
     right:0;
   }
   #loggedInUser {
-    font-size: smaller;
     font-style: italic;
     position: absolute;
     top: 18px;
-    right: 91px;
+    right: 149px;
     color: rgba(0, 0, 0, 0.7);
   }

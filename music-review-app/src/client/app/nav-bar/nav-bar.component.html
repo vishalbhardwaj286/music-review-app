@@ -1,56 +1,30 @@
-<div class="container mt-2 col-md-12">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">
-            <!-- <img src="logo" width="30" height="30" alt=""> -->
-            <i class="fas fa-music"></i>
-        </a>
-        
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item active">
-              <a class="nav-link" routerLink="/home">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/aboutUs">About Us</a>
-            </li>
-            <li class="nav-item">  
-                <button type="button" class="btn btn-primary SignIn" (click)="auth.login()" *ngIf="!auth.loggedIn">Log In</button>
-
-            </li>
-            <li class="nav-item">
-                <button type="button" class="btn btn-danger SignIn" (click)="auth.logout()" *ngIf="auth.loggedIn" >Log Out</button>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink="addNewSong" *ngIf="auth.loggedIn">Upload New Song</a> 
-            </li>
-            
-            <li class="nav-item">
-                <a class="nav-link" routerLink="createPlaylist" *ngIf="auth.loggedIn">Create New Playlist</a> 
-                <!-- <a class="nav-link" routerLink="createPlaylist">Create New Playlist</a>  -->
-            </li>
-
-            <li class="nav-item">
-              <!-- <a class="nav-link" routerLink="createPlaylist" *ngIf="auth.loggedIn">Create New Playlist</a>  -->
-              <a class="nav-link" routerLink="editPlaylist" *ngIf="auth.loggedIn">Edit existing playlist</a> 
-            </li>
-            
-            <li class="nav-item">
-              <a class="nav-link" routerLink="viewAllPlaylists">View all public playlist</a> 
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="grantPriviligeToUsersComponent" *ngIf="isAdminLoggedIn=='true'">Grant Access to Other User</a> 
-            </li>
-
-            <li class="nav-item" *ngIf="isAdminLoggedIn=='true'">
-              <span id=loggedInUser><p>Welcome Admin {{loggedInPersonEmail}}</p></span>
-            </li>
-            
-
-
-          </ul>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">
+        <!-- <img src="logo" width="30" height="30" alt=""> -->
+        <i class="fas fa-music"></i>I-Music
+    </a>
+    <a class="btn btn-outline-primary mr-2" routerLink="/home">Home <span class="sr-only">(current)</span></a>
+  <!-- <button class="btn btn-outline-primary mr-2" (click)="$event.stopPropagation(); myDrop.open();">Home</button> -->
+    <!-- <button class="btn btn-outline-primary mr-2" (click)="$event.stopPropagation(); myDrop.open();">About Us</button>   -->`
+    <a class="btn btn-outline-primary mr-2" routerLink="/aboutUs">About Us</a>
+    <button type="button" class="btn btn-primary SignIn" (click)="auth.login()" *ngIf="!auth.loggedIn">Log In</button>
+    <button type="button" class="btn btn-danger SignIn" (click)="auth.logout()" *ngIf="auth.loggedIn" >Log Out</button>
+    <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+        <button class="btn btn-outline-primary mr-2" *ngIf="auth.loggedIn" ngbDropdownToggle>Songs</button>
+        <div class="dropdown-menu" ngbDropdownMenu>
+            <a class="btn btn-outline-primary mr-2" routerLink="addNewSong" *ngIf="auth.loggedIn">Upload New Song</a> 
+          
         </div>
-      </nav>
-</div>
+    </div>
+    <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+        <button class="btn btn-outline-primary mr-2" *ngIf="auth.loggedIn" ngbDropdownToggle>Playlists</button>
+        <div class="dropdown-menu" ngbDropdownMenu>
+            
+            <a class="btn btn-outline-primary mr-2" routerLink="createPlaylist" *ngIf="auth.loggedIn">Create New Playlist</a> 
+            <a class="btn btn-outline-primary mr-2" routerLink="editPlaylist" *ngIf="auth.loggedIn">Edit existing playlist</a> 
+        </div>
+    </div>
+    <a class="btn btn-outline-primary mr-2" routerLink="viewAllPlaylists">View all public playlist</a> 
+    <a class="btn btn-outline-primary mr-2" routerLink="grantPriviligeToUsersComponent" *ngIf="isAdminLoggedIn=='true'">Grant Access to Other User</a> 
+    <span id=loggedInUser><p>Welcome Admin {{loggedInPersonEmail}}</p></span>
+</nav>
